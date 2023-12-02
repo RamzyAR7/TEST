@@ -17,5 +17,7 @@ char *get_path(char *envp[]);
 char check_many_commands(char *str);
 void add_args(char ***arguments_array, char *argument);
 int handle_command(char *command, char *path, char **envp);
+int execute_cmd(char *path, char **args, char **envp);
+char *find_path(char *path, char *input);
 
 #endif

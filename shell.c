@@ -38,12 +38,25 @@ char *get_path(char *envp[])
 	}
 	return (envp[i] + _strlen(path));
 }
+/**
+ * execute_cmd - executes a command
+ * @path: path to command
+ * @args: arguments to command
+ * @envp: environment variables
+ * Return: 0 if successful, otherwise -1
+ */
 int execute_cmd(char *path, char **args, char **envp)
 {
 	execve(path, args, envp);
 
 	return (-1);
 }
+/**
+ * find_path - finds the path to a command
+ * @path: path to search
+ * @input: command to search for in path variable (e.g. ls)
+ * Return: pointer to path if found, otherwise NULL
+ */
 char *find_path(char *path, char *input)
 {
 	int i = 0;
