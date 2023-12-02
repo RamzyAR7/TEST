@@ -1,7 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-
+#include "main.h"
 /**
  * _strchr - locates a character in a string
  * @str: pointer to string
