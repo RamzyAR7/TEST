@@ -28,6 +28,69 @@ char *get_path(char *envp[])
 	}
 	return (envp[i] + strlen(path));
 }
+char check_many_commands(char *str)
+{
+	if (str[strlen(str) - 1] != ';')
+	{
+		return (';');
+	}
+	else if (strcmp(str, "&&") == 0)
+	{
+		return ('&');
+	}
+	else if (strcmp(str, "||") == 0)
+	{
+		return ('|');
+	}
+	return (0);
+}
+void add_args(char **arguments_array, char *argument)
+{
+	char **temp;
+	int i = 0;
+
+	while (arguments_array[i])
+		i++;
+
+	temp = (char **)malloc(sizeof(arguments_array) * i);
+
+	while (arguments_array[i])
+	{
+		temp[i] = (char *)malloc(strlen(arguments_array[i]));
+		strcpy(temp[i], arguments_array[i]);
+		free(arguments_array[i]);
+		i++;
+	}
+	temp[i] = (char *)malloc(strlen(argument));
+	strcpy(temp[i], argument);
+	free(arguments_array);
+	arguments_array = temp;
+}
+int handle_command(char *command, char *path)
+{
+	char *first_sigment = strtok(command, " ");
+	char **arguments;
+
+	while (first_sigment != NULL)
+	{
+		char *cur_sigment = strtok(NULL, " ");
+
+		if (cur_sigment == NULL)
+		{
+			break;
+		}
+		else
+		{
+			if (check_many_commands(cur_sigment))
+			{
+			}
+			else
+			{
+			}
+		}
+	}
+}
+
 int main(int argc, char *argv[], char *envp[])
 {
 	char *path = get_path(envp);
