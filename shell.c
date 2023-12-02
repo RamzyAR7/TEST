@@ -49,13 +49,14 @@ void add_args(char **arguments_array, char *argument)
 	char **temp;
 	int i = 0;
 
-	while (arguments_array[i])
-		i++;
+	while (arguments_array[i++])
+		;
 
 	temp = (char **)malloc(sizeof(arguments_array) * i);
-
+	i = 0;
 	while (arguments_array[i])
 	{
+		printf("helo:\n");
 		temp[i] = (char *)malloc(strlen(arguments_array[i]));
 		strcpy(temp[i], arguments_array[i]);
 		free(arguments_array[i]);
@@ -71,6 +72,7 @@ int handle_command(char *command, char *path)
 	char *first_sigment = strtok(command, " ");
 	char **arguments;
 
+	add_args(arguments, first_sigment);
 	while (first_sigment != NULL)
 	{
 		char *cur_sigment = strtok(NULL, " ");
@@ -86,6 +88,9 @@ int handle_command(char *command, char *path)
 			}
 			else
 			{
+				printf("helo\n");
+				add_args(arguments, cur_sigment);
+				printf("c:%s\n", arguments[0]);
 			}
 		}
 	}
@@ -102,6 +107,7 @@ int main(int argc, char *argv[], char *envp[])
 		int str_Size;
 
 		get_input(str, &str_Size);
+		handle_command(str, path);
 		if (!strcmp(str, "exit") || str_Size == 0)
 		{
 			printf("bye!\n");
