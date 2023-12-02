@@ -30,7 +30,7 @@ char *get_path(char *envp[])
 }
 char check_many_commands(char *str)
 {
-	if (str[strlen(str) - 1] != ';')
+	if (str[strlen(str) - 1] == ';')
 	{
 		return (';');
 	}
@@ -49,14 +49,21 @@ void add_args(char **arguments_array, char *argument)
 	char **temp;
 	int i = 0;
 
-	while (arguments_array[i++])
-		;
-
+	if (arguments_array)
+	{
+		while (arguments_array[i++])
+			;
+	}
+	else
+	{
+		i++;
+	}
 	temp = (char **)malloc(sizeof(arguments_array) * i);
 	i = 0;
-	while (arguments_array[i])
+	printf("outloop loop\n");
+	while (arguments_array && arguments_array[i])
 	{
-		printf("helo:\n");
+		printf("in loop");
 		temp[i] = (char *)malloc(strlen(arguments_array[i]));
 		strcpy(temp[i], arguments_array[i]);
 		free(arguments_array[i]);
@@ -70,7 +77,7 @@ void add_args(char **arguments_array, char *argument)
 int handle_command(char *command, char *path)
 {
 	char *first_sigment = strtok(command, " ");
-	char **arguments;
+	char **arguments = NULL;
 
 	add_args(arguments, first_sigment);
 	while (first_sigment != NULL)
@@ -85,12 +92,14 @@ int handle_command(char *command, char *path)
 		{
 			if (check_many_commands(cur_sigment))
 			{
+				printf("\ntest\n");
 			}
 			else
 			{
-				printf("helo\n");
+
 				add_args(arguments, cur_sigment);
 				printf("c:%s\n", arguments[0]);
+				printf("c:%s\n", arguments[1]);
 			}
 		}
 	}
