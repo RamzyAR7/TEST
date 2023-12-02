@@ -19,26 +19,26 @@ char *get_path(char *envp[])
 
 	while (envp[i])
 	{
-		memcpy(cur_env, envp[i], strlen(path));
-		if (strcmp(path, cur_env) == 0)
+		memcpy(cur_env, envp[i], _strlen(path));
+		if (_strcmp(path, cur_env) == 0)
 		{
 			break;
 		}
 		i++;
 	}
-	return (envp[i] + strlen(path));
+	return (envp[i] + _strlen(path));
 }
 char check_many_commands(char *str)
 {
-	if (str[strlen(str) - 1] == ';')
+	if (str[_strlen(str) - 1] == ';')
 	{
 		return (';');
 	}
-	else if (strcmp(str, "&&") == 0)
+	else if (_strcmp(str, "&&") == 0)
 	{
 		return ('&');
 	}
-	else if (strcmp(str, "||") == 0)
+	else if (_strcmp(str, "||") == 0)
 	{
 		return ('|');
 	}
@@ -60,12 +60,12 @@ void add_args(char ***arguments_array, char *argument)
 	for (int j = 0; j < i; j++)
 	{
 		temp[j] = (char *)malloc(strlen((*arguments_array)[j]) + 1);
-		strcpy(temp[j], (*arguments_array)[j]);
+		_strcpy(temp[j], (*arguments_array)[j]);
 		free((*arguments_array)[j]);
 	}
 	// Allocate memory for the new argument and add it to the new array
-	temp[i] = (char *)malloc(strlen(argument) + 1);
-	strcpy(temp[i], argument);
+	temp[i] = (char *)malloc(_strlen(argument) + 1);
+	_strcpy(temp[i], argument);
 
 	// Set the end of the new array to NULL
 	temp[i + 1] = NULL;
@@ -78,13 +78,13 @@ void add_args(char ***arguments_array, char *argument)
 }
 int handle_command(char *command, char *path)
 {
-	char *first_sigment = strtok(command, " ");
+	char *first_sigment = _strtok(command, " ");
 	char **arguments = NULL;
 
 	add_args(&arguments, first_sigment);
 	while (first_sigment != NULL)
 	{
-		char *cur_sigment = strtok(NULL, " ");
+		char *cur_sigment = _strtok(NULL, " ");
 
 		if (cur_sigment == NULL)
 		{
@@ -94,12 +94,13 @@ int handle_command(char *command, char *path)
 		{
 			if (check_many_commands(cur_sigment))
 			{
-				printf("\ntest\n");
 			}
 			else
 			{
 
 				add_args(&arguments, cur_sigment);
+				printf("c:%s\n", arguments[0]);
+				printf("c:%s\n", arguments[1]);
 			}
 		}
 	}
