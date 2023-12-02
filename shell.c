@@ -38,6 +38,21 @@ char *get_path(char *envp[])
 	}
 	return (envp[i] + _strlen(path));
 }
+int execute_cmd(char *path, char **args, char **envp)
+{
+	execve(path, args, envp);
+
+	return (-1);
+}
+char *find_path(char *path, char *input)
+{
+	char buffer
+	char *chank = _strtok(path, ":");
+	while (path)
+	{
+		chank = _strtok(NULL, ":");
+	}
+}
 /**
  * main - entry point
  * @argc: number of arguments
