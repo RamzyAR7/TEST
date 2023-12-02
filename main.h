@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/wait.h>
 
 int *_strchr(const char *str, int c);
 char *_strtok(char *str, const char *delimiters);
@@ -19,5 +20,5 @@ void add_args(char ***arguments_array, char *argument);
 int handle_command(char *command, char *path, char **envp);
 int execute_cmd(char *path, char **args, char **envp);
 char *find_path(char *path, char *input);
-
+void handle_exce(char *c_path, char **argumnet, char **envp);
 #endif

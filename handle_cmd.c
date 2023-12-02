@@ -87,7 +87,6 @@ int handle_command(char *command, char *path, char **envp)
 			}
 		}
 	}
-
 	if (_strchr(first_sigment, '/'))
 	{
 		c_path = first_sigment;
@@ -95,6 +94,10 @@ int handle_command(char *command, char *path, char **envp)
 	else
 	{
 		c_path = find_path(path, first_sigment);
+	}
+	if (c_path)
+	{
+		handle_exce(c_path, arguments, envp);
 	}
 }
 void handle_exce(char *c_path, char **argumnet, char **envp)

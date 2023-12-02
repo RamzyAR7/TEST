@@ -29,7 +29,7 @@ char *get_path(char *envp[])
 
 	while (envp[i])
 	{
-		memcpy(cur_env, envp[i], _strlen(path));
+		_memcopy(cur_env, envp[i], _strlen(path));
 		if (_strcmp(path, cur_env) == 0)
 		{
 			break;
@@ -63,7 +63,7 @@ char *find_path(char *path, char *input)
 	int j = 0;
 	int x = 0;
 
-	char buffer[100];
+	char *buffer = malloc(255);
 	char *chank = _strtok(path, ":");
 
 	while (path)
@@ -74,7 +74,7 @@ char *find_path(char *path, char *input)
 			i++;
 			j++;
 		}
-		buffer[i] = "/";
+		buffer[i] = '/';
 		i++;
 		while (input[x])
 		{
@@ -82,7 +82,7 @@ char *find_path(char *path, char *input)
 			i++;
 			x++;
 		}
-		buffer[i] = "\0";
+		buffer[i] = '\0';
 
 		if (access(buffer, X_OK) == 0)
 		{
@@ -105,7 +105,6 @@ int main(int argc, char *argv[], char *envp[])
 {
 	char *path = get_path(envp);
 
-	printf("%s\n", path);
 	while (1)
 	{
 		char str[BUFSIZ];
@@ -113,7 +112,7 @@ int main(int argc, char *argv[], char *envp[])
 
 		get_input(str, &str_Size);
 		handle_command(str, path, envp);
-		if (!strcmp(str, "exit") || str_Size == 0)
+		if (!_strcmp(str, "exit") || str_Size == 0)
 		{
 			printf("bye!\n");
 			break;
