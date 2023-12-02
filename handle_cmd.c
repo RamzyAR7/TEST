@@ -39,7 +39,7 @@ void add_args(char ***arguments_array, char *argument)
 
 	for (int j = 0; j < i; j++)
 	{
-		temp[j] = (char *)malloc(strlen((*arguments_array)[j]) + 1);
+		temp[j] = (char *)malloc(_strlen((*arguments_array)[j]) + 1);
 		_strcpy(temp[j], (*arguments_array)[j]);
 		free((*arguments_array)[j]);
 	}
