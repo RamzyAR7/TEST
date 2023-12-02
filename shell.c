@@ -99,7 +99,7 @@ int main(int argc, char *argv[], char *envp[])
 		int str_Size;
 
 		get_input(str, &str_Size);
-		handle_command(str, path);
+		handle_command(str, path, envp);
 		if (!strcmp(str, "exit") || str_Size == 0)
 		{
 			printf("bye!\n");

@@ -16,6 +16,6 @@ void get_input(char *buff, int *size);
 char *get_path(char *envp[]);
 char check_many_commands(char *str);
 void add_args(char ***arguments_array, char *argument);
-int handle_command(char *command, char *path);
+int handle_command(char *command, char *path, char **envp);
 
 #endif

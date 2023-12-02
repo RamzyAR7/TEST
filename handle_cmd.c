@@ -58,10 +58,11 @@ void add_args(char ***arguments_array, char *argument)
  * @path: pointer to PATH variable
  * Return: 0 if successful, otherwise 1
  */
-int handle_command(char *command, char *path)
+int handle_command(char *command, char *path, char **envp)
 {
 	char *first_sigment = _strtok(command, " ");
 	char **arguments = NULL;
+	char *path;
 
 	add_args(&arguments, first_sigment);
 	while (first_sigment != NULL)
@@ -85,5 +86,28 @@ int handle_command(char *command, char *path)
 				printf("c:%s\n", arguments[1]);
 			}
 		}
+	}
+
+	if (_strchr(first_sigment, '/'))
+	{
+		path = first_sigment;
+	}
+	else
+	{
+	}
+}
+void handle_exce(char *c_path, char **argumnet, char **envp)
+{
+	int pid = fork();
+
+	if (pid == 0)
+	{
+		execute_cmd(c_path, argumnet, envp);
+	}
+	else
+	{
+		int exit_code;
+
+		wait(&exit_code);
 	}
 }
