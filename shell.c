@@ -46,12 +46,40 @@ int execute_cmd(char *path, char **args, char **envp)
 }
 char *find_path(char *path, char *input)
 {
-	char buffer
+	int i = 0;
+	int j = 0;
+	int x = 0;
+
+	char buffer[100];
 	char *chank = _strtok(path, ":");
+
 	while (path)
 	{
+		while (chank[j])
+		{
+			buffer[i] = chank[j];
+			i++;
+			j++;
+		}
+		buffer[i] = "/";
+		i++;
+		while (input[x])
+		{
+			buffer[i] = input[x];
+			i++;
+			x++;
+		}
+		buffer[i] = "\0";
+
+		if (access(buffer, X_OK) == 0)
+		{
+			return (buffer);
+		}
+
 		chank = _strtok(NULL, ":");
 	}
+
+	return (NULL);
 }
 /**
  * main - entry point
