@@ -44,42 +44,44 @@ char check_many_commands(char *str)
 	}
 	return (0);
 }
-void add_args(char **arguments_array, char *argument)
+void add_args(char ***arguments_array, char *argument)
 {
-	char **temp;
 	int i = 0;
+	char **temp;
 
-	if (arguments_array)
-	{
-		while (arguments_array[i++])
-			;
-	}
-	else
-	{
+	// Count the number of existing arguments
+	while (*arguments_array && (*arguments_array)[i])
 		i++;
-	}
-	temp = (char **)malloc(sizeof(arguments_array) * i);
-	i = 0;
-	printf("outloop loop\n");
-	while (arguments_array && arguments_array[i])
+
+	// Allocate memory for the new array of pointers
+	temp = (char **)malloc((i + 2) * sizeof(char *));
+
+	// Copy existing arguments to the new array
+	for (int j = 0; j < i; j++)
 	{
-		printf("in loop");
-		temp[i] = (char *)malloc(strlen(arguments_array[i]));
-		strcpy(temp[i], arguments_array[i]);
-		free(arguments_array[i]);
-		i++;
+		temp[j] = (char *)malloc(strlen((*arguments_array)[j]) + 1);
+		strcpy(temp[j], (*arguments_array)[j]);
+		free((*arguments_array)[j]);
 	}
-	temp[i] = (char *)malloc(strlen(argument));
+	// Allocate memory for the new argument and add it to the new array
+	temp[i] = (char *)malloc(strlen(argument) + 1);
 	strcpy(temp[i], argument);
-	free(arguments_array);
-	arguments_array = temp;
+
+	// Set the end of the new array to NULL
+	temp[i + 1] = NULL;
+
+	// Free the old array of pointers
+	free(*arguments_array);
+
+	// Update the pointer to point to the new array
+	*arguments_array = temp;
 }
 int handle_command(char *command, char *path)
 {
 	char *first_sigment = strtok(command, " ");
 	char **arguments = NULL;
 
-	add_args(arguments, first_sigment);
+	add_args(&arguments, first_sigment);
 	while (first_sigment != NULL)
 	{
 		char *cur_sigment = strtok(NULL, " ");
@@ -97,9 +99,7 @@ int handle_command(char *command, char *path)
 			else
 			{
 
-				add_args(arguments, cur_sigment);
-				printf("c:%s\n", arguments[0]);
-				printf("c:%s\n", arguments[1]);
+				add_args(&arguments, cur_sigment);
 			}
 		}
 	}
