@@ -62,7 +62,7 @@ int handle_command(char *command, char *path, char **envp)
 {
 	char *first_sigment = _strtok(command, " ");
 	char **arguments = NULL;
-	char *path;
+	char *c_path;
 
 	add_args(&arguments, first_sigment);
 	while (first_sigment != NULL)
@@ -90,10 +90,11 @@ int handle_command(char *command, char *path, char **envp)
 
 	if (_strchr(first_sigment, '/'))
 	{
-		path = first_sigment;
+		c_path = first_sigment;
 	}
 	else
 	{
+		c_path = find_path(path, first_sigment);
 	}
 }
 void handle_exce(char *c_path, char **argumnet, char **envp)
@@ -107,7 +108,10 @@ void handle_exce(char *c_path, char **argumnet, char **envp)
 	else
 	{
 		int exit_code;
-
 		wait(&exit_code);
+		if (exit_code != 0)
+		{
+			printf("there is an error:%d\n", exit_code);
+		}
 	}
 }
