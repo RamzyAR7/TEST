@@ -5,7 +5,7 @@
  * @string1: first string
  * @string2: second string
  * Return: 0 if strings are equal, otherwise the difference between the first
-*/
+ */
 int _strcmp(char *string1, char *string2)
 {
 	int i = 0;
@@ -24,29 +24,30 @@ int _strcmp(char *string1, char *string2)
  * _atoi - converts a string to an integer
  * @string: string to convert
  * Return: integer
-*/
+ */
 int _atoi(char *string)
 {
 	int i = 0;
 	int sign = 1;
 	int res = 0;
 
-	while (string[i] != '\0')
-	{
-		if (string[i] == '-')
+	if (string)
+		while (string[i] != '\0')
 		{
-			sign *= -1;
+			if (string[i] == '-')
+			{
+				sign *= -1;
+			}
+			else if (string[i] >= '0' && string[i] <= '9')
+			{
+				res = (res * 10) + (string[i] - '0');
+			}
+			else
+			{
+				break;
+			}
+			i++;
 		}
-		else if (string[i] >= '0' && string[i] <= '9')
-		{
-			res = (res * 10) + (string[i] - '0');
-		}
-		else
-		{
-			break;
-		}
-		i++;
-	}
 	return (res * sign);
 }
 

@@ -44,6 +44,32 @@ char *_strtok(char *str, const char *delimiters)
 	return (ret);
 }
 /**
+ * _strtok2 - tokenizes a string
+ * @str: pointer to string
+ * @delimiters: pointer to delimiters
+ * Return: pointer to next token
+ */
+char *_strtok2(char *str, const char *delimiters)
+{
+	static char *chank;
+	char *ret;
+
+	if (str)
+		chank = str;
+	else if (!*chank)
+		return (NULL);
+
+	ret = chank;
+
+	while (*chank && !_strchr(delimiters, *chank))
+		chank++;
+
+	if (*chank)
+		*chank++ = '\0';
+
+	return (ret);
+}
+/**
  * _strlen - returns the length of a string
  * @p_string: pointer to string
  * Return: length of string

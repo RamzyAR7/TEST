@@ -13,6 +13,10 @@ char check_many_commands(char *str)
 	{
 		return (';');
 	}
+	else if (_strcmp(str, ";") == 0)
+	{
+		return (';' + 1);
+	}
 	else if (_strcmp(str, "&&") == 0)
 	{
 		return ('&');
@@ -62,13 +66,13 @@ void add_args(char ***arguments_array, char *argument)
  */
 int handle_command(char *command, char *path, char **envp, int status)
 {
-	char *first_sigment = _strtok(command, " ");
+	char *first_sigment = _strtok2(command, " ");
 	char **arguments = NULL;
 
 	add_args(&arguments, first_sigment);
 	while (first_sigment != NULL)
 	{
-		char *cur_sigment = _strtok(NULL, " ");
+		char *cur_sigment = _strtok2(NULL, " ");
 
 		if (cur_sigment == NULL)
 		{
@@ -80,22 +84,32 @@ int handle_command(char *command, char *path, char **envp, int status)
 
 			if (c)
 			{
-				if (c == ';')
+				switch (c)
 				{
+				case ';' + 1:
 					cur_sigment[_strlen(cur_sigment) - 1] = '\0';
 					add_args(&arguments, cur_sigment);
 					status = handle_curCommand(first_sigment, path, arguments, envp);
-				}
-				else if (c == '&')
-				{
+					break;
+				case ';':
 					status = handle_curCommand(first_sigment, path, arguments, envp);
-					if (status)
+					break;
+				case '&':
+					status = handle_curCommand(first_sigment, path, arguments, envp);
+					if (status != 0)
 						return (status);
-				}
-				else
-				{
+					break;
+				case '|':
 					status = handle_curCommand(first_sigment, path, arguments, envp);
+					if (!status)
+						return (status);
+					break;
+				default:
+					break;
 				}
+				arguments = NULL;
+				first_sigment = _strtok2(NULL, " ");
+				add_args(&arguments, first_sigment);
 			}
 			else
 			{
@@ -106,7 +120,7 @@ int handle_command(char *command, char *path, char **envp, int status)
 	}
 	return (handle_curCommand(first_sigment, path, arguments, envp));
 }
-void handle_exce(char *c_path, char **argumnet, char **envp)
+int handle_exce(char *c_path, char **argumnet, char **envp)
 {
 	int pid = fork();
 
@@ -118,22 +132,15 @@ void handle_exce(char *c_path, char **argumnet, char **envp)
 		{
 			printf("exError\n");
 		}
+		return (state);
 	}
 	else
 	{
-		int exit_code, i;
+		int exit_code;
 
 		wait(&exit_code);
-		if (exit_code != 0)
-		{
-			printf("there is an error:%d\n", exit_code);
-		}
-		for (i = 0; argumnet[i]; i++)
-		{
-			free(argumnet[i]);
-		}
-		free(argumnet[i]);
-		free(argumnet);
+		arguments_free(argumnet);
+		return (exit_code);
 	}
 }
 
@@ -182,6 +189,7 @@ int handle_curCommand(char *first_sigment,
 					  char *path, char **arguments, char **envp)
 {
 	char *c_path;
+	int state = 0;
 
 	if (_strchr(first_sigment, '/') && access(first_sigment, X_OK) == 0)
 	{
@@ -189,19 +197,82 @@ int handle_curCommand(char *first_sigment,
 		handle_exce(c_path, arguments, envp);
 		return (0);
 	}
+	else if (check_builtin(first_sigment))
+	{
+		state = handle_builtin(first_sigment, arguments, envp);
+		return (state);
+	}
 	else
 	{
 		c_path = find_path(path, first_sigment);
 		if (c_path)
 		{
-			handle_exce(c_path, arguments, envp);
+			state = handle_exce(c_path, arguments, envp);
 			free(c_path);
-			return (0);
+			return (state);
 		}
 		else
 		{
+			state = handle_error(envp, first_sigment, path);
 			arguments_free(arguments);
-			return (handle_error(envp, first_sigment, path));
+			return (state);
 		}
 	}
+}
+
+int handle_builtin(char *first_sigment, char **arguments, char **envp)
+{
+
+	if (_strcmp(first_sigment, "exit") == 0)
+	{
+		return (handle_exit(arguments));
+	}
+	else if (_strcmp(first_sigment, "cd") == 0)
+	{
+		return (0);
+	}
+	else if (_strcmp(first_sigment, "env") == 0)
+	{
+		return (_strlen(envp[0]));
+	}
+	else if (_strcmp(first_sigment, "setenv") == 0)
+	{
+		return (0);
+	}
+	else if (_strcmp(first_sigment, "unsetenv") == 0)
+	{
+		return (0);
+	}
+	else if (_strcmp(first_sigment, "alias") == 0)
+	{
+		return (0);
+	}
+	else if (_strcmp(first_sigment, "help") == 0)
+	{
+		return (0);
+	}
+	else
+	{
+		return (0);
+	}
+}
+int handle_exit(char **arguments)
+{
+	int exit_code = _atoi(arguments[1]);
+
+	arguments_free(arguments);
+	exit(exit_code);
+	return (_atoi(arguments[1]));
+}
+int check_builtin(char *first_sigment)
+{
+	char *arr[] = {"exit", "cd", "env", "setenv", "unsetenv", "alias", "help", NULL};
+	int i;
+
+	for (i = 0; arr[i]; i++)
+	{
+		if (_strcmp(first_sigment, arr[i]) == 0)
+			return (1);
+	}
+	return (0);
 }
