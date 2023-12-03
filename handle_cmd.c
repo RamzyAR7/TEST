@@ -89,18 +89,18 @@ int handle_command(char *command, char *path, char **envp, int status)
 				case ';' + 1:
 					cur_sigment[_strlen(cur_sigment) - 1] = '\0';
 					add_args(&arguments, cur_sigment);
-					status = handle_curCommand(first_sigment, path, arguments, envp);
+					status = handle_curCommand(first_sigment, path, arguments, envp, status);
 					break;
 				case ';':
-					status = handle_curCommand(first_sigment, path, arguments, envp);
+					status = handle_curCommand(first_sigment, path, arguments, envp, status);
 					break;
 				case '&':
-					status = handle_curCommand(first_sigment, path, arguments, envp);
+					status = handle_curCommand(first_sigment, path, arguments, envp, status);
 					if (status != 0)
 						return (status);
 					break;
 				case '|':
-					status = handle_curCommand(first_sigment, path, arguments, envp);
+					status = handle_curCommand(first_sigment, path, arguments, envp, status);
 					if (!status)
 						return (status);
 					break;
@@ -118,7 +118,7 @@ int handle_command(char *command, char *path, char **envp, int status)
 			}
 		}
 	}
-	return (handle_curCommand(first_sigment, path, arguments, envp));
+	return (handle_curCommand(first_sigment, path, arguments, envp, status));
 }
 int handle_exce(char *c_path, char **argumnet, char **envp)
 {
@@ -127,7 +127,6 @@ int handle_exce(char *c_path, char **argumnet, char **envp)
 	if (pid == 0)
 	{
 		int state = execute_cmd(c_path, argumnet, envp);
-
 		if (state == -1)
 		{
 			printf("exError\n");
@@ -186,46 +185,47 @@ void arguments_free(char **arguments)
 	arguments = NULL;
 }
 int handle_curCommand(char *first_sigment,
-					  char *path, char **arguments, char **envp)
+					  char *path, char **arguments, char **envp, int status)
 {
 	char *c_path;
-	int state = 0;
 
 	if (_strchr(first_sigment, '/') && access(first_sigment, X_OK) == 0)
 	{
 		c_path = first_sigment;
-		handle_exce(c_path, arguments, envp);
-		return (0);
+		status = handle_exce(c_path, arguments, envp);
+		if (status)
+			status = 2;
+		return (status);
 	}
 	else if (check_builtin(first_sigment))
 	{
-		state = handle_builtin(first_sigment, arguments, envp);
-		return (state);
+		status = handle_builtin(first_sigment, arguments, envp, status);
+		return (status);
 	}
 	else
 	{
 		c_path = find_path(path, first_sigment);
 		if (c_path)
 		{
-			state = handle_exce(c_path, arguments, envp);
+			status = handle_exce(c_path, arguments, envp);
 			free(c_path);
-			return (state);
+			return (status);
 		}
 		else
 		{
-			state = handle_error(envp, first_sigment, path);
+			status = handle_error(envp, first_sigment, path);
 			arguments_free(arguments);
-			return (state);
+			return (status);
 		}
 	}
 }
 
-int handle_builtin(char *first_sigment, char **arguments, char **envp)
+int handle_builtin(char *first_sigment, char **arguments, char **envp, int status)
 {
 
 	if (_strcmp(first_sigment, "exit") == 0)
 	{
-		return (handle_exit(arguments));
+		return (handle_exit(arguments, status));
 	}
 	else if (_strcmp(first_sigment, "cd") == 0)
 	{
@@ -256,11 +256,13 @@ int handle_builtin(char *first_sigment, char **arguments, char **envp)
 		return (0);
 	}
 }
-int handle_exit(char **arguments)
+int handle_exit(char **arguments, int status)
 {
 	int exit_code = _atoi(arguments[1]);
 
 	arguments_free(arguments);
+	if (!exit_code && status)
+		exit(status);
 	exit(exit_code);
 	return (_atoi(arguments[1]));
 }

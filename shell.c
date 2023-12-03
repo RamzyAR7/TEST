@@ -50,7 +50,7 @@ int execute_cmd(char *path, char **args, char **envp)
 {
 	execve(path, args, envp);
 
-	return (-1);
+	exit(2);
 }
 /**
  * find_path - finds the path to a command

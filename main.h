@@ -27,8 +27,8 @@ int handle_exce(char *c_path, char **argumnet, char **envp);
 void arguments_free(char **arguments);
 int handle_error(char **envp, char *first_sigment, char *path);
 int handle_curCommand(char *first_sigment,
-					  char *path, char **arguments, char **envp);
-int handle_exit(char **arguments);
-int handle_builtin(char *first_sigment, char **arguments, char **envp);
+					  char *path, char **arguments, char **envp, int status);
+int handle_exit(char **arguments, int status);
+int handle_builtin(char *first_sigment, char **arguments, char **envp, int status);
 int check_builtin(char *first_sigment);
 #endif
