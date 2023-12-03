@@ -176,6 +176,7 @@ void arguments_free(char **arguments)
 	}
 	free(arguments[i]);
 	free(arguments);
+	arguments = NULL;
 }
 int handle_curCommand(char *first_sigment,
 					  char *path, char **arguments, char **envp)
