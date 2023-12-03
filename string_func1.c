@@ -52,7 +52,7 @@ int _strlen(char *p_string)
 {
 	size_t i = 0;
 
-	while (p_string[i] != '\0')
+	while (p_string && p_string[i] != '\0')
 		i++;
 	return (i);
 }
@@ -63,13 +63,14 @@ int _strlen(char *p_string)
  */
 char *_strdup(char *p_string)
 {
+	size_t i = 0;
+	char *str;
+	int len;
+
 	if (p_string == NULL)
 		return (NULL);
 
-	size_t i = 0;
-	char *str;
-	int len = _strlen(p_string);
-
+	len = _strlen(p_string);
 	str = malloc(sizeof(char) * len + 1);
 	if (str == NULL)
 		return (NULL);
@@ -92,10 +93,11 @@ char *_strcpy(char *copy_to, char *copy_from)
 {
 	int i = 0;
 
-	while (copy_from[i])
+	while (copy_from && copy_from[i])
 	{
 		copy_to[i] = copy_from[i];
 		i++;
 	}
+	copy_to[i] = '\0';
 	return (copy_to);
 }
