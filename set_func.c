@@ -1,29 +1,38 @@
 #include "main.h"
 
+/**
+ * env_dup - duplicates the environment
+ * @envp: environment
+ * Return: pointer to the duplicated environment
+ */
 char **env_dup(char *envp[])
 {
-	char **envp2;
-	int x = 0, y = 0;
+	int i = 0;
+	char **envp_dup;
 
-	while (envp[x])
+	while (envp[i])
+		i++;
+	envp_dup = malloc(sizeof(char *) * (i + 1));
+	i = 0;
+	while (envp[i])
 	{
-		x++;
+		envp_dup[i] = _strdup(envp[i]);
+		i++;
 	}
-
-	envp2 = malloc(sizeof(envp) * x + 2);
-
-	while (envp[y])
-	{
-		envp2[y] = malloc(sizeof(envp) *)
-			envp2[y] = envp[y];
-	}
-	envp2[y] = '\0';
-
-	return (envp2);
+	envp_dup[i] = NULL;
+	return (envp_dup);
 }
-int handle_setenv(char *envp[], char *argv[])
+/**
+ * handle_setenv - handles the setenv built-in
+ * @envp_i: environment
+ * @argv: arguments
+ * Return: 0 on success, -1 on failure
+*/
+int handle_setenv(char *envp_i[], char *argv[])
 {
 	int i = 0;
+	char **envp = env_dup(envp_i);
+
 	char *chank_value;
 	char *chank_key;
 
@@ -37,6 +46,7 @@ int handle_setenv(char *envp[], char *argv[])
 			envp[i] = _strcat(argv[1], "=");
 			envp[i] = _strcat(envp[i], argv[2]);
 			envp[i] = _strcat(envp[i], "\0");
+			arguments_free(envp);
 			return (0);
 		}
 		i++;
@@ -45,9 +55,16 @@ int handle_setenv(char *envp[], char *argv[])
 	envp[i] = _strcat(argv[1], "=");
 	envp[i] = _strcat(envp[i], argv[2]);
 	envp[i] = _strcat(envp[i], "\0");
+
+	arguments_free(envp);
 	return (0);
 }
-
+/**
+ * handle_unsetenv - handles the unsetenv built-in
+ * @envp: environment
+ * @argv: arguments
+ * Return: 0 on success, -1 on failure
+*/
 int handle_unsetenv(char *envp[], char *argv[])
 {
 	int i = 0;

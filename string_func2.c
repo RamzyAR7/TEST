@@ -68,3 +68,20 @@ void *_memcopy(char *copy_to, const char *copy_from, size_t n)
 	}
 	return (copy_to);
 }
+/**
+ * _strcat - concatenates two strings
+ * @s1: first string
+ * @s2: second string
+ * Return: pointer to the resulting string
+ */
+char *_strcat(char *s1, char *s2)
+{
+	int i, j;
+
+	for (i = 0; s1[i]; i++)
+		;
+	for (j = 0; s2[j]; j++, i++)
+		s1[i] = s2[j];
+	s1[i] = '\0';
+	return (s1);
+}
