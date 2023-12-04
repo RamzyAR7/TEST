@@ -3,7 +3,6 @@
 int handle_unsetenv(char *argv[], char *envp[])
 {
 	int i = 0, x = 0;
-	printf("before:\n");
 	while (envp[i])
 	{
 		if (_strstr(envp[i], argv[1]) == envp[i] && envp[i][_strlen(argv[1])] == '=')
