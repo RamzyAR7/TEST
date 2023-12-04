@@ -24,7 +24,7 @@ char *_strcpy(char *copy_to, char *copy_from)
  * Return: pointer to duplicated environment
  * Description: This function duplicates the environment
  * and returns a pointer to the duplicated environment.
-*/
+ */
 char **env_dup(char *envp[])
 {
 	int rows = 0, i = 0;
