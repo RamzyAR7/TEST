@@ -40,79 +40,10 @@ char *get_path(char *envp[])
 	return (NULL);
 }
 /**
- * execute_cmd - executes a command
- * @path: path to command
- * @args: arguments to command
- * @envp: environment variables
- * Return: 0 if successful, otherwise -1
- */
-int execute_cmd(char *path, char **args, char **envp)
-{
-	execve(path, args, envp);
-
-	exit(2);
-}
-/**
- * find_path - finds the path to a command
- * @path: path to search
- * @input: command to search for in path variable (e.g. ls)
- * Return: pointer to path if found, otherwise NULL
- */
-char *find_path(char *path_i, char *input)
-{
-	char *path;
-	char *chank = NULL;
-
-	if (path_i)
-	{
-		path = _strdup(path_i);
-		chank = _strtok(path, ":");
-	}
-	else
-	{
-		return (NULL);
-	}
-	while (chank != NULL && *path_i)
-	{
-		size_t buffer_size = _strlen(chank) + 1 + _strlen(input) + 1;
-		char *buffer = malloc(buffer_size);
-
-		int i = 0;
-		int j = 0;
-		int x = 0;
-
-		while (chank[j])
-		{
-			buffer[i] = chank[j];
-			i++;
-			j++;
-		}
-
-		buffer[i] = '/';
-		i++;
-
-		while (input[x])
-		{
-			buffer[i] = input[x];
-			i++;
-			x++;
-		}
-
-		buffer[i] = '\0';
-
-		if (access(buffer, X_OK) == 0)
-		{
-			free(path);
-			return buffer;
-		}
-
-		free(buffer);
-
-		chank = _strtok(NULL, ":");
-	}
-	free(path);
-	return NULL;
-}
+ * last_space - checks if the last character in a string is a space
+ * @str: string to check
+ * Return: 1 if last character is a space, otherwise 0
+*/
 int last_space(char *str)
 {
 	int i = 0;
@@ -124,6 +55,14 @@ int last_space(char *str)
 	}
 	return (0);
 }
+/**
+ * getc_command - gets the next command from a string
+ * @str: string to get command from
+ * @c_command: buffer to store command
+ * Return: void
+ * Description: This function will modify the string passed to it.
+ * It will replace the command with 2's and replace spaces with 2's.
+*/
 void getc_command(char *str, char *c_command)
 {
 	int i = 0, j = 0;

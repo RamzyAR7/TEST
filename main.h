@@ -29,6 +29,7 @@ int handle_error(char **envp, char *first_sigment, char *path);
 int handle_curCommand(char *first_sigment,
 					  char *path, char **arguments, char **envp, int status);
 int handle_exit(char **arguments, int status);
-int handle_builtin(char *first_sigment, char **arguments, char **envp, int status);
+int handle_builtin(char *first_sigment, char **arguments,
+				   char **envp, int status);
 int check_builtin(char *first_sigment);
 #endif

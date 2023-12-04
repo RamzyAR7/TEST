@@ -62,6 +62,8 @@ void add_args(char ***arguments_array, char *argument)
  * handle_command - handles the command entered by the user
  * @command: pointer to command
  * @path: pointer to PATH variable
+ * @envp: pointer to environment variables
+ * @status: status of the last command
  * Return: 0 if successful, otherwise 1
  */
 int handle_command(char *command, char *path, char **envp, int status)
@@ -113,13 +115,19 @@ int handle_command(char *command, char *path, char **envp, int status)
 			}
 			else
 			{
-
 				add_args(&arguments, cur_sigment);
 			}
 		}
 	}
 	return (handle_curCommand(first_sigment, path, arguments, envp, status));
 }
+/**
+ * handle_exce - handles the execution of the command
+ * @c_path: pointer to command path
+ * @argumnet: pointer to array of arguments
+ * @envp: pointer to environment variables
+ * Return: 0 if successful, otherwise 1
+ */
 int handle_exce(char *c_path, char **argumnet, char **envp)
 {
 	int pid = fork();
@@ -127,6 +135,7 @@ int handle_exce(char *c_path, char **argumnet, char **envp)
 	if (pid == 0)
 	{
 		int state = execute_cmd(c_path, argumnet, envp);
+
 		if (state == -1)
 		{
 			printf("exError\n");
@@ -142,7 +151,14 @@ int handle_exce(char *c_path, char **argumnet, char **envp)
 		return (exit_code);
 	}
 }
-
+/**
+ * handle_error - handles the error
+ * @envp: pointer to environment variables
+ * @first_sigment: pointer to first sigment of command
+ * @path: pointer to PATH variable
+ * Return: 0 if successful, otherwise 1
+ * Description: This function is not portable. It will only work on Linux.
+ */
 int handle_error(char **envp, char *first_sigment, char *path)
 {
 	char error[1024];
@@ -161,6 +177,7 @@ int handle_error(char **envp, char *first_sigment, char *path)
 	if ((!_strchr(first_sigment, '\\') && path && path[0]) || !path)
 	{
 		char *error = ": command not found\n";
+
 		write(STDERR_FILENO, error, _strlen(error));
 	}
 	else
@@ -170,111 +187,4 @@ int handle_error(char **envp, char *first_sigment, char *path)
 		write(STDERR_FILENO, error, _strlen(error));
 	}
 	return (127);
-}
-
-void arguments_free(char **arguments)
-{
-	int i;
-
-	for (i = 0; arguments[i]; i++)
-	{
-		free(arguments[i]);
-	}
-	free(arguments[i]);
-	free(arguments);
-	arguments = NULL;
-}
-int handle_curCommand(char *first_sigment,
-					  char *path, char **arguments, char **envp, int status)
-{
-	char *c_path;
-
-	if (_strchr(first_sigment, '/') && access(first_sigment, X_OK) == 0)
-	{
-		c_path = first_sigment;
-		status = handle_exce(c_path, arguments, envp);
-		if (status)
-			status = 2;
-		return (status);
-	}
-	else if (check_builtin(first_sigment))
-	{
-		status = handle_builtin(first_sigment, arguments, envp, status);
-		return (status);
-	}
-	else
-	{
-		c_path = find_path(path, first_sigment);
-		if (c_path)
-		{
-			status = handle_exce(c_path, arguments, envp);
-			free(c_path);
-			return (status);
-		}
-		else
-		{
-			status = handle_error(envp, first_sigment, path);
-			arguments_free(arguments);
-			return (status);
-		}
-	}
-}
-
-int handle_builtin(char *first_sigment, char **arguments, char **envp, int status)
-{
-
-	if (_strcmp(first_sigment, "exit") == 0)
-	{
-		return (handle_exit(arguments, status));
-	}
-	else if (_strcmp(first_sigment, "cd") == 0)
-	{
-		return (0);
-	}
-	else if (_strcmp(first_sigment, "env") == 0)
-	{
-		return (_strlen(envp[0]));
-	}
-	else if (_strcmp(first_sigment, "setenv") == 0)
-	{
-		return (0);
-	}
-	else if (_strcmp(first_sigment, "unsetenv") == 0)
-	{
-		return (0);
-	}
-	else if (_strcmp(first_sigment, "alias") == 0)
-	{
-		return (0);
-	}
-	else if (_strcmp(first_sigment, "help") == 0)
-	{
-		return (0);
-	}
-	else
-	{
-		return (0);
-	}
-}
-int handle_exit(char **arguments, int status)
-{
-	int exit_code = _atoi(arguments[1]);
-
-	arguments_free(arguments);
-	if (!exit_code && status)
-		exit(status);
-	exit(exit_code);
-	return (_atoi(arguments[1]));
-}
-int check_builtin(char *first_sigment)
-{
-	char *arr[] = {"exit", "cd", "env", "setenv", "unsetenv", "alias", "help", NULL};
-	int i;
-
-	for (i = 0; arr[i]; i++)
-	{
-		if (_strcmp(first_sigment, arr[i]) == 0)
-			return (1);
-	}
-	return (0);
 }
