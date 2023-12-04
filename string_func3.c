@@ -49,3 +49,39 @@ char **env_dup(char *envp[])
 	envp_dup[i] = NULL;
 	return (envp_dup);
 }
+/**
+ * _strstr - locates a substring in a string
+ * @the_big_str: pointer to string
+ * @the_little_str: pointer to substring
+ * Return: pointer to the beginning of the located sub
+ * string, or NULL if the substring is not found.
+ * Description: This function locates a substring.
+ */
+char *_strstr(char *the_big_str, char *the_little_str)
+{
+	int x = 0, y;
+
+	while (the_big_str[x])
+	{
+		y = 0;
+
+		while (the_little_str[y])
+		{
+			if (the_big_str[x + y] != the_little_str[y])
+			{
+				break;
+			}
+
+			y++;
+		}
+
+		if (!the_little_str[y])
+		{
+			return (the_big_str + x);
+		}
+
+		x++;
+	}
+
+	return (NULL);
+}
