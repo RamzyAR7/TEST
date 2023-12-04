@@ -39,4 +39,6 @@ int handle_env(char *envp[]);
 int h_env(void);
 char **env_dup(char *envp[]);
 int handle_setenv(char *argv[], char **environ[]);
+void free_buff(char *str);
+int handle_unsetenv(char *argv[], char *envp[]);
 #endif

@@ -1,4 +1,5 @@
 #include "main.h"
+#include <string.h>
 
 int handle_env(char *envp[])
 {
@@ -24,34 +25,41 @@ int h_env(void)
 	}
 	return (0);
 }
-int handle_setenv(char *argv[], char **environ[])
+
+int handle_setenv(char *argv[], char ***environ)
 {
-	int i = 1, x = 0;
+	int i = 0;
 	char **envp = *environ;
 	char buffer[BUFSIZ];
 
-	while (argv[1][i])
-	{
-		buffer[i] = argv[1][i];
-		i++;
-	}
-	buffer[i++] = '=';
-	buffer[i] = '\0';
-
-	while (envp[x])
-	{
-		if (_strcmp(envp[x], buffer) == 0)
-		{
-			free(envp[x]);
-			_strcat(buffer, argv[2]);
-
-			envp[x] = _strdup(buffer);
-			return (0);
-		}
-		x++;
-	}
+	_strcat(buffer, argv[1]);
+	_strcat(buffer, "=");
 	_strcat(buffer, argv[2]);
 
+	while (envp[i] != NULL)
+	{
+		if (strstr(envp[i], argv[1]) == envp[i] && envp[i][_strlen(argv[1])] == '=')
+		{
+			free(envp[i]);
+			envp[i] = _strdup(buffer);
+			arguments_free(argv);
+			free_buff(buffer);
+			return (0);
+		}
+		i++;
+	}
+
 	add_args(environ, buffer);
+	arguments_free(argv);
+	free_buff(buffer);
 	return (0);
+}
+void free_buff(char *str)
+{
+	int i = 0;
+
+	while (str[i])
+	{
+		str[i] = '\0';
+	}
 }

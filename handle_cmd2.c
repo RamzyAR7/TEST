@@ -90,6 +90,7 @@ int handle_builtin(char *first_sigment, char **arguments, char ***environ,
 	}
 	else if (_strcmp(first_sigment, "env") == 0)
 	{
+		arguments_free(arguments);
 		return (handle_env(envp));
 	}
 	else if (_strcmp(first_sigment, "setenv") == 0)
@@ -98,7 +99,7 @@ int handle_builtin(char *first_sigment, char **arguments, char ***environ,
 	}
 	else if (_strcmp(first_sigment, "unsetenv") == 0)
 	{
-		return (0);
+		return (handle_unsetenv(arguments, envp));
 	}
 	else if (_strcmp(first_sigment, "alias") == 0)
 	{
