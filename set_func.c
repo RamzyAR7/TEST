@@ -31,7 +31,7 @@ int handle_setenv(char *argv[], char ***environ)
 	char **envp = *environ;
 	char buffer[BUFSIZ];
 
-	_strcat(buffer, argv[1]);
+	_strcpy(buffer, argv[1]);
 	_strcat(buffer, "=");
 	_strcat(buffer, argv[2]);
 

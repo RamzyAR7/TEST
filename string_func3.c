@@ -35,14 +35,14 @@ char **env_dup(char *envp[])
 		rows++;
 	}
 
-	envp_dup = (char **)malloc(sizeof(char *) * rows + 1);
+	envp_dup = (char **)malloc(sizeof(char *) * (rows + 1));
 
 	if (envp_dup == NULL)
 	{
 		free(envp_dup);
 	}
 
-	for (i = 0; i < rows; i++)
+	for (i = 0; envp[i]; i++)
 	{
 		envp_dup[i] = _strdup(envp[i]);
 	}
