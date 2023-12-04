@@ -82,7 +82,7 @@ int handle_builtin(char *first_sigment, char **arguments, char ***environ,
 
 	if (_strcmp(first_sigment, "exit") == 0)
 	{
-		return (handle_exit(arguments, status));
+		return (handle_exit(arguments, status, environ));
 	}
 	else if (_strcmp(first_sigment, "cd") == 0)
 	{
@@ -122,7 +122,7 @@ int handle_builtin(char *first_sigment, char **arguments, char ***environ,
  * Description: This function is not portable. It will only work on Linux.
  * This function is not portable. It will only work on Linux.
  */
-int handle_exit(char **arguments, int status)
+int handle_exit(char **arguments, int status, char ***environ)
 {
 	int exit_code = exit_code = _atoi(arguments[1]);
 	int check = checkExitArugment(arguments[1]);
@@ -130,6 +130,7 @@ int handle_exit(char **arguments, int status)
 	arguments_free(arguments);
 	if (check == -1)
 	{
+		arguments_free(*environ);
 		exit(status);
 	}
 	else if (check == 2)
@@ -138,6 +139,7 @@ int handle_exit(char **arguments, int status)
 	}
 	else
 	{
+		arguments_free(*environ);
 		exit(exit_code);
 	}
 }
