@@ -18,3 +18,34 @@ char *_strcpy(char *copy_to, char *copy_from)
 	copy_to[i] = '\0';
 	return (copy_to);
 }
+/**
+ * env_dup - duplicates the environment
+ * @envp: pointer to environment
+ * Return: pointer to duplicated environment
+ * Description: This function duplicates the environment
+ * and returns a pointer to the duplicated environment.
+*/
+char **env_dup(char *envp[])
+{
+	int rows = 0, i = 0;
+	char **envp_dup;
+
+	while (*(envp + rows) != NULL)
+	{
+		rows++;
+	}
+
+	envp_dup = (char **)malloc(sizeof(char *) * rows + 1);
+
+	if (envp_dup == NULL)
+	{
+		free(envp_dup);
+	}
+
+	for (i = 0; i < rows; i++)
+	{
+		envp_dup[i] = _strdup(envp[i]);
+	}
+	envp_dup[i] = NULL;
+	return (env_dup);
+}
