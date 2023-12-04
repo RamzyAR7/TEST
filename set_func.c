@@ -30,28 +30,36 @@ int handle_setenv(char *argv[], char ***environ)
 	int i = 0;
 	char **envp = *environ;
 	char buffer[BUFSIZ];
-
-	_strcpy(buffer, argv[1]);
-	_strcat(buffer, "=");
-	_strcat(buffer, argv[2]);
-
-	while (envp[i] != NULL)
+	if (argv && argv[1] && argv[2])
 	{
-		if (_strstr(envp[i], argv[1]) == envp[i] && envp[i][_strlen(argv[1])] == '=')
-		{
-			free(envp[i]);
-			envp[i] = _strdup(buffer);
-			arguments_free(argv);
-			free_buff(buffer);
-			return (0);
-		}
-		i++;
-	}
 
-	add_args(environ, buffer);
-	arguments_free(argv);
-	free_buff(buffer);
-	return (0);
+		_strcpy(buffer, argv[1]);
+		_strcat(buffer, "=");
+		_strcat(buffer, argv[2]);
+
+		while (envp[i] != NULL)
+		{
+			if (_strstr(envp[i], argv[1]) == envp[i] && envp[i][_strlen(argv[1])] == '=')
+			{
+				free(envp[i]);
+				envp[i] = _strdup(buffer);
+				arguments_free(argv);
+				free_buff(buffer);
+				return (0);
+			}
+			i++;
+		}
+
+		add_args(environ, buffer);
+		arguments_free(argv);
+		free_buff(buffer);
+		return (0);
+	}
+	else
+	{
+		arguments_free(argv);
+		return (2);
+	}
 }
 void free_buff(char *str)
 {
