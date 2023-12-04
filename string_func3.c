@@ -59,29 +59,22 @@ char **env_dup(char *envp[])
  */
 char *_strstr(char *the_big_str, char *the_little_str)
 {
-	int x = 0, y;
+	int x = 0, y = 0, z = 0;
 
-	while (the_big_str[x])
+	while (the_big_str[x] != '\0')
 	{
 		y = 0;
-
-		while (the_little_str[y])
+		z = x;
+		while (the_little_str[y] == the_big_str[z] && the_little_str[y])
 		{
-			if (the_big_str[x + y] != the_little_str[y])
-			{
-				break;
-			}
-
 			y++;
+			z++;
 		}
-
-		if (!the_little_str[y])
+		if (the_little_str[y] == '\0')
 		{
 			return (the_big_str + x);
 		}
-
 		x++;
 	}
-
 	return (NULL);
 }
