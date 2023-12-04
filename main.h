@@ -41,4 +41,5 @@ char **env_dup(char *envp[]);
 int handle_setenv(char *argv[], char **environ[]);
 void free_buff(char *str);
 int handle_unsetenv(char *argv[], char *envp[]);
+char *_strstr(char *the_big_str, char *the_little_str);
 #endif

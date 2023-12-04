@@ -1,5 +1,4 @@
 #include "main.h"
-#include <string.h>
 
 int handle_unsetenv(char *argv[], char *envp[])
 {
@@ -7,7 +6,7 @@ int handle_unsetenv(char *argv[], char *envp[])
 	printf("before:\n");
 	while (envp[i])
 	{
-		if (strstr(envp[i], argv[1]) == envp[i] && envp[i][_strlen(argv[1])] == '=')
+		if (_strstr(envp[i], argv[1]) == envp[i] && envp[i][_strlen(argv[1])] == '=')
 		{
 			free(envp[i]);
 			envp[i] = envp[i + 1];

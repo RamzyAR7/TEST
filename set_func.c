@@ -1,5 +1,4 @@
 #include "main.h"
-#include <string.h>
 
 int handle_env(char *envp[])
 {
@@ -38,7 +37,7 @@ int handle_setenv(char *argv[], char ***environ)
 
 	while (envp[i] != NULL)
 	{
-		if (strstr(envp[i], argv[1]) == envp[i] && envp[i][_strlen(argv[1])] == '=')
+		if (_strstr(envp[i], argv[1]) == envp[i] && envp[i][_strlen(argv[1])] == '=')
 		{
 			free(envp[i]);
 			envp[i] = _strdup(buffer);
