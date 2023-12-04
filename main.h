@@ -22,19 +22,21 @@ void get_input(char *buff, int *size);
 char *get_path(char *envp[]);
 char check_many_commands(char *str);
 void add_args(char ***arguments_array, char *argument);
-int handle_command(char *command, char *path, char **envp, int status);
+int handle_command(char *command, char *path, char ***envp, int status);
 int execute_cmd(char *path, char **args, char **envp);
 char *find_path(char *path, char *input);
 int handle_exce(char *c_path, char **argumnet, char **envp);
 void arguments_free(char **arguments);
 int handle_error(char **envp, char *first_sigment, char *path);
 int handle_curCommand(char *first_sigment,
-					  char *path, char **arguments, char **envp, int status);
+					  char *path, char **arguments, char ***environ, int status);
 int handle_exit(char **arguments, int status);
-int handle_builtin(char *first_sigment, char **arguments,
-				   char **envp, int status);
+int handle_builtin(char *first_sigment, char **arguments, char ***environ,
+				   int status);
 int check_builtin(char *first_sigment);
 int checkExitArugment(char *str);
 int handle_env(char *envp[]);
 int h_env(void);
+char **env_dup(char *envp[]);
+int handle_setenv(char **arguments[], char *envp[]);
 #endif

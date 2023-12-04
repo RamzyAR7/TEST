@@ -66,7 +66,7 @@ void add_args(char ***arguments_array, char *argument)
  * @status: status of the last command
  * Return: 0 if successful, otherwise 1
  */
-int handle_command(char *command, char *path, char **envp, int status)
+int handle_command(char *command, char *path, char ***envp, int status)
 {
 	char *first_sigment = _strtok2(command, " ");
 	char **arguments = NULL;

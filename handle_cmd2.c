@@ -30,9 +30,10 @@ void arguments_free(char **arguments)
  * This function is not portable. It will only work on Linux.
  */
 int handle_curCommand(char *first_sigment,
-					  char *path, char **arguments, char **envp, int status)
+					  char *path, char **arguments, char ***environ, int status)
 {
 	char *c_path;
+	char **envp = *environ;
 
 	if (_strchr(first_sigment, '/') && access(first_sigment, X_OK) == 0)
 	{
@@ -44,7 +45,7 @@ int handle_curCommand(char *first_sigment,
 	}
 	else if (check_builtin(first_sigment))
 	{
-		status = handle_builtin(first_sigment, arguments, envp, status);
+		status = handle_builtin(first_sigment, arguments, environ, status);
 		return (status);
 	}
 	else
@@ -74,9 +75,10 @@ int handle_curCommand(char *first_sigment,
  * Description: This function is not portable. It will only work on Linux.
  * This function is not portable. It will only work on Linux.
  */
-int handle_builtin(char *first_sigment, char **arguments, char **envp,
+int handle_builtin(char *first_sigment, char **arguments, char ***environ,
 				   int status)
 {
+	char **envp = *environ;
 
 	if (_strcmp(first_sigment, "exit") == 0)
 	{
@@ -92,7 +94,7 @@ int handle_builtin(char *first_sigment, char **arguments, char **envp,
 	}
 	else if (_strcmp(first_sigment, "setenv") == 0)
 	{
-		return (0);
+		return (handle_setenv(&envp, arguments));
 	}
 	else if (_strcmp(first_sigment, "unsetenv") == 0)
 	{

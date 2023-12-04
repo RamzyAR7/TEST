@@ -47,5 +47,5 @@ char **env_dup(char *envp[])
 		envp_dup[i] = _strdup(envp[i]);
 	}
 	envp_dup[i] = NULL;
-	return (env_dup);
+	return (envp_dup);
 }

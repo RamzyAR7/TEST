@@ -115,7 +115,7 @@ void getc_command(char *str, char *c_command)
  */
 int main(int argc, char *argv[])
 {
-	char **envp = environ;
+	char **envp = env_dup(environ);
 	char *path = get_path(envp);
 	int status = 0;
 
@@ -130,7 +130,7 @@ int main(int argc, char *argv[])
 		getc_command(str, c_command);
 		while (*c_command)
 		{
-			status = handle_command(c_command, path, envp, status);
+			status = handle_command(c_command, path, &envp, status);
 			getc_command(str, c_command);
 		}
 		if (str_Size == 0)
@@ -138,6 +138,7 @@ int main(int argc, char *argv[])
 			break;
 		}
 	}
+	arguments_free(envp);
 	if (status)
 		exit(status);
 	else

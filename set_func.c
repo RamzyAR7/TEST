@@ -24,10 +24,10 @@ int h_env(void)
 	}
 	return (0);
 }
-int handle_setenv(char *argv[], char *envp[])
+int handle_setenv(char **arguments[], char *envp[])
 {
 	int i = 1, x = 0;
-
+	char **argv = *arguments;
 	char buffer[BUFSIZ];
 
 	while (argv[1][i])
@@ -52,5 +52,6 @@ int handle_setenv(char *argv[], char *envp[])
 	}
 	_strcat(buffer, argv[2]);
 
-	add_args(&envp, buffer);
+	add_args(arguments, buffer);
+	return (0);
 }
