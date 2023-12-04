@@ -94,7 +94,7 @@ int handle_builtin(char *first_sigment, char **arguments, char ***environ,
 	}
 	else if (_strcmp(first_sigment, "setenv") == 0)
 	{
-		return (handle_setenv(&envp, arguments));
+		return (handle_setenv(arguments, environ));
 	}
 	else if (_strcmp(first_sigment, "unsetenv") == 0)
 	{

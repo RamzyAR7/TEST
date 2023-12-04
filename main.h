@@ -38,5 +38,5 @@ int checkExitArugment(char *str);
 int handle_env(char *envp[]);
 int h_env(void);
 char **env_dup(char *envp[]);
-int handle_setenv(char **arguments[], char *envp[]);
+int handle_setenv(char *argv[], char **environ[]);
 #endif

@@ -20,6 +20,6 @@ int handle_unsetenv(char *argv[], char *envp[])
 			return (0);
 		}
 		i++;
-		return (-1);
 	}
+	return (-1);
 }
