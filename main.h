@@ -7,6 +7,7 @@
 #include <errno.h>
 #include <signal.h>
 
+extern char **environ;
 int *_strchr(const char *str, int c);
 char *_strtok(char *str, const char *delimiters);
 char *_strtok2(char *str, const char *delimiters);
@@ -32,4 +33,7 @@ int handle_exit(char **arguments, int status);
 int handle_builtin(char *first_sigment, char **arguments,
 				   char **envp, int status);
 int check_builtin(char *first_sigment);
+int checkExitArugment(char *str);
+int handle_env(char *envp[]);
+int h_env(void);
 #endif

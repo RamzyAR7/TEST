@@ -88,7 +88,7 @@ int handle_builtin(char *first_sigment, char **arguments, char **envp,
 	}
 	else if (_strcmp(first_sigment, "env") == 0)
 	{
-		return (_strlen(envp[0]));
+		return (handle_env(envp));
 	}
 	else if (_strcmp(first_sigment, "setenv") == 0)
 	{
@@ -121,13 +121,50 @@ int handle_builtin(char *first_sigment, char **arguments, char **envp,
  */
 int handle_exit(char **arguments, int status)
 {
-	int exit_code = _atoi(arguments[1]);
+	int exit_code = exit_code = _atoi(arguments[1]);
+	int check = checkExitArugment(arguments[1]);
 
 	arguments_free(arguments);
-	if (!exit_code && status)
+	if (check == -1)
+	{
 		exit(status);
-	exit(exit_code);
-	return (_atoi(arguments[1]));
+	}
+	else if (check == 2)
+	{
+		return (check);
+	}
+	else
+	{
+		exit(exit_code);
+	}
+}
+int checkExitArugment(char *str)
+{
+	int i;
+
+	if (!str || (str && !str[0]))
+	{
+		return (-1);
+	}
+	else
+	{
+		for (i = 0; str[i]; i++)
+		{
+			if (i == 0 && str[i] == '-')
+				continue;
+			if (str[i] < '0' || str[i] > '9')
+			{
+				char error[1024];
+
+				_strcpy(error, "./hsh: line 1: exit: ");
+				_strcpy(error + _strlen(error), str);
+				_strcpy(error + _strlen(error), ": numeric argument required\n");
+				write(STDERR_FILENO, error, _strlen(error));
+				return (2);
+			}
+		}
+	}
+	return (0);
 }
 /**
  * check_builtin - checks if the command is builtin

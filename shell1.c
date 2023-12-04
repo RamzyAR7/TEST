@@ -43,7 +43,7 @@ char *get_path(char *envp[])
  * last_space - checks if the last character in a string is a space
  * @str: string to check
  * Return: 1 if last character is a space, otherwise 0
-*/
+ */
 int last_space(char *str)
 {
 	int i = 0;
@@ -62,7 +62,7 @@ int last_space(char *str)
  * Return: void
  * Description: This function will modify the string passed to it.
  * It will replace the command with 2's and replace spaces with 2's.
-*/
+ */
 void getc_command(char *str, char *c_command)
 {
 	int i = 0, j = 0;
@@ -113,8 +113,9 @@ void getc_command(char *str, char *c_command)
  * @envp: array of environment variables
  * Return: 0 if successful, otherwise 1
  */
-int main(int argc, char *argv[], char *envp[])
+int main(int argc, char *argv[])
 {
+	char **envp = environ;
 	char *path = get_path(envp);
 	int status = 0;
 
@@ -132,7 +133,7 @@ int main(int argc, char *argv[], char *envp[])
 			status = handle_command(c_command, path, envp, status);
 			getc_command(str, c_command);
 		}
-		if (!_strcmp(str, "exit") || str_Size == 0)
+		if (str_Size == 0)
 		{
 			break;
 		}

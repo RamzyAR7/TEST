@@ -31,23 +31,22 @@ int _atoi(char *string)
 	int sign = 1;
 	int res = 0;
 
-	if (string)
-		while (string[i] != '\0')
+	while (string && string[i])
+	{
+		if (string[i] == '-')
 		{
-			if (string[i] == '-')
-			{
-				sign *= -1;
-			}
-			else if (string[i] >= '0' && string[i] <= '9')
-			{
-				res = (res * 10) + (string[i] - '0');
-			}
-			else
-			{
-				break;
-			}
-			i++;
+			sign *= -1;
 		}
+		else if (string[i] >= '0' && string[i] <= '9')
+		{
+			res = (res * 10) + (string[i] - '0');
+		}
+		else
+		{
+			break;
+		}
+		i++;
+	}
 	return (res * sign);
 }
 

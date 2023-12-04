@@ -12,3 +12,15 @@ int handle_env(char *envp[])
 	}
 	return (0);
 }
+int h_env(void)
+{
+	int i = 0;
+
+	while (environ[i])
+	{
+		write(1, environ[i], _strlen(environ[i]));
+		write(1, "\n", 1);
+		i++;
+	}
+	return (0);
+}
