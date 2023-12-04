@@ -16,6 +16,7 @@ char *_strdup(char *p_string);
 char *_strcpy(char *copy_to, char *copy_from);
 int _strcmp(char *string1, char *string2);
 int _atoi(char *string);
+char *_strcat(char *s1, char *s2);
 void *_memcopy(char *copy_to, const char *copy_from, size_t n);
 void get_input(char *buff, int *size);
 char *get_path(char *envp[]);
