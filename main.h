@@ -53,4 +53,5 @@ char **creat_2D(int size, ...);
 void edit_command(char *str, int status, char **envp);
 void nts_recursive_helper(int num, char result[], int *index);
 void nts(int num, char result[]);
+void handle_scape(char *str);
 #endif

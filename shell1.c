@@ -155,7 +155,6 @@ int main(int argc, char *argv[])
 		getc_command(str, c_command, status, envp);
 		while (*c_command)
 		{
-
 			status = handle_command(c_command, &envp, status);
 			getc_command(str, c_command, status, envp);
 		}
@@ -272,13 +271,20 @@ void edit_command(char *str, int status, char **envp)
 			while (str[j] && str[j] != ' ')
 				j++;
 
-			_memcopy(temp, str + i + 1, j);
+			_memcopy(temp, str + i + 1, ++j);
 			temp[j] = '\0';
 			value = get_env_value(envp, temp);
 			_strcpy(temp, str);
-			_strcpy(str + i, value);
-			_strcat(str, temp + i + j);
-			free(value);
+			if (value)
+			{
+				_strcpy(str + i, value);
+				_strcat(str + i + _strlen(value), temp + i + j);
+				free(value);
+			}
+			else
+			{
+				_strcpy(str + i, temp + i + j + 1);
+			}
 		}
 		else if (str[i] == '#')
 		{
@@ -311,4 +317,23 @@ void nts(int num, char result[])
 	nts_recursive_helper(num, result, &index);
 
 	result[index] = '\0';
+}
+void handle_scape(char *str)
+{
+	int i = 0;
+	char temp[BUFSIZ];
+
+	intail_NULL(temp, BUFSIZ);
+	for (i = 0; str[i]; i++)
+	{
+		if (str[i] == '\\')
+		{
+			char pid[255];
+
+			nts(getpid(), pid);
+
+			_strcpy(temp, str);
+			_strcpy(str + i, temp + i + 1);
+		}
+	}
 }
