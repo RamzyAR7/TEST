@@ -64,7 +64,7 @@ void add_args(char ***arguments_array, char *argument)
  */
 int handle_command(char *command, char ***envp, int status)
 {
-	char *first_sigment = _strtok2(command, " ");
+	char *first_sigment = _strtok2(command, " \t");
 	char **arguments = NULL;
 
 	add_args(&arguments, first_sigment);
