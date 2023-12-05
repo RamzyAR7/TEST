@@ -9,13 +9,9 @@
 
 char check_many_commands(char *str)
 {
-	if (str[_strlen(str) - 1] == ';')
+	if (_strcmp(str, ";") == 0)
 	{
 		return (';');
-	}
-	else if (_strcmp(str, ";") == 0)
-	{
-		return (';' + 1);
 	}
 	else if (_strcmp(str, "&&") == 0)
 	{
@@ -66,7 +62,7 @@ void add_args(char ***arguments_array, char *argument)
  * @status: status of the last command
  * Return: 0 if successful, otherwise 1
  */
-int handle_command(char *command, char *path, char ***envp, int status)
+int handle_command(char *command, char ***envp, int status)
 {
 	char *first_sigment = _strtok2(command, " ");
 	char **arguments = NULL;
@@ -88,21 +84,16 @@ int handle_command(char *command, char *path, char ***envp, int status)
 			{
 				switch (c)
 				{
-				case ';' + 1:
-					cur_sigment[_strlen(cur_sigment) - 1] = '\0';
-					add_args(&arguments, cur_sigment);
-					status = handle_curCommand(first_sigment, path, arguments, envp, status);
-					break;
 				case ';':
-					status = handle_curCommand(first_sigment, path, arguments, envp, status);
+					status = handle_curCommand(first_sigment, arguments, envp, status);
 					break;
 				case '&':
-					status = handle_curCommand(first_sigment, path, arguments, envp, status);
+					status = handle_curCommand(first_sigment, arguments, envp, status);
 					if (status != 0)
 						return (status);
 					break;
 				case '|':
-					status = handle_curCommand(first_sigment, path, arguments, envp, status);
+					status = handle_curCommand(first_sigment, arguments, envp, status);
 					if (!status)
 						return (status);
 					break;
@@ -111,6 +102,8 @@ int handle_command(char *command, char *path, char ***envp, int status)
 				}
 				arguments = NULL;
 				first_sigment = _strtok2(NULL, " ");
+				if (!first_sigment)
+					return (status);
 				add_args(&arguments, first_sigment);
 			}
 			else
@@ -119,7 +112,7 @@ int handle_command(char *command, char *path, char ***envp, int status)
 			}
 		}
 	}
-	return (handle_curCommand(first_sigment, path, arguments, envp, status));
+	return (handle_curCommand(first_sigment, arguments, envp, status));
 }
 /**
  * handle_exce - handles the execution of the command

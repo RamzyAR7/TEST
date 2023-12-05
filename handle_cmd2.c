@@ -30,7 +30,7 @@ void arguments_free(char **arguments)
  * This function is not portable. It will only work on Linux.
  */
 int handle_curCommand(char *first_sigment,
-					  char *path, char **arguments, char ***environ, int status)
+					  char **arguments, char ***environ, int status)
 {
 	char *c_path;
 	char **envp = *environ;
@@ -50,6 +50,8 @@ int handle_curCommand(char *first_sigment,
 	}
 	else
 	{
+		char *path = get_path(envp);
+
 		c_path = find_path(path, first_sigment);
 		if (c_path)
 		{
@@ -86,7 +88,7 @@ int handle_builtin(char *first_sigment, char **arguments, char ***environ,
 	}
 	else if (_strcmp(first_sigment, "cd") == 0)
 	{
-		return (0);
+		return (handle_cd(arguments, environ));
 	}
 	else if (_strcmp(first_sigment, "env") == 0)
 	{
@@ -190,4 +192,101 @@ int check_builtin(char *first_sigment)
 			return (1);
 	}
 	return (0);
+}
+int handle_cd(char **arugments, char ***environ)
+{
+	char cwd[BUFSIZ];
+	char *cd = NULL;
+	char **pwd;
+	char **oldpwd;
+
+	getcwd(cwd, sizeof(cwd));
+	pwd = creat_2D(3, "setenv", "PWD", arugments[1]);
+	oldpwd = creat_2D(3, "setenv", "OLDPWD", cwd);
+
+	if (arugments[1] && *arugments[1])
+	{
+		if (_strcmp(arugments[1], "-") == 0)
+		{
+			cd = get_env_value(*environ, "OLDPWD");
+
+			if (cd)
+			{
+				free(pwd[2]);
+				pwd[2] = cd;
+				chdir(cd);
+				getcwd(cwd, sizeof(cwd));
+				write(STDOUT_FILENO, cwd, _strlen(cwd));
+				write(STDOUT_FILENO, "\n", 1);
+			}
+			else
+			{
+				char *error = "./hsh: line 1: cd: OLDPWD not set\n";
+
+				write(STDERR_FILENO, error, _strlen(error));
+			}
+		}
+		else
+		{
+			if (chdir(arugments[1]) == -1)
+			{
+				if (errno == ENOENT)
+				{
+					char *error = ": No such file or directory\n";
+
+					write(STDERR_FILENO, "./hsh: line 1: cd: ", _strlen("./hsh: line 1: cd: "));
+					write(STDERR_FILENO, arugments[1], _strlen(arugments[1]));
+					write(STDERR_FILENO, error, _strlen(error));
+				}
+				else if (errno == EACCES)
+				{
+					char *error = ": Permission denied\n";
+
+					write(STDERR_FILENO, "./hsh: line 1: cd: ", _strlen("./hsh: line 1: cd: "));
+					write(STDERR_FILENO, arugments[1], _strlen(arugments[1]));
+					write(STDERR_FILENO, error, _strlen(error));
+				}
+				arguments_free(pwd);
+				arguments_free(oldpwd);
+				arguments_free(arugments);
+				return (0);
+			}
+		}
+	}
+	else
+	{
+		cd = get_env_value(*environ, "HOME");
+		if (cd)
+		{
+			free(pwd[2]);
+			pwd[2] = cd;
+			chdir(cd);
+		}
+		else
+		{
+			char *error = "./hsh: line 1: cd: HOME not set\n";
+
+			write(STDERR_FILENO, error, _strlen(error));
+		}
+	}
+	handle_setenv(pwd, environ);
+	handle_setenv(oldpwd, environ);
+	arguments_free(arugments);
+	return (0);
+}
+char **creat_2D(int size, ...)
+{
+	va_list args;
+	char **array = (char **)malloc(sizeof(char *) * (size + 1));
+	char *c_argument;
+	int i;
+
+	va_start(args, size);
+	for (i = 0; i < size; i++)
+	{
+		c_argument = va_arg(args, char *);
+		array[i] = _strdup(c_argument);
+	}
+	array[i] = NULL;
+	return (array);
 }
