@@ -7,7 +7,7 @@
 #include <errno.h>
 #include <stdarg.h>
 #include <string.h>
-#define BUFFER_SIZE 1024
+#define BUFFER_SIZE 255
 
 extern char **environ;
 int *_strchr(const char *str, int c);
