@@ -78,3 +78,18 @@ char *_strstr(char *the_big_str, char *the_little_str)
 	}
 	return (NULL);
 }
+void *_realloc(void *ptr, int new_size)
+{
+	void *temp;
+
+	if (!new_size)
+	{
+		free(ptr);
+		return (NULL);
+	}
+	temp = malloc(new_size);
+	intail_NULL(temp, new_size);
+	_memcopy(temp, ptr, new_size - 1);
+	free(ptr);
+	return (temp);
+}

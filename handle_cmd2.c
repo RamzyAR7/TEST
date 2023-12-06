@@ -133,6 +133,7 @@ int handle_exit(char **arguments, int status, char ***environ)
 	if (check == -1)
 	{
 		arguments_free(*environ);
+		buffers(NULL, NULL, 0);
 		exit(status);
 	}
 	else if (check == 2)
@@ -142,6 +143,7 @@ int handle_exit(char **arguments, int status, char ***environ)
 	else
 	{
 		arguments_free(*environ);
+		buffers(NULL, NULL, 0);
 		exit(exit_code);
 	}
 }

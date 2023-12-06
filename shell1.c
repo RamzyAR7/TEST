@@ -1,19 +1,53 @@
 #include "main.h"
+int _read(int fd, char *str, int str_size)
+{
+	int read_chars = 0;
+
+	read_chars = read(fd, str, str_size);
+	if ((str)[read_chars - 1] == '\n')
+		(str)[read_chars - 1] = '\0';
+	if (read_chars == -1)
+	{
+		free(str);
+		exit(2);
+	}
+	return (read_chars);
+}
+void buffers(char **all_str, char **c_command, int state)
+{
+	static char **str;
+	static char **command;
+
+	if (all_str)
+		str = all_str;
+	if (c_command)
+		command = c_command;
+	if (state == 0)
+	{
+		free(*str);
+		free(*command);
+	}
+}
 /**
  * get_input - gets input from the user
  * @buff: buffer to store input
  * @size: size of buffer
  * Return: void
  */
-void get_input(char *buff, int *size)
+void get_input(char **buff, int *size, int *buffer_size)
 {
-	*size = read(0, buff, BUFFER_SIZE - 1);
-	if (*size == -1)
-	{
-		exit(2);
-	}
-	if (buff[*size - 1] == '\n')
-		buff[*size - 1] = '\0';
+	int n = 1;
+
+	*size = _read(0, *buff, *buffer_size - 1);
+
+	if (*size >= *buffer_size - 1)
+		while (*size < *buffer_size - 1)
+		{
+			*buff = realloc(*buff, *buffer_size * ++n);
+			buffers(buff, NULL, 1);
+			*size = _read(0, *buff, *buffer_size - 1);
+		}
+	handle_str_spaces(*buff);
 }
 /**
  * get_path - gets the PATH variable from the environment
@@ -144,24 +178,30 @@ int main(int argc, char *argv[])
 	argv[argc - 1] = argv[argc - 1];
 	while (1)
 	{
-		char str[BUFFER_SIZE];
-		char c_command[BUFFER_SIZE];
-		int str_Size;
+		char *str = malloc(BUFFER_SIZE);
+		char *c_command = malloc(BUFFER_SIZE);
+		int read_size;
+		int buffer_size = BUFFER_SIZE;
+		int command_size = BUFFER_SIZE;
 
-		intail_NULL(str, sizeof(str));
-		intail_NULL(c_command, sizeof(c_command));
-		get_input(str, &str_Size);
-		handle_str_spaces(str);
+		intail_NULL(str, buffer_size);
+		intail_NULL(c_command, command_size);
+		get_input(&str, &read_size, &buffer_size);
+		buffers(&str, &c_command, 1);
 		getc_command(str, c_command, status, envp);
 		while (*c_command)
 		{
 			status = handle_command(c_command, &envp, status);
 			getc_command(str, c_command, status, envp);
 		}
-		if (str_Size == 0)
+		if (read_size == 0)
 		{
+			free(str);
+			free(c_command);
 			break;
 		}
+		free(str);
+		free(c_command);
 	}
 	arguments_free(envp);
 	if (status)

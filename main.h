@@ -20,7 +20,7 @@ int _strcmp(char *string1, char *string2);
 int _atoi(char *string);
 char *_strcat(char *s1, char *s2);
 void *_memcopy(char *copy_to, const char *copy_from, size_t n);
-void get_input(char *buff, int *size);
+void get_input(char **buff, int *size, int *buffer_size);
 void getc_command(char *str, char *c_command, int status, char **envp);
 char *get_path(char *envp[]);
 char check_many_commands(char *str);
@@ -55,4 +55,6 @@ void edit_command(char *str, int status, char **envp);
 void nts_recursive_helper(int num, char result[], int *index);
 void nts(int num, char result[]);
 void handle_scape(char *str);
+void *_realloc(void *ptr, int new_size);
+void buffers(char **all_str, char **c_command, int state);
 #endif
