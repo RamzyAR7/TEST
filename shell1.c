@@ -7,7 +7,7 @@
  */
 void get_input(char *buff, int *size)
 {
-	*size = read(0, buff, BUFSIZ - 1);
+	*size = read(0, buff, BUFFER_SIZE - 1);
 	if (*size == -1)
 	{
 		exit(2);
@@ -24,7 +24,7 @@ void get_input(char *buff, int *size)
 char *get_path(char *envp[])
 {
 	char *path = "PATH=";
-	char cur_env[BUFSIZ];
+	char cur_env[BUFFER_SIZE];
 	int i = 0;
 
 	while (envp[i])
@@ -41,8 +41,8 @@ char *get_path(char *envp[])
 }
 char *get_env_value(char *envp[], char *key)
 {
-	char path[1024];
-	char cur_env[BUFSIZ];
+	char path[BUFFER_SIZE];
+	char cur_env[BUFFER_SIZE];
 	int i = 0;
 
 	intail_NULL(path, sizeof(path));
@@ -93,7 +93,7 @@ void getc_command(char *str, char *c_command, int status, char **envp)
 	{
 		i++;
 	}
-	if (i < BUFSIZ)
+	if (i < BUFFER_SIZE)
 		while (str[i])
 		{
 			if (str[i] == '\n')
@@ -144,8 +144,8 @@ int main(int argc, char *argv[])
 	argv[argc - 1] = argv[argc - 1];
 	while (1)
 	{
-		char str[BUFSIZ];
-		char c_command[BUFSIZ];
+		char str[BUFFER_SIZE];
+		char c_command[BUFFER_SIZE];
 		int str_Size;
 
 		intail_NULL(str, sizeof(str));
@@ -173,9 +173,9 @@ int main(int argc, char *argv[])
 void handle_str_spaces(char *str)
 {
 	int i = 0;
-	char temp[BUFSIZ];
+	char temp[BUFFER_SIZE];
 
-	intail_NULL(temp, BUFSIZ);
+	intail_NULL(temp, BUFFER_SIZE);
 	while (str && str[i])
 	{
 		if (check_spaces(str, i) == 1)
@@ -235,9 +235,9 @@ void intail_NULL(char *str, int size)
 void edit_command(char *str, int status, char **envp)
 {
 	int i = 0;
-	char temp[BUFSIZ];
+	char temp[BUFFER_SIZE];
 
-	intail_NULL(temp, BUFSIZ);
+	intail_NULL(temp, BUFFER_SIZE);
 	for (i = 0; str[i]; i++)
 	{
 		if (_strcmp(str + i, "$$") == 0)
@@ -321,9 +321,9 @@ void nts(int num, char result[])
 void handle_scape(char *str)
 {
 	int i = 0;
-	char temp[BUFSIZ];
+	char temp[BUFFER_SIZE];
 
-	intail_NULL(temp, BUFSIZ);
+	intail_NULL(temp, BUFFER_SIZE);
 	for (i = 0; str[i]; i++)
 	{
 		if (str[i] == '\\')

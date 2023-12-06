@@ -195,7 +195,7 @@ int check_builtin(char *first_sigment)
 }
 int handle_cd(char **arugments, char ***environ)
 {
-	char cwd[BUFSIZ];
+	char cwd[BUFFER_SIZE];
 	char *cd = NULL;
 	char **pwd;
 	char **oldpwd;

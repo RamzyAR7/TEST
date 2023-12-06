@@ -29,7 +29,7 @@ int handle_setenv(char *argv[], char ***environ)
 {
 	int i = 0;
 	char **envp = *environ;
-	char buffer[BUFSIZ];
+	char buffer[BUFFER_SIZE];
 	if (argv && argv[1] && argv[2])
 	{
 
