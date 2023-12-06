@@ -234,9 +234,9 @@ int handle_cd(char **arugments, char ***environ)
 				{
 					char *error = "./hsh: 1: cd: can't cd to ";
 
-					strcat(error, arugments[1]);
-					strcat(error, "\n");
 					write(STDERR_FILENO, error, _strlen(error));
+					write(STDERR_FILENO, arugments[1], _strlen(arugments[1]));
+					write(STDERR_FILENO, "\n", 1);
 				}
 				else if (errno == EACCES)
 				{
