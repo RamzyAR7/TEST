@@ -118,7 +118,7 @@ int last_space(char *str)
  * Description: This function will modify the string passed to it.
  * It will replace the command with 2's and replace spaces with 2's.
  */
-void getc_command(char *str, char *c_command, int status, char **envp)
+void getc_command(char *str, char **c_command, int *cmd_size, int status, char **envp)
 {
 	int i = 0, j = 0;
 
@@ -153,14 +153,23 @@ void getc_command(char *str, char *c_command, int status, char **envp)
 			}
 			else
 			{
-				c_command[j] = str[i];
-				str[i] = 2;
-				i++;
-				j++;
+				if (j < *cmd_size - 2)
+				{
+					(*c_command)[j] = str[i];
+					str[i] = 2;
+					i++;
+					j++;
+				}
+				else
+				{
+					*c_command = _realloc(*c_command, *cmd_size * 2);
+					*cmd_size *= 2;
+					buffers(NULL, c_command, 1);
+				}
 			}
 		}
-	c_command[j] = '\0';
-	edit_command(c_command, status, envp);
+	(*c_command)[j] = '\0';
+	edit_command(*c_command, cmd_size, status, envp);
 }
 /**
  * main - entry point
@@ -188,11 +197,11 @@ int main(int argc, char *argv[])
 		intail_NULL(c_command, command_size);
 		get_input(&str, &read_size, &buffer_size);
 		buffers(&str, &c_command, 1);
-		getc_command(str, c_command, status, envp);
+		getc_command(str, &c_command, &command_size, status, envp);
 		while (*c_command)
 		{
 			status = handle_command(c_command, &envp, status);
-			getc_command(str, c_command, status, envp);
+			getc_command(str, &c_command, &command_size, status, envp);
 		}
 		if (read_size == 0)
 		{
@@ -272,12 +281,12 @@ void intail_NULL(char *str, int size)
 	for (i = 0; i < size; i++)
 		str[i] = '\0';
 }
-void edit_command(char *str, int status, char **envp)
+void edit_command(char *str, int *str_size, int status, char **envp)
 {
 	int i = 0;
-	char temp[BUFFER_SIZE];
+	char *temp = malloc(*str_size);
 
-	intail_NULL(temp, BUFFER_SIZE);
+	intail_NULL(temp, *str_size);
 	for (i = 0; str[i]; i++)
 	{
 		if (_strcmp(str + i, "$$") == 0)
@@ -333,6 +342,7 @@ void edit_command(char *str, int status, char **envp)
 			break;
 		}
 	}
+	free(temp);
 }
 void nts_recursive_helper(int num, char result[], int *index)
 {
