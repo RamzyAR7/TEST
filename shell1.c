@@ -7,7 +7,7 @@
  */
 void get_input(char *buff, int *size)
 {
-	*size = read(0, buff, BUFSIZ);
+	*size = read(0, buff, BUFSIZ - 1);
 	if (*size == -1)
 	{
 		exit(2);
