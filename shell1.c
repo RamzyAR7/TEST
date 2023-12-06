@@ -39,7 +39,6 @@ void get_input(char **buff, int *size, int *buffer_size)
 	int n = 1;
 
 	*size = _read(0, *buff, *buffer_size - 1);
-
 	if (*size >= *buffer_size - 1)
 		while (*size < *buffer_size - 1)
 		{
@@ -174,9 +173,10 @@ int main(int argc, char *argv[])
 {
 	char **envp = env_dup(environ);
 	int status = 0;
+	int active_mode = isatty(STDIN_FILENO);
 
 	argv[argc - 1] = argv[argc - 1];
-	while (1)
+	do
 	{
 		char *str = malloc(BUFFER_SIZE);
 		char *c_command = malloc(BUFFER_SIZE);
@@ -202,7 +202,7 @@ int main(int argc, char *argv[])
 		}
 		free(str);
 		free(c_command);
-	}
+	} while (active_mode);
 	arguments_free(envp);
 	if (status)
 		exit(status);
