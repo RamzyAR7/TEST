@@ -155,6 +155,7 @@ int handle_error(char **envp, char *first_sigment, char *path)
 {
 	char error[1024];
 
+	handle_env(envp);
 	_strcpy(error, "./hsh: line 1: ");
 	if (!envp[0] || !*envp[0] || _strcmp(envp[0], "_=") == 0 ||
 		!_strchr(envp[0], '='))
