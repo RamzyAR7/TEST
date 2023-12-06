@@ -12,10 +12,10 @@ void arguments_free(char **arguments)
 
 	for (i = 0; arguments[i]; i++)
 	{
-		free(arguments[i]);
+		_Free(arguments[i]);
 	}
-	free(arguments[i]);
-	free(arguments);
+	_Free(arguments[i]);
+	_Free(arguments);
 	arguments = NULL;
 }
 /**
@@ -29,43 +29,40 @@ void arguments_free(char **arguments)
  * Description: This function is not portable. It will only work on Linux.
  * This function is not portable. It will only work on Linux.
  */
-int handle_curCommand(char *first_sigment,
-					  char **arguments, char ***environ, int status)
+int handle_curCommand(char *first_sigment, char **arguments)
 {
 	char *c_path;
-	char **envp = *environ;
 
 	if (_strchr(first_sigment, '/') && access(first_sigment, X_OK) == 0)
 	{
 		c_path = first_sigment;
-		status = handle_exce(c_path, arguments, envp);
-		if (status)
-			status = 2;
-		return (status);
+		handle_exce(c_path, arguments);
+		if (State)
+			_state(2);
+		return (State);
 	}
 	else if (check_builtin(first_sigment))
 	{
-		status = handle_builtin(first_sigment, arguments, environ, status);
-		return (status);
+		handle_builtin(first_sigment, arguments);
+		return (State);
 	}
 	else
 	{
-		char *path = get_path(envp);
+		char *path = get_path(Environment);
 
 		c_path = find_path(path, first_sigment);
 		if (c_path)
 		{
-			status = handle_exce(c_path, arguments, envp);
-			free(c_path);
-			return (status);
+			handle_exce(c_path, arguments);
+			_Free(c_path);
 		}
 		else
 		{
-			status = handle_error(envp, first_sigment, path);
+			handle_error(first_sigment, path);
 			arguments_free(arguments);
-			return (status);
 		}
 	}
+	return (State);
 }
 /**
  * handle_builtin - handles the builtin command
@@ -77,31 +74,29 @@ int handle_curCommand(char *first_sigment,
  * Description: This function is not portable. It will only work on Linux.
  * This function is not portable. It will only work on Linux.
  */
-int handle_builtin(char *first_sigment, char **arguments, char ***environ,
-				   int status)
+int handle_builtin(char *first_sigment, char **arguments)
 {
-	char **envp = *environ;
 
 	if (_strcmp(first_sigment, "exit") == 0)
 	{
-		return (handle_exit(arguments, status, environ));
+		return (handle_exit(arguments));
 	}
 	else if (_strcmp(first_sigment, "cd") == 0)
 	{
-		return (handle_cd(arguments, environ));
+		return (handle_cd(arguments));
 	}
 	else if (_strcmp(first_sigment, "env") == 0)
 	{
 		arguments_free(arguments);
-		return (handle_env(envp));
+		return (handle_env(Environment));
 	}
 	else if (_strcmp(first_sigment, "setenv") == 0)
 	{
-		return (handle_setenv(arguments, environ));
+		return (handle_setenv(arguments));
 	}
 	else if (_strcmp(first_sigment, "unsetenv") == 0)
 	{
-		return (handle_unsetenv(arguments, envp));
+		return (handle_unsetenv(arguments));
 	}
 	else if (_strcmp(first_sigment, "alias") == 0)
 	{
@@ -124,7 +119,7 @@ int handle_builtin(char *first_sigment, char **arguments, char ***environ,
  * Description: This function is not portable. It will only work on Linux.
  * This function is not portable. It will only work on Linux.
  */
-int handle_exit(char **arguments, int status, char ***environ)
+int handle_exit(char **arguments)
 {
 	int exit_code = exit_code = _atoi(arguments[1]);
 	int check = checkExitArugment(arguments[1]);
@@ -132,9 +127,9 @@ int handle_exit(char **arguments, int status, char ***environ)
 	arguments_free(arguments);
 	if (check == -1)
 	{
-		arguments_free(*environ);
+		_enviornment(NULL, 0);
 		buffers(NULL, NULL, 0);
-		exit(status);
+		exit(State);
 	}
 	else if (check == 2)
 	{
@@ -142,7 +137,7 @@ int handle_exit(char **arguments, int status, char ***environ)
 	}
 	else
 	{
-		arguments_free(*environ);
+		_enviornment(NULL, 0);
 		buffers(NULL, NULL, 0);
 		exit(exit_code);
 	}
@@ -193,7 +188,7 @@ int check_builtin(char *first_sigment)
 	}
 	return (0);
 }
-int handle_cd(char **arugments, char ***environ)
+int handle_cd(char **arugments)
 {
 	char cwd[BUFFER_SIZE];
 	char *cd = NULL;
@@ -208,11 +203,10 @@ int handle_cd(char **arugments, char ***environ)
 	{
 		if (_strcmp(arugments[1], "-") == 0)
 		{
-			cd = get_env_value(*environ, "OLDPWD");
-
+			cd = get_env_value("OLDPWD");
 			if (cd)
 			{
-				free(pwd[2]);
+				_Free(pwd[2]);
 				pwd[2] = cd;
 				chdir(cd);
 				getcwd(cwd, sizeof(cwd));
@@ -224,6 +218,7 @@ int handle_cd(char **arugments, char ***environ)
 				char *error = "./hsh: line 1: cd: OLDPWD not set\n";
 
 				write(STDERR_FILENO, error, _strlen(error));
+				_Free(oldpwd[2]);
 			}
 		}
 		else
@@ -255,12 +250,13 @@ int handle_cd(char **arugments, char ***environ)
 	}
 	else
 	{
-		cd = get_env_value(*environ, "HOME");
+		cd = get_env_value("HOME");
 		if (cd)
 		{
-			free(pwd[2]);
+			_Free(pwd[2]);
 			pwd[2] = cd;
 			chdir(cd);
+			_Free(cd);
 		}
 		else
 		{
@@ -269,8 +265,8 @@ int handle_cd(char **arugments, char ***environ)
 			write(STDERR_FILENO, error, _strlen(error));
 		}
 	}
-	handle_setenv(pwd, environ);
-	handle_setenv(oldpwd, environ);
+	handle_setenv(pwd);
+	handle_setenv(oldpwd);
 	arguments_free(arugments);
 	return (0);
 }

@@ -25,34 +25,34 @@ int h_env(void)
 	return (0);
 }
 
-int handle_setenv(char *argv[], char ***environ)
+int handle_setenv(char *argv[])
 {
 	int i = 0;
-	char **envp = *environ;
-	char buffer[BUFFER_SIZE];
+	char *buffer = NULL;
+
 	if (argv && argv[1] && argv[2])
 	{
-
+		buffer = malloc(_strlen(argv[1]) + _strlen(argv[2]) + 2);
 		_strcpy(buffer, argv[1]);
 		_strcat(buffer, "=");
 		_strcat(buffer, argv[2]);
 
-		while (envp[i] != NULL)
+		while (Environment[i] != NULL)
 		{
-			if (_strstr(envp[i], argv[1]) == envp[i] && envp[i][_strlen(argv[1])] == '=')
+			if (_strstr(Environment[i], argv[1]) == Environment[i] && Environment[i][_strlen(argv[1])] == '=')
 			{
-				free(envp[i]);
-				envp[i] = _strdup(buffer);
+				free(Environment[i]);
+				Environment[i] = buffer;
 				arguments_free(argv);
-				free_buff(buffer);
 				return (0);
 			}
 			i++;
 		}
 
-		add_args(environ, buffer);
+		add_args(Environment_ptr, buffer);
 		arguments_free(argv);
 		free_buff(buffer);
+		_Free(buffer);
 		return (0);
 	}
 	else

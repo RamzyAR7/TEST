@@ -39,7 +39,7 @@ char **env_dup(char *envp[])
 
 	if (envp_dup == NULL)
 	{
-		free(envp_dup);
+		_Free(envp_dup);
 	}
 
 	for (i = 0; envp[i]; i++)
@@ -84,13 +84,13 @@ void *_realloc(void *ptr, int new_size)
 
 	if (!new_size)
 	{
-		free(ptr);
+		_Free(ptr);
 		return (NULL);
 	}
 	temp = malloc(new_size);
 	intail_NULL(temp, new_size);
 	_memcopy(temp, ptr, new_size - 1);
-	free(ptr);
+	_Free(ptr);
 	return (temp);
 }
 int empty_text(char *str)

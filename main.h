@@ -8,6 +8,10 @@
 #include <stdarg.h>
 #include <string.h>
 #define BUFFER_SIZE 255
+#define Get_state -1024
+#define Environment_ptr _enviornment(NULL, 1)
+#define Environment (*_enviornment(NULL, 1))
+#define State _state(Get_state)
 #define _Free(a) (_free((void *)&(a)))
 extern char **environ;
 int *_strchr(const char *str, int c);
@@ -21,37 +25,35 @@ int _atoi(char *string);
 char *_strcat(char *s1, char *s2);
 void *_memcopy(char *copy_to, const char *copy_from, size_t n);
 void get_input(char **buff, int *size, int *buffer_size);
-void getc_command(char *str, char **c_command, int *cmd_size, int status, char **envp);
+void getc_command(char *str, char **c_command, int *cmd_size);
 char *get_path(char *envp[]);
 char check_many_commands(char *str);
 void add_args(char ***arguments_array, char *argument);
-int handle_command(char *command, char ***envp, int status);
-int execute_cmd(char *path, char **args, char **envp);
+int handle_command(char *command);
+int execute_cmd(char *path, char **args);
 char *find_path(char *path, char *input);
-int handle_exce(char *c_path, char **argumnet, char **envp);
+int handle_exce(char *c_path, char **argumnet);
 void arguments_free(char **arguments);
-int handle_error(char **envp, char *first_sigment, char *path);
-int handle_curCommand(char *first_sigment,
-					  char **arguments, char ***environ, int status);
-int handle_exit(char **arguments, int status, char ***environ);
-int handle_builtin(char *first_sigment, char **arguments, char ***environ,
-				   int status);
+int handle_error(char *first_sigment, char *path);
+int handle_curCommand(char *first_sigment, char **arguments);
+int handle_exit(char **arguments);
+int handle_builtin(char *first_sigment, char **arguments);
 int check_builtin(char *first_sigment);
 int checkExitArugment(char *str);
 int handle_env(char *envp[]);
 int h_env(void);
 char **env_dup(char *envp[]);
-int handle_setenv(char *argv[], char **environ[]);
+int handle_setenv(char *argv[]);
 void free_buff(char *str);
-int handle_unsetenv(char *argv[], char *envp[]);
+int handle_unsetenv(char *argv[]);
 char *_strstr(char *the_big_str, char *the_little_str);
 void handle_str_spaces(char *str, int str_size);
 int check_spaces(char *str, int i);
 void intail_NULL(char *str, int size);
-int handle_cd(char **arugments, char ***environ);
-char *get_env_value(char *envp[], char *key);
+int handle_cd(char **arugments);
+char *get_env_value(char *key);
 char **creat_2D(int size, ...);
-void edit_command(char **str_ptr, int *str_size, int status, char **envp);
+void edit_command(char **str_ptr, int *str_size);
 void nts_recursive_helper(int num, char result[], int *index);
 void nts(int num, char result[]);
 void handle_scape(char *str);
@@ -60,4 +62,6 @@ void buffers(char **all_str, char **c_command, int state);
 int empty_text(char *str);
 int remove_read_spaces(char *str);
 void _free(void **ptr);
+char ***_enviornment(char **envp, int state);
+int _state(int c_state);
 #endif

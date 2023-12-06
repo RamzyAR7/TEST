@@ -6,9 +6,9 @@
  * @envp: environment variables
  * Return: 0 if successful, otherwise -1
  */
-int execute_cmd(char *path, char **args, char **envp)
+int execute_cmd(char *path, char **args)
 {
-	execve(path, args, envp);
+	execve(path, args, Environment);
 
 	exit(2);
 }

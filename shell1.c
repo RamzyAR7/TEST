@@ -81,27 +81,33 @@ char *get_path(char *envp[])
 	}
 	return (NULL);
 }
-char *get_env_value(char *envp[], char *key)
+char *get_env_value(char *key)
 {
-	char path[BUFFER_SIZE];
-	char cur_env[BUFFER_SIZE];
+	char *path = NULL;
+	char *cur_env = NULL;
+	char *value = NULL;
 	int i = 0;
 
-	intail_NULL(path, sizeof(path));
-	intail_NULL(cur_env, sizeof(cur_env));
-	_strcpy(path, key);
-	_strcat(path, "=");
-	while (envp[i])
+	if (key && *key)
 	{
-		_strcpy(cur_env, envp[i]);
-		cur_env[_strlen(path)] = '\0';
-		if (_strcmp(path, cur_env) == 0)
+		path = _strdup(key);
+		path = _realloc(path, _strlen(path) + 2);
+		_strcat(path, "=");
+
+		while (Environment[i])
 		{
-			return (_strdup(envp[i] + _strlen(path)));
+			cur_env = Environment[i];
+			if (_strstr(cur_env, path) == cur_env)
+			{
+				value = _strdup(cur_env + _strlen(path));
+				_Free(path);
+				return (value);
+			}
+			i++;
 		}
-		i++;
 	}
-	return (NULL);
+	_Free(path);
+	return (value);
 }
 /**
  * last_space - checks if the last character in a string is a space
@@ -127,7 +133,7 @@ int last_space(char *str)
  * Description: This function will modify the string passed to it.
  * It will replace the command with 2's and replace spaces with 2's.
  */
-void getc_command(char *str, char **c_command, int *cmd_size, int status, char **envp)
+void getc_command(char *str, char **c_command, int *cmd_size)
 {
 	int i = 0, j = 0;
 
@@ -177,7 +183,7 @@ void getc_command(char *str, char **c_command, int *cmd_size, int status, char *
 		}
 	}
 	(*c_command)[j] = '\0';
-	edit_command(c_command, cmd_size, status, envp);
+	edit_command(c_command, cmd_size);
 }
 /**
  * main - entry point
@@ -186,12 +192,11 @@ void getc_command(char *str, char **c_command, int *cmd_size, int status, char *
  * @envp: array of environment variables
  * Return: 0 if successful, otherwise 1
  */
-int main(int argc, char *argv[])
+int main(int argc, char *argv[], char *envp[])
 {
-	char **envp = env_dup(environ);
-	int status = 0;
 	int active_mode = isatty(STDIN_FILENO);
 
+	_enviornment(env_dup(envp), 1);
 	argv[argc - 1] = argv[argc - 1];
 	do
 	{
@@ -205,12 +210,12 @@ int main(int argc, char *argv[])
 		intail_NULL(c_command, command_size);
 		get_input(&str, &read_size, &buffer_size);
 		buffers(&str, &c_command, 1);
-		getc_command(str, &c_command, &command_size, status, envp);
+		getc_command(str, &c_command, &command_size);
 		while (*c_command)
 		{
-			status = handle_command(c_command, &envp, status);
+			handle_command(c_command);
 
-			getc_command(str, &c_command, &command_size, status, envp);
+			getc_command(str, &c_command, &command_size);
 		}
 		if (read_size == 0)
 		{
@@ -221,11 +226,11 @@ int main(int argc, char *argv[])
 		_Free(str);
 		_Free(c_command);
 	} while (active_mode);
-	arguments_free(envp);
-	if (status)
-		exit(status);
+	_enviornment(NULL, 0);
+	if (State)
+		exit(State);
 	else
-		return (status);
+		return (State);
 }
 
 void handle_str_spaces(char *str, int str_size)
@@ -291,7 +296,7 @@ void intail_NULL(char *str, int size)
 	for (i = 0; i < size; i++)
 		str[i] = '\0';
 }
-void edit_command(char **str_ptr, int *str_size, int status, char **envp)
+void edit_command(char **str_ptr, int *str_size)
 {
 	int i = 0;
 	int temp_size = *str_size;
@@ -315,8 +320,8 @@ void edit_command(char **str_ptr, int *str_size, int status, char **envp)
 		{
 			char last_exit_code[255];
 
-			if (status)
-				nts(status, last_exit_code);
+			if (State)
+				nts(State, last_exit_code);
 			else
 				nts(errno, last_exit_code);
 
@@ -329,15 +334,16 @@ void edit_command(char **str_ptr, int *str_size, int status, char **envp)
 			char *value;
 			int j = 0;
 
-			while (str[j] && str[j] != ' ')
+			while (str[i + j] && str[i + j] != ' ')
 				j++;
 			_memcopy(temp, str + i + 1, ++j);
 			temp[j] = '\0';
-			value = get_env_value(envp, temp);
+			value = get_env_value(temp);
 
 			_strcpy(temp, str);
 			if (value)
 			{
+
 				if (*str_size - 2 < i + _strlen(value) + _strlen(temp + i + j) + 1)
 				{
 					*str_ptr = _realloc(str_ptr, i + _strlen(value) + _strlen(temp + i + j) + 2);
@@ -350,7 +356,7 @@ void edit_command(char **str_ptr, int *str_size, int status, char **envp)
 			}
 			else
 			{
-				_strcpy(str + i, temp + i + j + 1);
+				_strcpy(str + i, temp + i + j);
 			}
 		}
 		else if (str[i] == '#')
@@ -403,5 +409,34 @@ void handle_scape(char *str)
 			_strcpy(temp, str);
 			_strcpy(str + i, temp + i + 1);
 		}
+	}
+}
+char ***_enviornment(char **envp, int state)
+{
+	static char **enviornment;
+
+	if (state && envp)
+	{
+		enviornment = envp;
+	}
+	if (!state)
+	{
+		arguments_free(enviornment);
+	}
+	return (&enviornment);
+}
+int _state(int c_state)
+{
+	static int state;
+
+	state = c_state;
+	if (c_state == Get_state)
+	{
+		return (state);
+	}
+	else
+	{
+		state = c_state;
+		return (state);
 	}
 }

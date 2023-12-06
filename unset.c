@@ -1,28 +1,28 @@
 #include "main.h"
 
-int handle_unsetenv(char *argv[], char *envp[])
+int handle_unsetenv(char *argv[])
 {
 	int i = 0, x = 0;
 
-	if (argv && argv[1])
-		while (envp[i])
+	if (Environment && Environment[1])
+		while (Environment[i])
 		{
-			if (_strstr(envp[i], argv[1]) == envp[i] && envp[i][_strlen(argv[1])] == '=')
+			if (_strstr(Environment[i], argv[1]) == Environment[i] && Environment[i][_strlen(Environment[1])] == '=')
 			{
-				free(envp[i]);
-				envp[i] = envp[i + 1];
+				free(Environment[i]);
+				Environment[i] = Environment[i + 1];
 				x = i + 1;
 
-				while (envp[x])
+				while (Environment[x])
 				{
-					envp[x] = envp[x + 1];
+					Environment[x] = Environment[x + 1];
 					x++;
 				}
-				arguments_free(argv);
+				_enviornment(NULL, 0);
 				return (0);
 			}
 			i++;
 		}
-	arguments_free(argv);
+	_enviornment(NULL, 0);
 	return (-1);
 }
