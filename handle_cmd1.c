@@ -156,9 +156,9 @@ int handle_error(char **envp, char *first_sigment, char *path)
 	char error[1024];
 
 	_strcpy(error, "./hsh: line 1: ");
+	printf("enp[0]:%s\n", envp[0]);
 	if (_strchr(envp[0], '_') || !_strchr(envp[0], '='))
 	{
-		printf("enp[0]:%s\n", envp[0]);
 		_strcpy(error, "./hsh: 1: ");
 		_strcpy(error + _strlen(error), first_sigment);
 		write(STDERR_FILENO, error, _strlen(error));
