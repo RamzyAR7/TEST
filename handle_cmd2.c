@@ -159,15 +159,13 @@ int checkExitArugment(char *str)
 	{
 		for (i = 0; str[i]; i++)
 		{
-			if (i == 0 && str[i] == '-')
-				continue;
 			if (str[i] < '0' || str[i] > '9')
 			{
 				char error[1024];
 
-				_strcpy(error, "./hsh: line 1: exit: ");
+				_strcpy(error, "./hsh: 1: exit: Illegal number: ");
 				_strcpy(error + _strlen(error), str);
-				_strcpy(error + _strlen(error), ": numeric argument required\n");
+				_strcpy(error + _strlen(error), "\n");
 				write(STDERR_FILENO, error, _strlen(error));
 				return (2);
 			}
