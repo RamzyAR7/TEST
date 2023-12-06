@@ -38,9 +38,9 @@ void get_input(char **buff, int *size, int *buffer_size)
 {
 	int max_read = *buffer_size - 1;
 	int read = max_read;
-	char *temp = malloc(max_read);
+	char *temp = malloc(max_read + 1);
 
-	intail_NULL(temp, max_read);
+	intail_NULL(temp, max_read + 1);
 	while (read == max_read)
 	{
 		read = _read(0, temp, max_read);

@@ -124,7 +124,9 @@ int remove_read_spaces(char *str)
 		}
 		else
 		{
-			_strcpy(str, str + i);
+			char *ptr = str + i;
+
+			_strcpy(str, ptr);
 		}
 	}
 	i = 0;
@@ -136,9 +138,19 @@ int remove_read_spaces(char *str)
 			int j = empty_text(str + i + 1);
 
 			if (j)
-				_strcpy(str + i + 1, str + i + j + 1);
+			{
+				char *ptr = str + i + 1;
+				char *ptr2 = str + i + j + 1;
+
+				_strcpy(ptr, ptr2);
+			}
 			else
-				intail_NULL(str + i, strSize);
+			{
+				char *ptr = str + i;
+
+				strSize = _strlen(str);
+				intail_NULL(ptr, strSize);
+			}
 		}
 		i++;
 	}
