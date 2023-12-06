@@ -8,7 +8,7 @@ int _read(int fd, char *str, int str_size)
 		(str)[read_chars - 1] = '\0';
 	if (read_chars == -1)
 	{
-		free(str);
+		_Free(str);
 		exit(2);
 	}
 	return (read_chars);
@@ -24,8 +24,8 @@ void buffers(char **all_str, char **c_command, int state)
 		command = c_command;
 	if (state == 0)
 	{
-		free(*str);
-		free(*command);
+		_Free(*str);
+		_Free(*command);
 	}
 }
 /**
@@ -36,22 +36,25 @@ void buffers(char **all_str, char **c_command, int state)
  */
 void get_input(char **buff, int *size, int *buffer_size)
 {
-	int n = 1;
-	int read = 0;
+	int max_read = *buffer_size - 1;
+	int read = max_read;
+	char *temp = malloc(max_read);
 
-	read = _read(0, *buff, *buffer_size - 1);
-	*size += read;
-	if (*size >= *buffer_size - 1)
+	intail_NULL(temp, max_read);
+	while (read == max_read)
 	{
-		while (read == *buffer_size - 1)
+		read = _read(0, temp, max_read);
+		*size += remove_read_spaces(temp);
+
+		if (*size > *buffer_size - 1)
 		{
-			*buff = _realloc(*buff, *buffer_size * (++n));
-			buffers(buff, NULL, 1);
-			read = _read(0, *buff + *size, *buffer_size - 1);
-			*size += read;
+			*buff = _realloc(*buff, *size + 1);
+			*buffer_size = *size;
 		}
-		*buffer_size *= n;
+		_strcat(*buff, temp);
+		buffers(buff, NULL, 1);
 	}
+	_Free(temp);
 	handle_str_spaces(*buff, *buffer_size);
 }
 /**
@@ -187,36 +190,38 @@ int main(int argc, char *argv[])
 {
 	char **envp = env_dup(environ);
 	int status = 0;
-	int active_mode = isatty(STDIN_FILENO);
+	int active_mode = 1;
 
 	argv[argc - 1] = argv[argc - 1];
-	do
+	while (active_mode)
 	{
 		char *str = malloc(BUFFER_SIZE);
 		char *c_command = malloc(BUFFER_SIZE);
-		int read_size;
+		int read_size = 0;
 		int buffer_size = BUFFER_SIZE;
 		int command_size = BUFFER_SIZE;
 
 		intail_NULL(str, buffer_size);
 		intail_NULL(c_command, command_size);
+		active_mode = isatty(STDIN_FILENO);
 		get_input(&str, &read_size, &buffer_size);
 		buffers(&str, &c_command, 1);
 		getc_command(str, &c_command, &command_size, status, envp);
 		while (*c_command)
 		{
 			status = handle_command(c_command, &envp, status);
+
 			getc_command(str, &c_command, &command_size, status, envp);
 		}
 		if (read_size == 0)
 		{
-			free(str);
-			free(c_command);
+			_Free(str);
+			_Free(c_command);
 			break;
 		}
-		free(str);
-		free(c_command);
-	} while (active_mode);
+		_Free(str);
+		_Free(c_command);
+	};
 	arguments_free(envp);
 	if (status)
 		exit(status);
@@ -253,7 +258,7 @@ void handle_str_spaces(char *str, int str_size)
 		}
 		i++;
 	}
-	free(temp);
+	_Free(temp);
 }
 
 int check_spaces(char *str, int i)
@@ -342,7 +347,7 @@ void edit_command(char **str_ptr, int *str_size, int status, char **envp)
 				}
 				_strcpy(str + i, value);
 				_strcat(str + i + _strlen(value), temp + i + j);
-				free(value);
+				_Free(value);
 			}
 			else
 			{
@@ -356,7 +361,7 @@ void edit_command(char **str_ptr, int *str_size, int status, char **envp)
 			break;
 		}
 	}
-	free(temp);
+	_Free(temp);
 }
 void nts_recursive_helper(int num, char result[], int *index)
 {

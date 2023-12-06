@@ -8,7 +8,7 @@
 #include <stdarg.h>
 #include <string.h>
 #define BUFFER_SIZE 255
-
+#define _Free(a) (_free((void *)&(a)))
 extern char **environ;
 int *_strchr(const char *str, int c);
 char *_strtok(char *str, const char *delimiters);
@@ -57,4 +57,7 @@ void nts(int num, char result[]);
 void handle_scape(char *str);
 void *_realloc(void *ptr, int new_size);
 void buffers(char **all_str, char **c_command, int state);
+int empty_text(char *str);
+int remove_read_spaces(char *str);
+void _free(void **ptr);
 #endif

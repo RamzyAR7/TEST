@@ -93,3 +93,63 @@ void *_realloc(void *ptr, int new_size)
 	free(ptr);
 	return (temp);
 }
+int empty_text(char *str)
+{
+	int i = 0;
+
+	while (str[i])
+	{
+		if (str[i] != ' ')
+			return (i);
+		i++;
+	}
+	return (0);
+}
+
+int remove_read_spaces(char *str)
+{
+	int strSize = _strlen(str);
+	int i = 0;
+
+	while (str[i] == ' ')
+	{
+		i++;
+	}
+	if (i)
+	{
+		if (i == strSize - 2)
+		{
+			intail_NULL(str, strSize);
+			return (0);
+		}
+		else
+		{
+			_strcpy(str, str + i);
+		}
+	}
+	i = 0;
+
+	while (str[i])
+	{
+		if (str[i] == ' ' && str[i + 1] == ' ')
+		{
+			int j = empty_text(str + i + 1);
+			printf("j=%d\n", j);
+			if (j)
+				_strcpy(str + i + 1, str + i + j + 1);
+			else
+				intail_NULL(str + i, strSize);
+		}
+		i++;
+	}
+	return (_strlen(str));
+}
+
+void _free(void **ptr)
+{
+	if (*ptr)
+	{
+		free(*ptr);
+		*ptr = NULL;
+	}
+}

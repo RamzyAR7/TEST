@@ -38,19 +38,18 @@ void add_args(char ***arguments_array, char *argument)
 		i++;
 
 	temp = (char **)malloc((i + 2) * sizeof(char *));
-
 	for (j = 0; j < i; j++)
 	{
 		temp[j] = (char *)malloc(_strlen((*arguments_array)[j]) + 1);
 		_strcpy(temp[j], (*arguments_array)[j]);
-		free((*arguments_array)[j]);
+		_Free((*arguments_array)[j]);
 	}
 	temp[i] = (char *)malloc(_strlen(argument) + 1);
 	_strcpy(temp[i], argument);
 
 	temp[i + 1] = NULL;
 
-	free(*arguments_array);
+	_Free(*arguments_array);
 
 	*arguments_array = temp;
 }
