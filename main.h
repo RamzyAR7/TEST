@@ -51,7 +51,7 @@ void intail_NULL(char *str, int size);
 int handle_cd(char **arugments, char ***environ);
 char *get_env_value(char *envp[], char *key);
 char **creat_2D(int size, ...);
-void edit_command(char *str, int *str_size, int status, char **envp);
+void edit_command(char **str_ptr, int *str_size, int status, char **envp);
 void nts_recursive_helper(int num, char result[], int *index);
 void nts(int num, char result[]);
 void handle_scape(char *str);

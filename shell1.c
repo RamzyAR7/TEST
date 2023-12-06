@@ -169,7 +169,7 @@ void getc_command(char *str, char **c_command, int *cmd_size, int status, char *
 			}
 		}
 	(*c_command)[j] = '\0';
-	edit_command(*c_command, cmd_size, status, envp);
+	edit_command(c_command, cmd_size, status, envp);
 }
 /**
  * main - entry point
@@ -281,10 +281,12 @@ void intail_NULL(char *str, int size)
 	for (i = 0; i < size; i++)
 		str[i] = '\0';
 }
-void edit_command(char *str, int *str_size, int status, char **envp)
+void edit_command(char **str_ptr, int *str_size, int status, char **envp)
 {
 	int i = 0;
-	char *temp = malloc(*str_size);
+	int temp_size = *str_size;
+	char *temp = malloc(temp_size);
+	char *str = *str_ptr;
 
 	intail_NULL(temp, *str_size);
 	for (i = 0; str[i]; i++)
@@ -319,13 +321,18 @@ void edit_command(char *str, int *str_size, int status, char **envp)
 
 			while (str[j] && str[j] != ' ')
 				j++;
-
 			_memcopy(temp, str + i + 1, ++j);
 			temp[j] = '\0';
 			value = get_env_value(envp, temp);
+
 			_strcpy(temp, str);
 			if (value)
 			{
+				if (*str_size - 2 < i + _strlen(value) + _strlen(temp + i + j) + 1)
+				{
+					*str_ptr = _realloc(str_ptr, i + _strlen(value) + _strlen(temp + i + j) + 2);
+					*str_size = i + _strlen(value) + _strlen(temp + i + j) + 2;
+				}
 				_strcpy(str + i, value);
 				_strcat(str + i + _strlen(value), temp + i + j);
 				free(value);
