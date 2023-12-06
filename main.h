@@ -45,7 +45,7 @@ int handle_setenv(char *argv[], char **environ[]);
 void free_buff(char *str);
 int handle_unsetenv(char *argv[], char *envp[]);
 char *_strstr(char *the_big_str, char *the_little_str);
-void handle_str_spaces(char *str);
+void handle_str_spaces(char *str, int str_size);
 int check_spaces(char *str, int i);
 void intail_NULL(char *str, int size);
 int handle_cd(char **arugments, char ***environ);

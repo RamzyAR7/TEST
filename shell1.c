@@ -37,16 +37,22 @@ void buffers(char **all_str, char **c_command, int state)
 void get_input(char **buff, int *size, int *buffer_size)
 {
 	int n = 1;
+	int read = 0;
 
-	*size = _read(0, *buff, *buffer_size - 1);
+	read = _read(0, *buff, *buffer_size - 1);
+	*size += read;
 	if (*size >= *buffer_size - 1)
-		while (*size < *buffer_size - 1)
+	{
+		while (read == *buffer_size - 1)
 		{
-			*buff = realloc(*buff, *buffer_size * ++n);
+			*buff = _realloc(*buff, *buffer_size * (++n));
 			buffers(buff, NULL, 1);
-			*size = _read(0, *buff, *buffer_size - 1);
+			read = _read(0, *buff + *size, *buffer_size - 1);
+			*size += read;
 		}
-	handle_str_spaces(*buff);
+		*buffer_size *= n;
+	}
+	handle_str_spaces(*buff, *buffer_size);
 }
 /**
  * get_path - gets the PATH variable from the environment
@@ -126,48 +132,47 @@ void getc_command(char *str, char **c_command, int *cmd_size, int status, char *
 	{
 		i++;
 	}
-	if (i < BUFFER_SIZE)
-		while (str[i])
+	while (str[i])
+	{
+		if (str[i] == '\n')
 		{
-			if (str[i] == '\n')
+			if (str[i + 1] != '\n')
 			{
-				if (str[i + 1] != '\n')
-				{
-					str[i] = 2;
-					break;
-				}
-				else
-				{
-					str[i] = 2;
-					i++;
-				}
-			}
-			else if (str[i] == ' ' && !last_space(str + i))
-			{
+				str[i] = 2;
 				break;
-			}
-			else if (str[i] == ' ' && str[i + 1] == ' ')
-			{
-				i++;
-				continue;
 			}
 			else
 			{
-				if (j < *cmd_size - 2)
-				{
-					(*c_command)[j] = str[i];
-					str[i] = 2;
-					i++;
-					j++;
-				}
-				else
-				{
-					*c_command = _realloc(*c_command, *cmd_size * 2);
-					*cmd_size *= 2;
-					buffers(NULL, c_command, 1);
-				}
+				str[i] = 2;
+				i++;
 			}
 		}
+		else if (str[i] == ' ' && !last_space(str + i))
+		{
+			break;
+		}
+		else if (str[i] == ' ' && str[i + 1] == ' ')
+		{
+			i++;
+			continue;
+		}
+		else
+		{
+			if (j < *cmd_size - 2)
+			{
+				(*c_command)[j] = str[i];
+				str[i] = 2;
+				i++;
+				j++;
+			}
+			else
+			{
+				*c_command = _realloc(*c_command, *cmd_size * 2);
+				*cmd_size *= 2;
+				buffers(NULL, c_command, 1);
+			}
+		}
+	}
 	(*c_command)[j] = '\0';
 	edit_command(c_command, cmd_size, status, envp);
 }
@@ -219,10 +224,10 @@ int main(int argc, char *argv[])
 		return (status);
 }
 
-void handle_str_spaces(char *str)
+void handle_str_spaces(char *str, int str_size)
 {
 	int i = 0;
-	char temp[BUFFER_SIZE];
+	char *temp = malloc(str_size);
 
 	intail_NULL(temp, BUFFER_SIZE);
 	while (str && str[i])
@@ -248,6 +253,7 @@ void handle_str_spaces(char *str)
 		}
 		i++;
 	}
+	free(temp);
 }
 
 int check_spaces(char *str, int i)
@@ -332,6 +338,7 @@ void edit_command(char **str_ptr, int *str_size, int status, char **envp)
 				{
 					*str_ptr = _realloc(str_ptr, i + _strlen(value) + _strlen(temp + i + j) + 2);
 					*str_size = i + _strlen(value) + _strlen(temp + i + j) + 2;
+					buffers(NULL, str_ptr, 1);
 				}
 				_strcpy(str + i, value);
 				_strcat(str + i + _strlen(value), temp + i + j);
