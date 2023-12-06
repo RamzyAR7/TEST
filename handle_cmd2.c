@@ -256,7 +256,6 @@ int handle_cd(char **arugments)
 			_Free(pwd[2]);
 			pwd[2] = cd;
 			chdir(cd);
-			_Free(cd);
 		}
 		else
 		{
