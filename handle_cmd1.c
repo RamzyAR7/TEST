@@ -140,6 +140,10 @@ int handle_exce(char *c_path, char **argumnet)
 
 		wait(&exit_code);
 		arguments_free(argumnet);
+		if (exit_code)
+			_state(2);
+		else
+			_state(exit_code);
 		return (exit_code);
 	}
 }

@@ -196,6 +196,7 @@ int main(int argc, char *argv[], char *envp[])
 {
 	int active_mode = isatty(STDIN_FILENO);
 
+	_state(0);
 	_enviornment(env_dup(envp), 1);
 	argv[argc - 1] = argv[argc - 1];
 	do
@@ -312,51 +313,37 @@ void edit_command(char **str_ptr, int *str_size)
 
 			nts(getpid(), pid);
 
-			_strcpy(temp, str);
-			_strcpy(str + i, pid);
-			_strcat(str, temp + i + 2);
+			str = replaceTxtInd(str_ptr, pid, i, i + 1);
+			i += _strlen(pid) - 1;
 		}
 		else if (_strcmp(str + i, "$?") == 0)
 		{
 			char last_exit_code[255];
 
-			if (State)
-				nts(State, last_exit_code);
-			else
-				nts(errno, last_exit_code);
+			nts(State, last_exit_code);
 
-			_strcpy(temp, str);
-			_strcpy(str + i, last_exit_code);
-			_strcat(str, temp + i + 2);
+			str = replaceTxtInd(str_ptr, last_exit_code, i, i + 1);
+			i += _strlen(last_exit_code) - 1;
 		}
-		else if (str[i] == '$' && str[i + 1] != '$' && str[i + 1] != ' ')
+		else if (str[i] == '$' && str[i + 1] != '$' && str[i + 1] != ' ' && str[i + 1])
 		{
 			char *value;
 			int j = 0;
 
 			while (str[i + j] && str[i + j] != ' ')
 				j++;
-			_memcopy(temp, str + i + 1, ++j);
-			temp[j] = '\0';
+			_memcopy(temp, str + i + 1, j - 1);
+			temp[j - 1] = '\0';
 			value = get_env_value(temp);
-
-			_strcpy(temp, str);
 			if (value)
 			{
-
-				if (*str_size - 2 < i + _strlen(value) + _strlen(temp + i + j) + 1)
-				{
-					*str_ptr = _realloc(str_ptr, i + _strlen(value) + _strlen(temp + i + j) + 2);
-					*str_size = i + _strlen(value) + _strlen(temp + i + j) + 2;
-					buffers(NULL, str_ptr, 1);
-				}
-				_strcpy(str + i, value);
-				_strcat(str + i + _strlen(value), temp + i + j);
+				str = replaceTxtInd(str_ptr, value, i, i + j - 1);
+				i += _strlen(value) - 1;
 				_Free(value);
 			}
 			else
 			{
-				_strcpy(str + i, temp + i + j);
+				str = replaceTxtInd(str_ptr, " ", i, i + j - 1);
 			}
 		}
 		else if (str[i] == '#')
@@ -429,7 +416,6 @@ int _state(int c_state)
 {
 	static int state;
 
-	state = c_state;
 	if (c_state == Get_state)
 	{
 		return (state);

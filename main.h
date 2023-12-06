@@ -64,4 +64,5 @@ int remove_read_spaces(char *str);
 void _free(void **ptr);
 char ***_enviornment(char **envp, int state);
 int _state(int c_state);
+char *replaceTxtInd(char **str1, char *str2, int startIndex, int endIndex);
 #endif

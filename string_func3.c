@@ -165,3 +165,47 @@ void _free(void **ptr)
 		*ptr = NULL;
 	}
 }
+
+char *replaceTxtInd(char **str1, char *str2, int startIndex, int endIndex)
+{
+	int len1, len2, replaceLen, newLen;
+	char *result;
+
+	if (str1 == NULL || *str1 == NULL || str2 == NULL || startIndex < 0 || endIndex < startIndex)
+	{
+		fprintf(stderr, "Invalid input parameters\n");
+		return (NULL);
+	}
+
+	len1 = strlen(*str1);
+	len2 = strlen(str2);
+	if (startIndex >= len1 || endIndex >= len1)
+	{
+		fprintf(stderr, "Invalid indices\n");
+		return (NULL);
+	}
+
+	replaceLen = endIndex - startIndex + 1;
+
+	newLen = len1 - replaceLen + len2;
+
+	result = (char *)malloc((newLen + 1) * sizeof(char));
+
+	if (result == NULL)
+	{
+		fprintf(stderr, "Memory allocation error\n");
+		return (NULL);
+	}
+
+	_memcopy(result, *str1, startIndex);
+	result[startIndex] = '\0';
+
+	_strcat(result, str2);
+
+	_strcat(result, *str1 + endIndex + 1);
+
+	_Free(*str1);
+
+	*str1 = result;
+	return (result);
+}

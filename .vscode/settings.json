@@ -63,7 +63,8 @@
     "errno.h": "c",
     "stdarg.h": "c",
     "functional": "c",
-    "wait.h": "c"
+    "wait.h": "c",
+    "type_traits": "c"
   },
   "C_Cpp.errorSquiggles": "disabled"
 }
