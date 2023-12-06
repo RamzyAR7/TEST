@@ -190,10 +190,10 @@ int main(int argc, char *argv[])
 {
 	char **envp = env_dup(environ);
 	int status = 0;
-	int active_mode = 1;
+	int active_mode = isatty(STDIN_FILENO);
 
 	argv[argc - 1] = argv[argc - 1];
-	while (active_mode)
+	do
 	{
 		char *str = malloc(BUFFER_SIZE);
 		char *c_command = malloc(BUFFER_SIZE);
@@ -203,7 +203,6 @@ int main(int argc, char *argv[])
 
 		intail_NULL(str, buffer_size);
 		intail_NULL(c_command, command_size);
-		active_mode = isatty(STDIN_FILENO);
 		get_input(&str, &read_size, &buffer_size);
 		buffers(&str, &c_command, 1);
 		getc_command(str, &c_command, &command_size, status, envp);
@@ -221,7 +220,7 @@ int main(int argc, char *argv[])
 		}
 		_Free(str);
 		_Free(c_command);
-	};
+	} while (active_mode);
 	arguments_free(envp);
 	if (status)
 		exit(status);
