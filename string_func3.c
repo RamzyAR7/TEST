@@ -134,7 +134,7 @@ int remove_read_spaces(char *str)
 		if (str[i] == ' ' && str[i + 1] == ' ')
 		{
 			int j = empty_text(str + i + 1);
-			printf("j=%d\n", j);
+
 			if (j)
 				_strcpy(str + i + 1, str + i + j + 1);
 			else
