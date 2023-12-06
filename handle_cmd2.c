@@ -232,10 +232,10 @@ int handle_cd(char **arugments, char ***environ)
 			{
 				if (errno == ENOENT)
 				{
-					char *error = ": No such file or directory\n";
+					char *error = "./hsh: 1: cd: can't cd to ";
 
-					write(STDERR_FILENO, "./hsh: line 1: cd: ", _strlen("./hsh: line 1: cd: "));
-					write(STDERR_FILENO, arugments[1], _strlen(arugments[1]));
+					strcat(error, arugments[1]);
+					strcat(error, "\n");
 					write(STDERR_FILENO, error, _strlen(error));
 				}
 				else if (errno == EACCES)
