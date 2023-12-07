@@ -216,7 +216,7 @@ int main(int argc, char *argv[], char *envp[])
 				  _strlen("./hsh: 0: cannot open "));
 			write(STDERR_FILENO, argv[1], _strlen(argv[1]));
 			write(STDERR_FILENO, ": No such file\n", _strlen(": No such file\n"));
-			exit(127);
+			exit(2);
 		}
 	}
 	_enviornment(env_dup(envp), 1);
