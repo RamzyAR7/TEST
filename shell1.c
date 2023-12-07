@@ -34,7 +34,7 @@ void buffers(char **all_str, char **c_command, int state)
  * @size: size of buffer
  * Return: void
  */
-void get_input(char **buff, int *size, int *buffer_size)
+void get_input(char **buff, int *size, int *buffer_size, int source)
 {
 	int max_read = *buffer_size - 1;
 	int read = max_read;
@@ -43,7 +43,7 @@ void get_input(char **buff, int *size, int *buffer_size)
 	intail_NULL(temp, max_read + 1);
 	while (read == max_read)
 	{
-		read = _read(0, temp, max_read);
+		read = _read(source, temp, max_read);
 		*size += remove_read_spaces(temp);
 
 		if (*size > *buffer_size - 1)
@@ -195,10 +195,31 @@ void getc_command(char *str, char **c_command, int *cmd_size)
 int main(int argc, char *argv[], char *envp[])
 {
 	int active_mode = isatty(STDIN_FILENO);
+	char *symbol = "-> ";
+	int fd = STDIN_FILENO;
 
 	_state(0);
-	_enviornment(env_dup(envp), 1);
 	argv[argc - 1] = argv[argc - 1];
+	if (argc == 2)
+	{
+		if (access(argv[1], R_OK) != -1)
+		{
+			active_mode = 0;
+			fd = open(argv[1], O_RDONLY);
+
+			if (!Fsize(argv[1]))
+				return (0);
+		}
+		else
+		{
+			write(STDERR_FILENO, "./hsh: ", _strlen("./hsh: "));
+			write(STDERR_FILENO, argv[1], _strlen(argv[1]));
+			write(STDERR_FILENO, ": No such file or directory\n",
+				  _strlen(": No such file or directory\n"));
+			exit(127);
+		}
+	}
+	_enviornment(env_dup(envp), 1);
 	do
 	{
 		char *str = malloc(BUFFER_SIZE);
@@ -209,7 +230,9 @@ int main(int argc, char *argv[], char *envp[])
 
 		intail_NULL(str, buffer_size);
 		intail_NULL(c_command, command_size);
-		get_input(&str, &read_size, &buffer_size);
+		if (active_mode == 1)
+			write(STDOUT_FILENO, symbol, _strlen(symbol));
+		get_input(&str, &read_size, &buffer_size, fd);
 		buffers(&str, &c_command, 1);
 		getc_command(str, &c_command, &command_size);
 		while (*c_command)
@@ -425,4 +448,11 @@ int _state(int c_state)
 		state = c_state;
 		return (state);
 	}
+}
+int Fsize(char *fname)
+{
+	struct stat st;
+
+	stat(fname, &st);
+	return st.st_size;
 }

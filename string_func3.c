@@ -177,8 +177,8 @@ char *replaceTxtInd(char **str1, char *str2, int startIndex, int endIndex)
 		return (NULL);
 	}
 
-	len1 = strlen(*str1);
-	len2 = strlen(str2);
+	len1 = _strlen(*str1);
+	len2 = _strlen(str2);
 	if (startIndex >= len1 || endIndex >= len1)
 	{
 		fprintf(stderr, "Invalid indices\n");

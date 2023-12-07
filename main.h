@@ -4,9 +4,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
 #include <errno.h>
 #include <stdarg.h>
-#include <string.h>
+#include <fcntl.h>
 #define BUFFER_SIZE 255
 #define Get_state -1024
 #define Environment_ptr _enviornment(NULL, 1)
@@ -24,7 +25,7 @@ int _strcmp(char *string1, char *string2);
 int _atoi(char *string);
 char *_strcat(char *s1, char *s2);
 void *_memcopy(char *copy_to, const char *copy_from, size_t n);
-void get_input(char **buff, int *size, int *buffer_size);
+void get_input(char **buff, int *size, int *buffer_size, int source);
 void getc_command(char *str, char **c_command, int *cmd_size);
 char *get_path(char *envp[]);
 char check_many_commands(char *str);
@@ -65,4 +66,5 @@ void _free(void **ptr);
 char ***_enviornment(char **envp, int state);
 int _state(int c_state);
 char *replaceTxtInd(char **str1, char *str2, int startIndex, int endIndex);
+int Fsize(char *fname);
 #endif
