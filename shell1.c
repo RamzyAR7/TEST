@@ -212,10 +212,10 @@ int main(int argc, char *argv[], char *envp[])
 		}
 		else
 		{
-			write(STDERR_FILENO, "./hsh: ", _strlen("./hsh: "));
+			write(STDERR_FILENO, "./hsh: 0: cannot open ",
+				  _strlen("./hsh: 0: cannot open "));
 			write(STDERR_FILENO, argv[1], _strlen(argv[1]));
-			write(STDERR_FILENO, ": No such file or directory\n",
-				  _strlen(": No such file or directory\n"));
+			write(STDERR_FILENO, ": No such file\n", _strlen(": No such file\n"));
 			exit(127);
 		}
 	}
