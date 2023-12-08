@@ -220,7 +220,10 @@ int handle_cd(char **arugments)
 			}
 			else
 			{
+				write(STDOUT_FILENO, cwd, _strlen(cwd));
+				write(STDOUT_FILENO, "\n", 1);
 				_Free(oldpwd[2]);
+				_Free(pwd[2]);
 			}
 		}
 		else
