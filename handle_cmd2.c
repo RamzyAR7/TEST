@@ -46,7 +46,7 @@ int handle_curCommand(char *first_sigment, char **arguments)
 	}
 	else if (check_builtin(first_sigment))
 	{
-		handle_builtin(first_sigment, arguments);
+		_state(handle_builtin(first_sigment, arguments));
 		return (State);
 	}
 	else
@@ -124,7 +124,7 @@ int handle_builtin(char *first_sigment, char **arguments)
  */
 int handle_exit(char **arguments)
 {
-	int exit_code = exit_code = _atoi(arguments[1]);
+	int exit_code = _atoi(arguments[1]);
 	int check = checkExitArugment(arguments[1]);
 
 	arguments_free(arguments);
