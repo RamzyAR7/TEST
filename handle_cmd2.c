@@ -220,9 +220,6 @@ int handle_cd(char **arugments)
 			}
 			else
 			{
-				char *error = "./hsh: line 1: cd: OLDPWD not set\n";
-
-				write(STDERR_FILENO, error, _strlen(error));
 				_Free(oldpwd[2]);
 			}
 		}
