@@ -5,7 +5,7 @@ int handle_unsetenv(char *argv[])
 	int i = 0, x = 0;
 	char **environment = Environment;
 
-	if (environment && environment[1])
+	if (environment && argv[1])
 		while (environment[i])
 		{
 			if (_strstr(environment[i], argv[1]) == environment[i] && environment[i][_strlen(argv[1])] == '=')
