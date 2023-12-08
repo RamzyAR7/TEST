@@ -295,6 +295,7 @@ int main(int argc, char *argv[], char *envp[])
 		getc_command(str, &c_command, &command_size);
 		while (*c_command)
 		{
+			printf("curCMD:%s\n", c_command);
 			handle_command(c_command);
 			getc_command(str, &c_command, &command_size);
 		}
