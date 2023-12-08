@@ -61,7 +61,7 @@ int handle_curCommand(char *first_sigment, char **arguments)
 		}
 		else
 		{
-			handle_error(first_sigment, path);
+			_state(handle_error(first_sigment, path));
 			arguments_free(arguments);
 		}
 	}
