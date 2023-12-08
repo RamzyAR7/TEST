@@ -12,6 +12,7 @@
 #define Get_state -1024
 #define Environment_ptr _enviornment(NULL, 1)
 #define Environment (*_enviornment(NULL, 1))
+#define Alias_list _alias(NULL, 1)
 #define State _state(Get_state)
 #define _Free(a) (_free((void *)&(a)))
 extern char **environ;
@@ -67,4 +68,10 @@ char ***_enviornment(char **envp, int state);
 int _state(int c_state);
 char *replaceTxtInd(char **str1, char *str2, int startIndex, int endIndex);
 int Fsize(char *fname);
+char **_alias(char *alias_arg, int state);
+int handle_alias(char **arguments);
+int print_All_Alias(void);
+int print_one_Alias(char *key);
+void alias_replace(char **str_ptr, int *str_size);
+int get_alias_index(char *key);
 #endif

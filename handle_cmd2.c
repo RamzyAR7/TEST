@@ -100,7 +100,7 @@ int handle_builtin(char *first_sigment, char **arguments)
 	}
 	else if (_strcmp(first_sigment, "alias") == 0)
 	{
-		return (0);
+		return (handle_alias(arguments));
 	}
 	else if (_strcmp(first_sigment, "help") == 0)
 	{
@@ -128,6 +128,7 @@ int handle_exit(char **arguments)
 	if (check == -1)
 	{
 		_enviornment(NULL, 0);
+		_alias(NULL, 0);
 		buffers(NULL, NULL, 0);
 		exit(State);
 	}
@@ -138,6 +139,7 @@ int handle_exit(char **arguments)
 	else
 	{
 		_enviornment(NULL, 0);
+		_alias(NULL, 0);
 		buffers(NULL, NULL, 0);
 		exit(exit_code);
 	}
@@ -284,4 +286,50 @@ char **creat_2D(int size, ...)
 	}
 	array[i] = NULL;
 	return (array);
+}
+int handle_alias(char **arguments)
+{
+	int state = 0;
+	int i = 0;
+
+	if (arguments[1] && arguments[1][0])
+	{
+		while (arguments[++i])
+			if (_strchr(arguments[i], '='))
+			{
+				_alias(arguments[i], 1);
+			}
+			else
+			{
+				state = print_one_Alias(arguments[i]);
+			}
+	}
+	else
+	{
+		state = print_All_Alias();
+	}
+	arguments_free(arguments);
+	return (state);
+}
+int print_one_Alias(char *key)
+{
+
+	int i = 0;
+	char **alias_lisr = Alias_list;
+
+	if (alias_lisr && key)
+		while (alias_lisr[i])
+		{
+			if (_strstr(alias_lisr[i], key) == alias_lisr[i] && alias_lisr[i][_strlen(key)] == '=')
+			{
+
+				write(1, alias_lisr[i], _strstr(alias_lisr[i], "=") - alias_lisr[i] + 1);
+				write(1, "'", 1);
+				write(1, _strstr(alias_lisr[i], "=") + 1, _strlen(_strstr(alias_lisr[i], "=") + 1));
+				write(1, "'\n", 2);
+				return (0);
+			}
+			i++;
+		}
+	return (0);
 }

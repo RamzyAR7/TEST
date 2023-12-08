@@ -12,16 +12,20 @@ int handle_env(char *envp[])
 	}
 	return (0);
 }
-int h_env(void)
+int print_All_Alias(void)
 {
 	int i = 0;
+	char **alias_lisr = Alias_list;
 
-	while (environ[i])
-	{
-		write(1, environ[i], _strlen(environ[i]));
-		write(1, "\n", 1);
-		i++;
-	}
+	if (alias_lisr)
+		while (alias_lisr[i])
+		{
+			write(1, alias_lisr[i], _strstr(alias_lisr[i], "=") - alias_lisr[i] + 1);
+			write(1, "'", 1);
+			write(1, _strstr(alias_lisr[i], "=") + 1, _strlen(_strstr(alias_lisr[i], "=") + 1));
+			write(1, "'\n", 2);
+			i++;
+		}
 	return (0);
 }
 

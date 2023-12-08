@@ -87,16 +87,17 @@ char *get_env_value(char *key)
 	char *cur_env = NULL;
 	char *value = NULL;
 	int i = 0;
+	char **env_list = Environment;
 
-	if (key && *key)
+	if (key && *key && env_list)
 	{
 		path = _strdup(key);
 		path = _realloc(path, _strlen(path) + 2);
 		_strcat(path, "=");
 
-		while (Environment[i])
+		while (env_list[i])
 		{
-			cur_env = Environment[i];
+			cur_env = env_list[i];
 			if (_strstr(cur_env, path) == cur_env)
 			{
 				value = _strdup(cur_env + _strlen(path));
@@ -108,6 +109,62 @@ char *get_env_value(char *key)
 	}
 	_Free(path);
 	return (value);
+}
+char *get_alias_value(char *key)
+{
+	char *path = NULL;
+	char *cur_env = NULL;
+	char *value = NULL;
+	int i = 0;
+	char **alias_list = Alias_list;
+
+	if (key && *key && alias_list)
+	{
+		path = _strdup(key);
+		path = _realloc(path, _strlen(path) + 2);
+		_strcat(path, "=");
+
+		while (alias_list[i])
+		{
+			cur_env = alias_list[i];
+			if (_strstr(cur_env, path) == cur_env)
+			{
+				value = _strdup(cur_env + _strlen(path));
+				_Free(path);
+				return (value);
+			}
+			i++;
+		}
+	}
+	_Free(path);
+	return (value);
+}
+int get_alias_index(char *key)
+{
+	char *path = NULL;
+	char *cur_env = NULL;
+	int i = 0;
+	char **alias_list = Alias_list;
+
+	if (key && *key && alias_list)
+	{
+		path = _strdup(key);
+		path = _realloc(path, _strlen(path) + 2);
+		_strcat(path, "=");
+
+		while (alias_list[i])
+		{
+			cur_env = alias_list[i];
+			if (_strstr(cur_env, path) == cur_env)
+			{
+				_Free(path);
+				return (i);
+			}
+			i++;
+		}
+	}
+	_Free(path);
+	return (-1);
 }
 /**
  * last_space - checks if the last character in a string is a space
@@ -183,6 +240,7 @@ void getc_command(char *str, char **c_command, int *cmd_size)
 		}
 	}
 	(*c_command)[j] = '\0';
+	alias_replace(c_command, cmd_size);
 	edit_command(c_command, cmd_size);
 }
 /**
@@ -238,7 +296,6 @@ int main(int argc, char *argv[], char *envp[])
 		while (*c_command)
 		{
 			handle_command(c_command);
-
 			getc_command(str, &c_command, &command_size);
 		}
 		if (read_size == 0)
@@ -251,10 +308,8 @@ int main(int argc, char *argv[], char *envp[])
 		_Free(c_command);
 	} while (active_mode);
 	_enviornment(NULL, 0);
-	if (State)
-		exit(State);
-	else
-		return (State);
+	_alias(NULL, 0);
+	return (State);
 }
 
 void handle_str_spaces(char *str, int str_size)
@@ -455,4 +510,68 @@ int Fsize(char *fname)
 
 	stat(fname, &st);
 	return st.st_size;
+}
+char **_alias(char *alias_arg, int state)
+{
+	static char **alias_list;
+
+	if (state && alias_arg && _strchr(alias_arg, '='))
+	{
+		char *temp = NULL;
+		char *value = NULL;
+		int i = 0;
+
+		while (alias_arg[i] && alias_arg[i] != '=')
+			i++;
+		temp = malloc(i + 1);
+		_memcopy(temp, alias_arg, i);
+		temp[i] = '\0';
+		value = get_alias_value(temp);
+		if (value)
+		{
+			i = get_alias_index(temp);
+			_Free(alias_list[i]);
+			alias_list[i] = _strdup(alias_arg);
+			_Free(value);
+		}
+		else
+		{
+			add_args(&alias_list, alias_arg);
+		}
+		_Free(temp);
+		return (alias_list);
+	}
+	else if (state)
+	{
+		return (alias_list);
+	}
+	arguments_free(alias_list);
+	return (NULL);
+}
+void alias_replace(char **str_ptr, int *str_size)
+{
+	int i = 0;
+	char *temp = malloc(*str_size);
+	char *str = *str_ptr;
+	char *value = NULL;
+
+	while (1)
+	{
+		i = 0;
+		while (str[i] && str[i] != ' ')
+			i++;
+		_memcopy(temp, str, i);
+		temp[i] = '\0';
+		value = get_alias_value(temp);
+		if (value)
+		{
+			str = replaceTxtInd(str_ptr, value, 0, i - 1);
+			_Free(value);
+		}
+		else
+		{
+			break;
+		}
+	}
+	_Free(temp);
 }
