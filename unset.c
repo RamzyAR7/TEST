@@ -3,20 +3,20 @@
 int handle_unsetenv(char *argv[])
 {
 	int i = 0, x = 0;
-	char **environment = Environment;
+	char **env = Environment;
 
-	if (environment && argv[1])
-		while (environment[i])
+	if (env && argv[1])
+		while (env[i])
 		{
-			if (_strstr(environment[i], argv[1]) == environment[i] && environment[i][_strlen(argv[1])] == '=')
+			if (_strstr(env[i], argv[1]) == env[i] && env[i][_strlen(argv[1])] == '=')
 			{
-				_Free(environment[i]);
-				environment[i] = environment[i + 1];
+				_Free(env[i]);
+				env[i] = env[i + 1];
 				x = i + 1;
 
-				while (environment[x])
+				while (env[x])
 				{
-					environment[x] = environment[x + 1];
+					env[x] = env[x + 1];
 					x++;
 				}
 				return (0);
