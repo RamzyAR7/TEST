@@ -19,9 +19,11 @@ int handle_unsetenv(char *argv[])
 					env[x] = env[x + 1];
 					x++;
 				}
+				arguments_free(argv);
 				return (0);
 			}
 			i++;
 		}
+	arguments_free(argv);
 	return (-1);
 }
