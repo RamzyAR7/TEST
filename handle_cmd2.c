@@ -262,12 +262,6 @@ int handle_cd(char **arugments)
 			pwd[2] = cd;
 			chdir(cd);
 		}
-		else
-		{
-			char *error = "./hsh: line 1: cd: HOME not set\n";
-
-			write(STDERR_FILENO, error, _strlen(error));
-		}
 	}
 	handle_setenv(pwd);
 	handle_setenv(oldpwd);
