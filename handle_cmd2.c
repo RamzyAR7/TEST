@@ -10,13 +10,16 @@ void arguments_free(char **arguments)
 {
 	int i;
 
-	for (i = 0; arguments[i]; i++)
+	if (arguments)
 	{
+		for (i = 0; arguments[i]; i++)
+		{
+			_Free(arguments[i]);
+		}
 		_Free(arguments[i]);
+		_Free(arguments);
+		arguments = NULL;
 	}
-	_Free(arguments[i]);
-	_Free(arguments);
-	arguments = NULL;
 }
 /**
  * handle_curCommand - handles the current command
