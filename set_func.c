@@ -6,8 +6,7 @@ int handle_env(char *envp[])
 
 	while (envp[i])
 	{
-		write(1, envp[i], _strlen(envp[i]));
-		write(1, "\n", 1);
+		print(STDOUT_FILENO, envp[i], "\n", NULL);
 		i++;
 	}
 	return (0);
@@ -20,10 +19,11 @@ int print_All_Alias(void)
 	if (alias_lisr)
 		while (alias_lisr[i])
 		{
-			write(1, alias_lisr[i], _strstr(alias_lisr[i], "=") - alias_lisr[i] + 1);
-			write(1, "'", 1);
-			write(1, _strstr(alias_lisr[i], "=") + 1, _strlen(_strstr(alias_lisr[i], "=") + 1));
-			write(1, "'\n", 2);
+			char *str = _strdup(alias_lisr[i]);
+			char *ptr = _strstr(str, "=");
+			*ptr = '\0';
+			print(STDOUT_FILENO, str, "='", ptr + 1, "'\n", NULL);
+			_Free(str);
 			i++;
 		}
 	return (0);

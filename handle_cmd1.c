@@ -61,7 +61,7 @@ void add_args(char ***arguments_array, char *argument)
  * @status: status of the last command
  * Return: 0 if successful, otherwise 1
  */
-int handle_command(char *command)
+void handle_command(char *command)
 {
 	char *first_sigment = _strtok2(command, " \t");
 	char **arguments = NULL;
@@ -84,17 +84,17 @@ int handle_command(char *command)
 				switch (c)
 				{
 				case ';':
-					_state(handle_curCommand(first_sigment, arguments));
+					handle_curCommand(first_sigment, arguments);
 					break;
 				case '&':
-					_state(handle_curCommand(first_sigment, arguments));
+					handle_curCommand(first_sigment, arguments);
 					if (State != 0)
-						return (State);
+						return;
 					break;
 				case '|':
-					_state(handle_curCommand(first_sigment, arguments));
+					handle_curCommand(first_sigment, arguments);
 					if (!State)
-						return (State);
+						return;
 					break;
 				default:
 					break;
@@ -102,7 +102,7 @@ int handle_command(char *command)
 				arguments = NULL;
 				first_sigment = _strtok2(NULL, " ");
 				if (!first_sigment)
-					return (State);
+					return;
 				add_args(&arguments, first_sigment);
 			}
 			else
@@ -111,7 +111,7 @@ int handle_command(char *command)
 			}
 		}
 	}
-	return (handle_curCommand(first_sigment, arguments));
+	handle_curCommand(first_sigment, arguments);
 }
 /**
  * handle_exce - handles the execution of the command
@@ -165,23 +165,22 @@ int handle_error(char *first_sigment, char *path)
 	{
 		_strcpy(error, "./hsh: 1: ");
 		_strcpy(error + _strlen(error), first_sigment);
-		write(STDERR_FILENO, error, _strlen(error));
-		write(STDERR_FILENO, ": not found\n", _strlen(": not found\n"));
+		print(STDERR_FILENO, error, ": not found\n", NULL);
 		return (127);
 	}
 	_strcpy(error + _strlen(error), first_sigment);
-	write(STDERR_FILENO, error, _strlen(error));
+	print(STDERR_FILENO, error, NULL);
 	if ((!_strchr(first_sigment, '\\') && path && path[0]) || !path)
 	{
 		char *error = ": command not found\n";
 
-		write(STDERR_FILENO, error, _strlen(error));
+		print(STDERR_FILENO, error, NULL);
 	}
 	else
 	{
 		char *error = ": No such file or directory\n";
 
-		write(STDERR_FILENO, error, _strlen(error));
+		print(STDERR_FILENO, error, NULL);
 	}
 	return (127);
 }

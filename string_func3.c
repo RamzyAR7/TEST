@@ -82,14 +82,14 @@ void *_realloc(void *ptr, int new_size)
 {
 	void *temp;
 
-	if (!new_size)
+	if (new_size < _strlen(ptr))
 	{
 		_Free(ptr);
 		return (NULL);
 	}
 	temp = malloc(new_size);
 	intail_NULL(temp, new_size);
-	_memcopy(temp, ptr, new_size - 1);
+	_memcopy(temp, ptr, _strlen(ptr));
 	_Free(ptr);
 	return (temp);
 }
@@ -208,4 +208,25 @@ char *replaceTxtInd(char **str1, char *str2, int startIndex, int endIndex)
 
 	*str1 = result;
 	return (result);
+}
+void print(int fd, ...)
+{
+	va_list args;
+	char *c_arg, *str = NULL;
+	int write_to = 0;
+
+	va_start(args, fd);
+	write_to = fd;
+	c_arg = va_arg(args, char *);
+	str = _strdup(c_arg);
+	c_arg = va_arg(args, char *);
+	while (c_arg)
+	{
+		str = _realloc(str, _strlen(str) + _strlen(c_arg) + 1);
+		_strcat(str, c_arg);
+		c_arg = va_arg(args, char *);
+	}
+	write(write_to, str, _strlen(str));
+	_Free(str);
+	va_end(args);
 }

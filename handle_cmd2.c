@@ -32,7 +32,7 @@ void arguments_free(char **arguments)
  * Description: This function is not portable. It will only work on Linux.
  * This function is not portable. It will only work on Linux.
  */
-int handle_curCommand(char *first_sigment, char **arguments)
+void handle_curCommand(char *first_sigment, char **arguments)
 {
 	char *c_path;
 
@@ -42,12 +42,10 @@ int handle_curCommand(char *first_sigment, char **arguments)
 		handle_exce(c_path, arguments);
 		if (State)
 			_state(2);
-		return (State);
 	}
 	else if (check_builtin(first_sigment))
 	{
 		_state(handle_builtin(first_sigment, arguments));
-		return (State);
 	}
 	else
 	{
@@ -65,7 +63,6 @@ int handle_curCommand(char *first_sigment, char **arguments)
 			arguments_free(arguments);
 		}
 	}
-	return (State);
 }
 /**
  * handle_builtin - handles the builtin command
@@ -166,7 +163,7 @@ int checkExitArugment(char *str)
 				_strcpy(error, "./hsh: 1: exit: Illegal number: ");
 				_strcpy(error + _strlen(error), str);
 				_strcpy(error + _strlen(error), "\n");
-				write(STDERR_FILENO, error, _strlen(error));
+				print(STDERR_FILENO, error, NULL);
 				return (2);
 			}
 		}
@@ -215,13 +212,11 @@ int handle_cd(char **arugments)
 				pwd[2] = cd;
 				chdir(cd);
 				getcwd(cwd, sizeof(cwd));
-				write(STDOUT_FILENO, cwd, _strlen(cwd));
-				write(STDOUT_FILENO, "\n", 1);
+				print(STDERR_FILENO, cwd, "\n", NULL);
 			}
 			else
 			{
-				write(STDOUT_FILENO, cwd, _strlen(cwd));
-				write(STDOUT_FILENO, "\n", 1);
+				print(STDERR_FILENO, cwd, "\n", NULL);
 				_Free(oldpwd[2]);
 				_Free(pwd[2]);
 			}
@@ -234,17 +229,13 @@ int handle_cd(char **arugments)
 				{
 					char *error = "./hsh: 1: cd: can't cd to ";
 
-					write(STDERR_FILENO, error, _strlen(error));
-					write(STDERR_FILENO, arugments[1], _strlen(arugments[1]));
-					write(STDERR_FILENO, "\n", 1);
+					print(STDERR_FILENO, error, arugments[1], "\n", NULL);
 				}
 				else if (errno == EACCES)
 				{
 					char *error = ": Permission denied\n";
 
-					write(STDERR_FILENO, "./hsh: line 1: cd: ", _strlen("./hsh: line 1: cd: "));
-					write(STDERR_FILENO, arugments[1], _strlen(arugments[1]));
-					write(STDERR_FILENO, error, _strlen(error));
+					print(STDERR_FILENO, "./hsh: line 1: cd: ", arugments[1], error, NULL);
 				}
 				arguments_free(pwd);
 				arguments_free(oldpwd);
@@ -281,6 +272,7 @@ char **creat_2D(int size, ...)
 		c_argument = va_arg(args, char *);
 		array[i] = _strdup(c_argument);
 	}
+	va_end(args);
 	array[i] = NULL;
 	return (array);
 }
@@ -319,11 +311,11 @@ int print_one_Alias(char *key)
 		{
 			if (_strstr(alias_lisr[i], key) == alias_lisr[i] && alias_lisr[i][_strlen(key)] == '=')
 			{
-
-				write(1, alias_lisr[i], _strstr(alias_lisr[i], "=") - alias_lisr[i] + 1);
-				write(1, "'", 1);
-				write(1, _strstr(alias_lisr[i], "=") + 1, _strlen(_strstr(alias_lisr[i], "=") + 1));
-				write(1, "'\n", 2);
+				char *str = _strdup(alias_lisr[i]);
+				char *ptr = _strstr(str, "=");
+				*ptr = '\0';
+				print(STDOUT_FILENO, str, "='", ptr + 1, "'\n", NULL);
+				_Free(str);
 				return (0);
 			}
 			i++;

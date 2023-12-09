@@ -270,10 +270,7 @@ int main(int argc, char *argv[], char *envp[])
 		}
 		else
 		{
-			write(STDERR_FILENO, "./hsh: 0: cannot open ",
-				  _strlen("./hsh: 0: cannot open "));
-			write(STDERR_FILENO, argv[1], _strlen(argv[1]));
-			write(STDERR_FILENO, ": No such file\n", _strlen(": No such file\n"));
+			print(STDERR_FILENO, "./hsh: 0: cannot open ", argv[1], ": No such file\n", NULL);
 			exit(2);
 		}
 	}
@@ -289,7 +286,7 @@ int main(int argc, char *argv[], char *envp[])
 		intail_NULL(str, buffer_size);
 		intail_NULL(c_command, command_size);
 		if (active_mode == 1)
-			write(STDOUT_FILENO, symbol, _strlen(symbol));
+			print(STDOUT_FILENO, symbol, NULL);
 		get_input(&str, &read_size, &buffer_size, fd);
 		buffers(&str, &c_command, 1);
 		getc_command(str, &c_command, &command_size);
