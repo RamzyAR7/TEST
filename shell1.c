@@ -38,7 +38,7 @@ void get_input(char **buff, int *size, int *buffer_size, int source)
 {
 	int max_read = *buffer_size - 1;
 	int read = max_read;
-	char *temp = malloc(max_read + 1);
+	char *temp = _malloc(max_read + 1);
 
 	intail_NULL(temp, max_read + 1);
 	while (read == max_read)
@@ -277,8 +277,8 @@ int main(int argc, char *argv[], char *envp[])
 	_enviornment(env_dup(envp), 1);
 	do
 	{
-		char *str = malloc(BUFFER_SIZE);
-		char *c_command = malloc(BUFFER_SIZE);
+		char *str = _malloc(BUFFER_SIZE);
+		char *c_command = _malloc(BUFFER_SIZE);
 		int read_size = 0;
 		int buffer_size = BUFFER_SIZE;
 		int command_size = BUFFER_SIZE;
@@ -312,7 +312,7 @@ int main(int argc, char *argv[], char *envp[])
 void handle_str_spaces(char *str, int str_size)
 {
 	int i = 0;
-	char *temp = malloc(str_size);
+	char *temp = _malloc(str_size);
 
 	intail_NULL(temp, BUFFER_SIZE);
 	while (str && str[i])
@@ -376,7 +376,7 @@ void edit_command(char **str_ptr, int *str_size)
 {
 	int i = 0;
 	int temp_size = *str_size;
-	char *temp = malloc(temp_size);
+	char *temp = _malloc(temp_size);
 	char *str = *str_ptr;
 
 	intail_NULL(temp, *str_size);
@@ -520,7 +520,7 @@ char **_alias(char *alias_arg, int state)
 
 		while (alias_arg[i] && alias_arg[i] != '=')
 			i++;
-		temp = malloc(i + 1);
+		temp = _malloc(i + 1);
 		_memcopy(temp, alias_arg, i);
 		temp[i] = '\0';
 		value = get_alias_value(temp);
@@ -548,7 +548,7 @@ char **_alias(char *alias_arg, int state)
 void alias_replace(char **str_ptr, int *str_size)
 {
 	int i = 0;
-	char *temp = malloc(*str_size);
+	char *temp = _malloc(*str_size);
 	char *str = *str_ptr;
 	char *value = NULL;
 

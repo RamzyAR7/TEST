@@ -75,4 +75,5 @@ int print_one_Alias(char *key);
 void alias_replace(char **str_ptr, int *str_size);
 int get_alias_index(char *key);
 void print(int fd, ...);
+void *_malloc(unsigned int size);
 #endif

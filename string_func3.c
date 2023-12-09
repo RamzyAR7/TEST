@@ -230,3 +230,15 @@ void print(int fd, ...)
 	_Free(str);
 	va_end(args);
 }
+void *_malloc(unsigned int size)
+{
+	void *str = malloc(size);
+
+	if (!str)
+	{
+		_Free(str);
+		print(STDOUT_FILENO, "./hsh :malloc failed\n", NULL);
+		exit(-1);
+	}
+	return (str);
+}
