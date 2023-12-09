@@ -97,7 +97,7 @@ char *_strdup(char *p_string)
 		return (NULL);
 
 	len = _strlen(p_string);
-	str = malloc(sizeof(char) * len + 1);
+	str = _malloc(sizeof(char) * len + 1);
 	if (str == NULL)
 		return (NULL);
 

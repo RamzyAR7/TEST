@@ -87,7 +87,7 @@ void *_realloc(void *ptr, int new_size)
 		_Free(ptr);
 		return (NULL);
 	}
-	temp = malloc(new_size);
+	temp = _malloc(new_size);
 	intail_NULL(temp, new_size);
 	_memcopy(temp, ptr, _strlen(ptr));
 	_Free(ptr);

@@ -34,7 +34,7 @@ char *find_path(char *path_i, char *input)
 	while (chank != NULL && *path_i)
 	{
 		size_t buffer_size = _strlen(chank) + 1 + _strlen(input) + 1;
-		char *buffer = malloc(buffer_size);
+		char *buffer = _malloc(buffer_size);
 		int i = 0, j = 0, x = 0;
 
 		while (chank[j])

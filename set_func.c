@@ -36,7 +36,7 @@ int handle_setenv(char *argv[])
 
 	if (argv && argv[1] && argv[2])
 	{
-		buffer = malloc(_strlen(argv[1]) + _strlen(argv[2]) + 2);
+		buffer = _malloc(_strlen(argv[1]) + _strlen(argv[2]) + 2);
 		_strcpy(buffer, argv[1]);
 		_strcat(buffer, "=");
 		_strcat(buffer, argv[2]);
