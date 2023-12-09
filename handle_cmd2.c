@@ -212,11 +212,11 @@ int handle_cd(char **arugments)
 				pwd[2] = cd;
 				chdir(cd);
 				getcwd(cwd, sizeof(cwd));
-				print(STDERR_FILENO, cwd, "\n", NULL);
+				print(STDOUT_FILENO, cwd, "\n", NULL);
 			}
 			else
 			{
-				print(STDERR_FILENO, cwd, "\n", NULL);
+				print(STDOUT_FILENO, cwd, "\n", NULL);
 				_Free(oldpwd[2]);
 				_Free(pwd[2]);
 			}
