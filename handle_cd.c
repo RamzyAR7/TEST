@@ -70,9 +70,9 @@ void handle_cd_helper(char **arugments, char **pwd,
 			}
 			else if (errno == EACCES)
 			{
-				char *error = ": Permission denied\n";
+				char *error = "./hsh: 1: cd: can't cd to ";
 
-				print(STDERR_FILENO, "./hsh: line 1: cd: ", arugments[1], error, NULL);
+				print(STDERR_FILENO, error, arugments[1], "\n", NULL);
 			}
 			arguments_free(pwd);
 			arguments_free(oldpwd);
