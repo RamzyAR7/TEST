@@ -45,9 +45,8 @@ char ***_enviornment(char **envp, int state)
 	return (&enviornment);
 }
 /**
- * _state - set state to new value
+ * _state - set state to new values (int)
  * @c_state: state to be set (int)
- * @Get_state: get state (int)
  * Return: state (int)
  * by asraf & ramzy
 */
