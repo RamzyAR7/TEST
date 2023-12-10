@@ -19,7 +19,8 @@ int handle_cd(char **arugments)
 
 	if (arugments[1] && *arugments[1])
 	{
-		handle_cd_helper(arugments, pwd, oldpwd, cd, cwd);
+		if (!handle_cd_helper(arugments, pwd, oldpwd, cd, cwd))
+			return (0);
 	}
 	else
 	{
@@ -37,8 +38,8 @@ int handle_cd(char **arugments)
 	return (0);
 }
 
-void handle_cd_helper(char **arugments, char **pwd,
-					  char **oldpwd, char *cd, char *cwd)
+int handle_cd_helper(char **arugments, char **pwd,
+					 char **oldpwd, char *cd, char *cwd)
 {
 	if (_strcmp(arugments[1], "-") == 0)
 	{
@@ -74,10 +75,9 @@ void handle_cd_helper(char **arugments, char **pwd,
 
 				print(STDERR_FILENO, error, arugments[1], "\n", NULL);
 			}
-			arguments_free(pwd);
-			arguments_free(oldpwd);
-			arguments_free(arugments);
+			arguments_free(pwd), arguments_free(oldpwd), arguments_free(arugments);
 			return (0);
 		}
 	}
+	return (1);
 }

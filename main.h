@@ -88,6 +88,6 @@ void edit_command_helper(char **str_ptr,
 int handle_command_helper(char *first_sigment, char **arguments, char c);
 void check_file_mode(char *filename, int *fd, int *active_mode);
 void shell_core(char *symbol, int fd, int active_mode);
-void handle_cd_helper(char **arugments, char **pwd,
-					  char **oldpwd, char *cd, char *cwd);
+int handle_cd_helper(char **arugments, char **pwd,
+					 char **oldpwd, char *cd, char *cwd);
 #endif
