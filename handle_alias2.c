@@ -4,8 +4,8 @@
  * print_All_Alias - print all alias
  *
  * Return: 0 on success, 1 on failure
- * by asraf & ramzy
-*/
+ * by ashraf & ramzy
+ */
 int print_All_Alias(void)
 {
 	int i = 0;

@@ -5,7 +5,7 @@
  * @first_sigment: pointer to first sigment of command
  * @arguments: pointer to array of arguments
  * Return: 0 if successful, otherwise 1
- * by asraf & ramzy
+ * by ashraf & ramzy
  */
 int handle_builtin(char *first_sigment, char **arguments)
 {
@@ -48,7 +48,7 @@ int handle_builtin(char *first_sigment, char **arguments)
  * check_builtin - checks if the command is builtin
  * @first_sigment: pointer to first sigment of command
  * Return: 1 if builtin, otherwise 0
- * by asraf & ramzy
+ * by ashraf & ramzy
  */
 int check_builtin(char *first_sigment)
 {

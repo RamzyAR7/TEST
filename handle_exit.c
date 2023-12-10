@@ -4,7 +4,7 @@
  * handle_exit - handles the exit command
  * @arguments: pointer to array of arguments to exit command (char **)
  * Return: 0 if successful, otherwise 1
- * by asraf & ramzy
+ * by ashraf & ramzy
  */
 int handle_exit(char **arguments)
 {
@@ -35,8 +35,8 @@ int handle_exit(char **arguments)
  * checkExitArugment - checks if the argument of exit is valid
  * @str: pointer to argument of exit command (char *)
  * Return: 0 if valid, otherwise 2
- * by asraf & ramzy
-*/
+ * by ashraf & ramzy
+ */
 int checkExitArugment(char *str)
 {
 	int i;

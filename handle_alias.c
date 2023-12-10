@@ -4,7 +4,7 @@
  * handle_alias - handle alias command (char **)
  * @arguments: arguments to handle alias command (char **)
  * Return: 0 on success, 1 on failure
- * by asraf & ramzy
+ * by ashraf & ramzy
  */
 int handle_alias(char **arguments)
 {
@@ -34,7 +34,7 @@ int handle_alias(char **arguments)
  * print_one_Alias - print one alias
  * @key: key to print (char *)
  * Return: 0 on success, 1 on failure
- * by asraf & ramzy
+ * by ashraf & ramzy
  */
 int print_one_Alias(char *key)
 {
@@ -63,7 +63,7 @@ int print_one_Alias(char *key)
  * get_alias_value - get value of alias
  * @key: key to get value of (char *)
  * Return: value of alias (char *)
- * by asraf & ramzy
+ * by ashraf & ramzy
  */
 char *get_alias_value(char *key)
 {
@@ -98,7 +98,7 @@ char *get_alias_value(char *key)
  * get_alias_index - get index of alias
  * @key: key to get index of (char *)
  * Return: index of alias (int)
- * by asraf & ramzy
+ * by ashraf & ramzy
  */
 int get_alias_index(char *key)
 {
@@ -132,7 +132,7 @@ int get_alias_index(char *key)
  * @str_ptr: pointer to command (char **)
  * @str_size: pointer to size of command (int *)
  * Return: void
- * by asraf & ramzy
+ * by ashraf & ramzy
  */
 void alias_replace(char **str_ptr, int *str_size)
 {

@@ -5,7 +5,7 @@
  * @envp: pointer to environment
  * Return: pointer to PATH variable
  * Description: This function is not portable. It will only work on Linux.
- * by asraf & ramzy
+ * by ashraf & ramzy
  */
 char *get_path(char *envp[])
 {
@@ -31,7 +31,7 @@ char *get_path(char *envp[])
  * @path_i: path to search
  * @input: command to search for in path variable (e.g. ls)
  * Return: pointer to path if found, otherwise NULL
- * by asraf & ramzy
+ * by ashraf & ramzy
  */
 char *find_path(char *path_i, char *input)
 {

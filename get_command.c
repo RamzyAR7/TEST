@@ -6,8 +6,8 @@
  * @c_command: pointer to command to be returned (char **)
  * @cmd_size: pointer to size of command to be returned (int *)
  * Return: void
- * by asraf & ramzy
-*/
+ * by ashraf & ramzy
+ */
 void getc_command(char *str, char **c_command, int *cmd_size)
 {
 	int i = 0, j = 0;
@@ -50,8 +50,8 @@ void getc_command(char *str, char **c_command, int *cmd_size)
  * last_space - check if last char in string is space
  * @str: string to check (char *)
  * Return: (1) if last char in string is space, (0) others (int)
- * by asraf & ramzy
-*/
+ * by ashraf & ramzy
+ */
 int last_space(char *str)
 {
 	int i = 0;
@@ -71,8 +71,8 @@ int last_space(char *str)
  * @i: pointer to index of user input (int *)
  * @j: pointer to index of command to be returned (int *)
  * Return: void
- * by asraf & ramzy
-*/
+ * by ashraf & ramzy
+ */
 void getc_command_helper(char *str, char **c_command,
 						 int *cmd_size, int *i, int *j)
 {
@@ -95,8 +95,8 @@ void getc_command_helper(char *str, char **c_command,
  * @str_ptr: pointer to command to be edited (char **)
  * @str_size: pointer to size of command to be edited (int *)
  * Return: void
- * by asraf & ramzy
-*/
+ * by ashraf & ramzy
+ */
 void edit_command(char **str_ptr, int *str_size)
 {
 	int i = 0;
@@ -145,8 +145,8 @@ void edit_command(char **str_ptr, int *str_size)
  * @temp: pointer to temp string (char *) to be used in editing
  * @index: pointer to index of command to be edited (int *) (copy of i)
  * Return: void (edited command is returned through str_ptr)
- * by asraf & ramzy
-*/
+ * by ashraf & ramzy
+ */
 void edit_command_helper(char **str_ptr,
 						 char **str, char *temp, int *index)
 {

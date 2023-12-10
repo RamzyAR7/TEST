@@ -4,7 +4,7 @@
  * @str: pointer to string
  * @size: size of string
  * Return: void
- * by asraf & ramzy
+ * by ashraf & ramzy
  */
 void intail_NULL(char *str, int size)
 {
@@ -17,7 +17,7 @@ void intail_NULL(char *str, int size)
  * empty_text - check if string is empty
  * @str: pointer to string
  * Return: 0 if empty, otherwise 1
- * by asraf & ramzy
+ * by ashraf & ramzy
  */
 int empty_text(char *str)
 {
@@ -38,7 +38,7 @@ int empty_text(char *str)
  * @startIndex: start index
  * @endIndex: end index
  * Return: pointer to new string
- * by asraf & ramzy
+ * by ashraf & ramzy
  */
 char *replaceTxtInd(char **str1, char *str2, int startIndex, int endIndex)
 {

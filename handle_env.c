@@ -4,7 +4,7 @@
  * handle_env - handle env command (char **)
  * @envp: arguments to handle env command (char **)
  * Return: 0 on success, 1 on failure
- * by asraf & ramzy
+ * by ashraf & ramzy
  */
 int handle_env(char *envp[])
 {
@@ -21,7 +21,7 @@ int handle_env(char *envp[])
  * handle_unsetenv - handle unsetenv command (char **)
  * @argv: arguments to handle unsetenv command (char **)
  * Return: 0 on success, 1 on failure
- * by asraf & ramzy
+ * by ashraf & ramzy
  */
 int handle_unsetenv(char *argv[])
 {
@@ -55,7 +55,7 @@ int handle_unsetenv(char *argv[])
  * handle_setenv - handle setenv command (char **)
  * @argv: arguments to handle setenv command (char **)
  * Return: 0 on success, 1 on failure
- * by asraf & ramzy
+ * by ashraf & ramzy
  */
 int handle_setenv(char *argv[])
 {
@@ -99,7 +99,7 @@ int handle_setenv(char *argv[])
  * free_buff - free buffer
  * @str: pointer to buffer
  * Return: void
- * by asraf & ramzy
+ * by ashraf & ramzy
  */
 void free_buff(char *str)
 {
@@ -114,8 +114,8 @@ void free_buff(char *str)
  * get_env_value - get env value
  * @key: key to get value of (char *)
  * Return: value of env (char *)
- * by asraf & ramzy
-*/
+ * by ashraf & ramzy
+ */
 char *get_env_value(char *key)
 {
 	char *path = NULL;

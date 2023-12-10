@@ -4,8 +4,8 @@
  * handle_command - handles the command
  * @command: pointer to command
  * Return: void
- * by asraf & ramzy
-*/
+ * by ashraf & ramzy
+ */
 void handle_command(char *command)
 {
 	char *first_sigment = _strtok2(command, " \t");
@@ -48,8 +48,8 @@ void handle_command(char *command)
  * @arguments: pointer to array of arguments
  * @c: char
  * Return: 1 if successful, otherwise 0
- * by asraf & ramzy
-*/
+ * by ashraf & ramzy
+ */
 int handle_command_helper(char *first_sigment, char **arguments, char c)
 {
 	switch (c)
@@ -76,7 +76,7 @@ int handle_command_helper(char *first_sigment, char **arguments, char c)
  *  check_many_commands - checks if the user entered many commands
  * @str: pointer to string
  * Return: ';' if the user entered many commands, otherwise 0
- * by asraf & ramzy
+ * by ashraf & ramzy
  */
 
 char check_many_commands(char *str)
@@ -101,8 +101,8 @@ char check_many_commands(char *str)
  * @first_sigment: pointer to first sigment of command
  * @arguments: pointer to array of arguments
  * Return: void
- * by asraf & ramzy
-*/
+ * by ashraf & ramzy
+ */
 void handle_curCommand(char *first_sigment, char **arguments)
 {
 	char *c_path;

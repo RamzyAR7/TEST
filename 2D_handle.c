@@ -5,8 +5,8 @@
  * @list: 2D array of strings to duplicate (char **)
  * Return: pointer to new 2D array of strings (char **)
  *
- * by asraf & ramzy
-*/
+ * by ashraf & ramzy
+ */
 char **dup_2D(char *list[])
 {
 	int rows = 0, i = 0;
@@ -36,8 +36,8 @@ char **dup_2D(char *list[])
  * @arguments: 2D array of strings to free (char **)
  * Return: void
  * Note: sets arguments to NULL after freeing it
- * by asraf & ramzy
-*/
+ * by ashraf & ramzy
+ */
 void arguments_free(char **arguments)
 {
 	int i;
@@ -58,8 +58,8 @@ void arguments_free(char **arguments)
  * @arguments_array: 2D array of strings to add argument to (char **)
  * @argument: argument to add to 2D array of strings (char *)
  * Return: void
- * by asraf & ramzy
-*/
+ * by ashraf & ramzy
+ */
 void add_args(char ***arguments_array, char *argument)
 {
 	int i = 0, j = 0;
@@ -89,8 +89,8 @@ void add_args(char ***arguments_array, char *argument)
  * @size: size of 2D array of strings to create (int)
  * Return: pointer to new 2D array of strings (char **)
  * Note: last argument must be NULL
- * by asraf & ramzy
-*/
+ * by ashraf & ramzy
+ */
 char **creat_2D(int size, ...)
 {
 	va_list args;

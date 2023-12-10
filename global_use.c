@@ -6,8 +6,8 @@
  * @c_command: pointer to c_command to be set (char **)
  * @state: state of buffers (int)
  * Return: void
- * by asraf & ramzy
-*/
+ * by ashraf & ramzy
+ */
 void buffers(char **all_str, char **c_command, int state)
 {
 	static char **str;
@@ -28,8 +28,8 @@ void buffers(char **all_str, char **c_command, int state)
  * @envp: pointer to envp to be set (char **)
  * @state: state of enviornment (int)
  * Return: pointer to enviornment (char ***)
- * by asraf & ramzy
-*/
+ * by ashraf & ramzy
+ */
 char ***_enviornment(char **envp, int state)
 {
 	static char **enviornment;
@@ -48,8 +48,8 @@ char ***_enviornment(char **envp, int state)
  * _state - set state to new values (int)
  * @c_state: state to be set (int)
  * Return: state (int)
- * by asraf & ramzy
-*/
+ * by ashraf & ramzy
+ */
 int _state(int c_state)
 {
 	static int state;
@@ -69,8 +69,8 @@ int _state(int c_state)
  * @alias_arg: alias to be set (char *)
  * @state: state of alias (int)
  * Return: pointer to alias (char **)
- * by asraf & ramzy
-*/
+ * by ashraf & ramzy
+ */
 char **_alias(char *alias_arg, int state)
 {
 	static char **alias_list;

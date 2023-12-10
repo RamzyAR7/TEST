@@ -7,8 +7,8 @@
  * @buffer_size: pointer to size of buffer to be returned (int *)
  * @source: source of input (int)
  * Return: void
- * by asraf & ramzy
-*/
+ * by ashraf & ramzy
+ */
 void get_input(char **buff, int *size, int *buffer_size, int source)
 {
 	int max_read = *buffer_size - 1;
@@ -37,8 +37,8 @@ void get_input(char **buff, int *size, int *buffer_size, int source)
  * @str: string to handle spaces in (char *)
  * @str_size: size of string to handle spaces in (int)
  * Return: void
- * by asraf & ramzy
-*/
+ * by ashraf & ramzy
+ */
 void handle_str_spaces(char *str, int str_size)
 {
 	int i = 0;
@@ -74,8 +74,8 @@ void handle_str_spaces(char *str, int str_size)
  * remove_read_spaces - remove spaces from string
  * @str: string to remove spaces from (char *)
  * Return: size of string after removing spaces (int)
- * by asraf & ramzy
-*/
+ * by ashraf & ramzy
+ */
 int remove_read_spaces(char *str)
 {
 	int strSize = _strlen(str);
@@ -105,8 +105,8 @@ int remove_read_spaces(char *str)
  * @str: string to remove spaces from (char *)
  * @strSize: size of string to remove spaces from (int)
  * Return: void
- * by asraf & ramzy
-*/
+ * by ashraf & ramzy
+ */
 void remove_read_spaces_helper(char *str, int strSize)
 {
 	int i = 0;
@@ -143,8 +143,8 @@ void remove_read_spaces_helper(char *str, int strSize)
  * (1) if there is a space before ;,
  * (2) if there is a space after ;,
  * (3) if there is a space before && or ||, (0) otherwise (int)
- * by asraf & ramzy
-*/
+ * by ashraf & ramzy
+ */
 int check_spaces(char *str, int i)
 {
 	if (i && str[i] == ';' && str[i - 1] != ' ')

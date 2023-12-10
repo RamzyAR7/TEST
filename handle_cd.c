@@ -5,7 +5,7 @@
  * @arugments: pointer to array of arguments
  * Return: 0 if successful, otherwise 1
  * This function is not portable. It will only work on Linux.
- * by asraf & ramzy
+ * by ashraf & ramzy
  */
 int handle_cd(char **arugments)
 {

@@ -34,8 +34,8 @@ int _atoi(char *string)
  * @num: number to convert
  * @result: buffer to store result
  * Return: void
- * by asraf & ramzy
-*/
+ * by ashraf & ramzy
+ */
 void nts(int num, char result[])
 {
 	int index = 0;
@@ -51,8 +51,8 @@ void nts(int num, char result[])
  * @result: buffer to store result
  * @index: index of buffer
  * Return: void
- * by asraf & ramzy
-*/
+ * by ashraf & ramzy
+ */
 void nts_recursive_helper(int num, char result[], int *index)
 {
 	if (num < 0)

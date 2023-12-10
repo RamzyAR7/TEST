@@ -4,7 +4,7 @@
  * _free - free pointer and set it to NULL
  * @ptr: pointer to free (void **)
  * Return: void
- * by asraf & ramzy
+ * by ashraf & ramzy
  */
 void _free(void **ptr)
 {
@@ -19,7 +19,7 @@ void _free(void **ptr)
  * _malloc - allocate memory and check if it failed
  * @size: size of memory to allocate (unsigned int)
  * Return: pointer to allocated memory (void *)
- * by asraf & ramzy
+ * by ashraf & ramzy
  */
 void *_malloc(unsigned int size)
 {
@@ -40,7 +40,7 @@ void *_malloc(unsigned int size)
  * @ptr: pointer to reallocate (void **)
  * @new_size: new size of memory to allocate (unsigned int)
  * Return: pointer to reallocated memory (void *)
- * by asraf & ramzy
+ * by ashraf & ramzy
  */
 void *_realloc(void *ptr, int new_size)
 {
@@ -52,7 +52,6 @@ void *_realloc(void *ptr, int new_size)
 		return (NULL);
 	}
 	temp = _malloc(new_size);
-	intail_NULL(temp, new_size);
 	_memcopy(temp, ptr, _strlen(ptr));
 	_Free(ptr);
 	return (temp);
@@ -64,7 +63,7 @@ void *_realloc(void *ptr, int new_size)
  * @str: buffer to read into (char *)
  * @str_size: size of buffer to read into (int)
  * Return: number of characters read (int)
- * by asraf & ramzy
+ * by ashraf & ramzy
  */
 int _read(int fd, char *str, int str_size)
 {
@@ -85,7 +84,7 @@ int _read(int fd, char *str, int str_size)
  * print - print to file descriptor
  * @fd: file descriptor to print to (int)
  * Return: void
- * by asraf & ramzy
+ * by ashraf & ramzy
  */
 void print(int fd, ...)
 {

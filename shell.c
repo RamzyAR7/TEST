@@ -6,7 +6,7 @@
  * @argv: array of arguments
  * @envp: array of environment variables
  * Return: 0 if successful, otherwise 1
- * by asraf & ramzy
+ * by ashraf & ramzy
  */
 int main(int argc, char *argv[], char *envp[])
 {
@@ -29,7 +29,7 @@ int main(int argc, char *argv[], char *envp[])
  * @fd: pointer to file descriptor
  * @active_mode: pointer to active mode
  * Return: void
- * by asraf & ramzy
+ * by ashraf & ramzy
  */
 void check_file_mode(char *filename, int *fd, int *active_mode)
 {
@@ -52,7 +52,7 @@ void check_file_mode(char *filename, int *fd, int *active_mode)
  * Fsize - get the size of file
  * @fname: pointer to filename
  * Return: size of file
- * by asraf & ramzy
+ * by ashraf & ramzy
  */
 int Fsize(char *fname)
 {
@@ -67,7 +67,7 @@ int Fsize(char *fname)
  * @fd: file descriptor
  * @active_mode: active mode
  * Return: void
- * by asraf & ramzy
+ * by ashraf & ramzy
  */
 void shell_core(char *symbol, int fd, int active_mode)
 {
@@ -79,8 +79,6 @@ void shell_core(char *symbol, int fd, int active_mode)
 		int buffer_size = BUFFER_SIZE;
 		int command_size = BUFFER_SIZE;
 
-		intail_NULL(str, buffer_size);
-		intail_NULL(c_command, command_size);
 		if (active_mode == 1)
 			print(STDOUT_FILENO, symbol, NULL);
 		get_input(&str, &read_size, &buffer_size, fd);
