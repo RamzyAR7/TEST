@@ -73,7 +73,6 @@ void edit_command(char **str_ptr, int *str_size)
 	char *temp = malloc(temp_size);
 	char *str = *str_ptr;
 
-	intail_NULL(temp, *str_size);
 	for (i = 0; str[i]; i++)
 	{
 		if (_strcmp(str + i, "$$") == 0)
