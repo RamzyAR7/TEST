@@ -37,6 +37,8 @@ int handle_builtin(char *first_sigment, char **arguments)
 	}
 	else if (_strcmp(first_sigment, "help") == 0)
 	{
+		arguments_free(arguments);
+		print(STDOUT_FILENO, "RTFM: Read the fucking manual!\n", NULL);
 		return (0);
 	}
 	else
