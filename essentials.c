@@ -1,5 +1,11 @@
 #include "main.h"
 
+/**
+ * _free - free pointer and set it to NULL
+ * @ptr: pointer to free (void **)
+ * Return: void
+ * by asraf & ramzy
+ */
 void _free(void **ptr)
 {
 	if (*ptr)
@@ -9,6 +15,12 @@ void _free(void **ptr)
 	}
 }
 
+/**
+ * _malloc - allocate memory and check if it failed
+ * @size: size of memory to allocate (unsigned int)
+ * Return: pointer to allocated memory (void *)
+ * by asraf & ramzy
+ */
 void *_malloc(unsigned int size)
 {
 	void *str = malloc(size);
@@ -23,6 +35,13 @@ void *_malloc(unsigned int size)
 	return (str);
 }
 
+/**
+ * _realloc - reallocate memory and check if it failed
+ * @ptr: pointer to reallocate (void **)
+ * @new_size: new size of memory to allocate (unsigned int)
+ * Return: pointer to reallocated memory (void *)
+ * by asraf & ramzy
+ */
 void *_realloc(void *ptr, int new_size)
 {
 	void *temp;
@@ -39,6 +58,14 @@ void *_realloc(void *ptr, int new_size)
 	return (temp);
 }
 
+/**
+ * _read - read from file descriptor and check if it failed
+ * @fd: file descriptor to read from (int)
+ * @str: buffer to read into (char *)
+ * @str_size: size of buffer to read into (int)
+ * Return: number of characters read (int)
+ * by asraf & ramzy
+ */
 int _read(int fd, char *str, int str_size)
 {
 	int read_chars = 0;
@@ -54,6 +81,12 @@ int _read(int fd, char *str, int str_size)
 	return (read_chars);
 }
 
+/**
+ * print - print to file descriptor
+ * @fd: file descriptor to print to (int)
+ * Return: void
+ * by asraf & ramzy
+ */
 void print(int fd, ...)
 {
 	va_list args;

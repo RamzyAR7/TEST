@@ -1,5 +1,11 @@
 #include "main.h"
 
+/**
+ * handle_exit - handles the exit command
+ * @arguments: pointer to array of arguments to exit command (char **)
+ * Return: 0 if successful, otherwise 1
+ * by asraf & ramzy
+ */
 int handle_exit(char **arguments)
 {
 	int exit_code = _atoi(arguments[1]);
@@ -25,6 +31,12 @@ int handle_exit(char **arguments)
 		exit(exit_code);
 	}
 }
+/**
+ * checkExitArugment - checks if the argument of exit is valid
+ * @str: pointer to argument of exit command (char *)
+ * Return: 0 if valid, otherwise 2
+ * by asraf & ramzy
+*/
 int checkExitArugment(char *str)
 {
 	int i;

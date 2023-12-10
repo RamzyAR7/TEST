@@ -1,5 +1,11 @@
 #include "main.h"
-
+/**
+ * handle_exce - handles the excution of command
+ * @c_path: pointer to path of command
+ * @argumnet: pointer to array of arguments
+ * Return: 0 if successful, otherwise 1
+ * by asraf & ramzy
+ */
 int handle_exce(char *c_path, char **argumnet)
 {
 	int pid = fork();
@@ -27,18 +33,33 @@ int handle_exce(char *c_path, char **argumnet)
 		return (exit_code);
 	}
 }
+/**
+ * execute_cmd - executes the command
+ * @path: pointer to path of command
+ * @args: pointer to array of arguments
+ * Return: 0 if successful, otherwise 1
+ * by asraf & ramzy
+ */
 int execute_cmd(char *path, char **args)
 {
 	execve(path, args, Environment);
 
 	exit(2);
 }
+/**
+ * handle_error - handles the error
+ * @first_sigment: pointer to first sigment of command
+ * @path: pointer to path of command
+ * Return: 0 if successful, otherwise 1
+ * by asraf & ramzy
+ */
 int handle_error(char *first_sigment, char *path)
 {
 	char error[1024];
 
 	_strcpy(error, "./hsh: line 1: ");
-	if (!Environment[0] || !*Environment[0] || _strcmp(Environment[0], "_=") == 0 ||
+	if (!Environment[0] || !*Environment[0] ||
+		_strcmp(Environment[0], "_=") == 0 ||
 		!_strchr(Environment[0], '=') || _strlen((char *)Environment) < 5)
 	{
 		_strcpy(error, "./hsh: 1: ");

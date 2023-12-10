@@ -1,5 +1,11 @@
 #include "main.h"
-
+/**
+ * intail_NULL - intailize string with NULL
+ * @str: pointer to string
+ * @size: size of string
+ * Return: void
+ * by asraf & ramzy
+ */
 void intail_NULL(char *str, int size)
 {
 	int i;
@@ -7,6 +13,12 @@ void intail_NULL(char *str, int size)
 	for (i = 0; i < size; i++)
 		str[i] = '\0';
 }
+/**
+ * empty_text - check if string is empty
+ * @str: pointer to string
+ * Return: 0 if empty, otherwise 1
+ * by asraf & ramzy
+ */
 int empty_text(char *str)
 {
 	int i = 0;
@@ -19,12 +31,22 @@ int empty_text(char *str)
 	}
 	return (0);
 }
+/**
+ * replaceTxtInd - replace text in string
+ * @str1: pointer to string
+ * @str2: pointer to string
+ * @startIndex: start index
+ * @endIndex: end index
+ * Return: pointer to new string
+ * by asraf & ramzy
+ */
 char *replaceTxtInd(char **str1, char *str2, int startIndex, int endIndex)
 {
 	int len1, len2, replaceLen, newLen;
 	char *result;
 
-	if (str1 == NULL || *str1 == NULL || str2 == NULL || startIndex < 0 || endIndex < startIndex)
+	if (str1 == NULL || *str1 == NULL || str2 == NULL ||
+		startIndex < 0 || endIndex < startIndex)
 	{
 		fprintf(stderr, "Invalid input parameters\n");
 		return (NULL);
@@ -58,7 +80,6 @@ char *replaceTxtInd(char **str1, char *str2, int startIndex, int endIndex)
 	_strcat(result, *str1 + endIndex + 1);
 
 	_Free(*str1);
-
 	*str1 = result;
 	return (result);
 }

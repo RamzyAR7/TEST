@@ -4,11 +4,8 @@
  * handle_builtin - handles the builtin command
  * @first_sigment: pointer to first sigment of command
  * @arguments: pointer to array of arguments
- * @envp: pointer to environment variables
- * @status: status of the last command
  * Return: 0 if successful, otherwise 1
- * Description: This function is not portable. It will only work on Linux.
- * This function is not portable. It will only work on Linux.
+ * by asraf & ramzy
  */
 int handle_builtin(char *first_sigment, char **arguments)
 {
@@ -51,8 +48,7 @@ int handle_builtin(char *first_sigment, char **arguments)
  * check_builtin - checks if the command is builtin
  * @first_sigment: pointer to first sigment of command
  * Return: 1 if builtin, otherwise 0
- * Description: This function is not portable. It will only work on Linux.
- * This function is not portable. It will only work on Linux.
+ * by asraf & ramzy
  */
 int check_builtin(char *first_sigment)
 {

@@ -1,5 +1,13 @@
 #include "main.h"
 
+/**
+ * buffers - set buffers to new values
+ * @all_str: pointer to all_str to be set (char **)
+ * @c_command: pointer to c_command to be set (char **)
+ * @state: state of buffers (int)
+ * Return: void
+ * by asraf & ramzy
+*/
 void buffers(char **all_str, char **c_command, int state)
 {
 	static char **str;
@@ -15,6 +23,13 @@ void buffers(char **all_str, char **c_command, int state)
 		_Free(*command);
 	}
 }
+/**
+ * _enviornment - set enviornment to new values (char ***)
+ * @envp: pointer to envp to be set (char **)
+ * @state: state of enviornment (int)
+ * Return: pointer to enviornment (char ***)
+ * by asraf & ramzy
+*/
 char ***_enviornment(char **envp, int state)
 {
 	static char **enviornment;
@@ -29,6 +44,13 @@ char ***_enviornment(char **envp, int state)
 	}
 	return (&enviornment);
 }
+/**
+ * _state - set state to new value
+ * @c_state: state to be set (int)
+ * @Get_state: get state (int)
+ * Return: state (int)
+ * by asraf & ramzy
+*/
 int _state(int c_state)
 {
 	static int state;
@@ -43,6 +65,13 @@ int _state(int c_state)
 		return (state);
 	}
 }
+/**
+ * _alias - set alias to new values (char **)
+ * @alias_arg: alias to be set (char *)
+ * @state: state of alias (int)
+ * Return: pointer to alias (char **)
+ * by asraf & ramzy
+*/
 char **_alias(char *alias_arg, int state)
 {
 	static char **alias_list;

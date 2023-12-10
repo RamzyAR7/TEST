@@ -1,12 +1,17 @@
 #include "main.h"
 
+/**
+ * handle_cd - handles the cd command
+ * @arugments: pointer to array of arguments
+ * Return: 0 if successful, otherwise 1
+ * This function is not portable. It will only work on Linux.
+ * by asraf & ramzy
+ */
 int handle_cd(char **arugments)
 {
 	char cwd[BUFFER_SIZE];
 	char *cd = NULL;
-	char **pwd;
-	char **oldpwd;
-
+	char **pwd, **oldpwd;
 	getcwd(cwd, sizeof(cwd));
 	pwd = creat_2D(3, "setenv", "PWD", arugments[1]);
 	oldpwd = creat_2D(3, "setenv", "OLDPWD", cwd);

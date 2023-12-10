@@ -1,5 +1,11 @@
 #include "main.h"
 
+/**
+ * handle_alias - handle alias command (char **)
+ * @arguments: arguments to handle alias command (char **)
+ * Return: 0 on success, 1 on failure
+ * by asraf & ramzy
+ */
 int handle_alias(char **arguments)
 {
 	int state = 0;
@@ -24,6 +30,12 @@ int handle_alias(char **arguments)
 	arguments_free(arguments);
 	return (state);
 }
+/**
+ * print_one_Alias - print one alias
+ * @key: key to print (char *)
+ * Return: 0 on success, 1 on failure
+ * by asraf & ramzy
+ */
 int print_one_Alias(char *key)
 {
 
@@ -33,7 +45,8 @@ int print_one_Alias(char *key)
 	if (alias_lisr && key)
 		while (alias_lisr[i])
 		{
-			if (_strstr(alias_lisr[i], key) == alias_lisr[i] && alias_lisr[i][_strlen(key)] == '=')
+			if (_strstr(alias_lisr[i], key) == alias_lisr[i] &&
+				alias_lisr[i][_strlen(key)] == '=')
 			{
 				char *str = _strdup(alias_lisr[i]);
 				char *ptr = _strstr(str, "=");
@@ -46,6 +59,12 @@ int print_one_Alias(char *key)
 		}
 	return (0);
 }
+/**
+ * get_alias_value - get value of alias
+ * @key: key to get value of (char *)
+ * Return: value of alias (char *)
+ * by asraf & ramzy
+ */
 char *get_alias_value(char *key)
 {
 	char *path = NULL;
@@ -75,6 +94,12 @@ char *get_alias_value(char *key)
 	_Free(path);
 	return (value);
 }
+/**
+ * get_alias_index - get index of alias
+ * @key: key to get index of (char *)
+ * Return: index of alias (int)
+ * by asraf & ramzy
+ */
 int get_alias_index(char *key)
 {
 	char *path = NULL;
@@ -102,6 +127,13 @@ int get_alias_index(char *key)
 	_Free(path);
 	return (-1);
 }
+/**
+ * alias_replace - replace alias in command
+ * @str_ptr: pointer to command (char **)
+ * @str_size: pointer to size of command (int *)
+ * Return: void
+ * by asraf & ramzy
+ */
 void alias_replace(char **str_ptr, int *str_size)
 {
 	int i = 0;

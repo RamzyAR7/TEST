@@ -1,11 +1,14 @@
 #include "main.h"
 
 /**
- * get_input - gets input from the user
- * @buff: buffer to store input
- * @size: size of buffer
+ * get_input - get input from user
+ * @buff: pointer to buffer to store input (char **)
+ * @size: pointer to size of input to be returned (int *)
+ * @buffer_size: pointer to size of buffer to be returned (int *)
+ * @source: source of input (int)
  * Return: void
- */
+ * by asraf & ramzy
+*/
 void get_input(char **buff, int *size, int *buffer_size, int source)
 {
 	int max_read = *buffer_size - 1;
@@ -29,6 +32,13 @@ void get_input(char **buff, int *size, int *buffer_size, int source)
 	_Free(temp);
 	handle_str_spaces(*buff, *buffer_size);
 }
+/**
+ * handle_str_spaces - handle spaces in string
+ * @str: string to handle spaces in (char *)
+ * @str_size: size of string to handle spaces in (int)
+ * Return: void
+ * by asraf & ramzy
+*/
 void handle_str_spaces(char *str, int str_size)
 {
 	int i = 0;
@@ -60,7 +70,12 @@ void handle_str_spaces(char *str, int str_size)
 	}
 	_Free(temp);
 }
-
+/**
+ * remove_read_spaces - remove spaces from string
+ * @str: string to remove spaces from (char *)
+ * Return: size of string after removing spaces (int)
+ * by asraf & ramzy
+*/
 int remove_read_spaces(char *str)
 {
 	int strSize = _strlen(str);
@@ -85,6 +100,13 @@ int remove_read_spaces(char *str)
 	remove_read_spaces_helper(str, strSize);
 	return (_strlen(str));
 }
+/**
+ * remove_read_spaces_helper - helper function for remove_read_spaces
+ * @str: string to remove spaces from (char *)
+ * @strSize: size of string to remove spaces from (int)
+ * Return: void
+ * by asraf & ramzy
+*/
 void remove_read_spaces_helper(char *str, int strSize)
 {
 	int i = 0;
@@ -113,6 +135,16 @@ void remove_read_spaces_helper(char *str, int strSize)
 		i++;
 	}
 }
+/**
+ * check_spaces - check if there are spaces in string
+ * @str: string to check (char *)
+ * @i: index to check from (int)
+ * Return:
+ * (1) if there is a space before ;,
+ * (2) if there is a space after ;,
+ * (3) if there is a space before && or ||, (0) otherwise (int)
+ * by asraf & ramzy
+*/
 int check_spaces(char *str, int i)
 {
 	if (i && str[i] == ';' && str[i - 1] != ' ')

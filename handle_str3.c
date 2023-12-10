@@ -29,7 +29,13 @@ int _atoi(char *string)
 	}
 	return (res * sign);
 }
-
+/**
+ * nts - converts a number to a string
+ * @num: number to convert
+ * @result: buffer to store result
+ * Return: void
+ * by asraf & ramzy
+*/
 void nts(int num, char result[])
 {
 	int index = 0;
@@ -39,6 +45,14 @@ void nts(int num, char result[])
 	result[index] = '\0';
 }
 
+/**
+ * nts_recursive_helper - converts a number to a string
+ * @num: number to convert
+ * @result: buffer to store result
+ * @index: index of buffer
+ * Return: void
+ * by asraf & ramzy
+*/
 void nts_recursive_helper(int num, char result[], int *index)
 {
 	if (num < 0)

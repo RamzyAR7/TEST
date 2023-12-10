@@ -1,5 +1,12 @@
 #include "main.h"
 
+/**
+ * dup_2D - duplicate 2D array of strings (char **)
+ * @list: 2D array of strings to duplicate (char **)
+ * Return: pointer to new 2D array of strings (char **)
+ *
+ * by asraf & ramzy
+*/
 char **dup_2D(char *list[])
 {
 	int rows = 0, i = 0;
@@ -24,6 +31,13 @@ char **dup_2D(char *list[])
 	list_dup[i] = NULL;
 	return (list_dup);
 }
+/**
+ * arguments_free - free 2D array of strings (char **)
+ * @arguments: 2D array of strings to free (char **)
+ * Return: void
+ * Note: sets arguments to NULL after freeing it
+ * by asraf & ramzy
+*/
 void arguments_free(char **arguments)
 {
 	int i;
@@ -39,6 +53,13 @@ void arguments_free(char **arguments)
 		arguments = NULL;
 	}
 }
+/**
+ * add_args - add argument to 2D array of strings (char **)
+ * @arguments_array: 2D array of strings to add argument to (char **)
+ * @argument: argument to add to 2D array of strings (char *)
+ * Return: void
+ * by asraf & ramzy
+*/
 void add_args(char ***arguments_array, char *argument)
 {
 	int i = 0, j = 0;
@@ -63,6 +84,13 @@ void add_args(char ***arguments_array, char *argument)
 
 	*arguments_array = temp;
 }
+/**
+ * creat_2D - create 2D array of strings (char **)
+ * @size: size of 2D array of strings to create (int)
+ * Return: pointer to new 2D array of strings (char **)
+ * Note: last argument must be NULL
+ * by asraf & ramzy
+*/
 char **creat_2D(int size, ...)
 {
 	va_list args;

@@ -6,6 +6,7 @@
  * @argv: array of arguments
  * @envp: array of environment variables
  * Return: 0 if successful, otherwise 1
+ * by asraf & ramzy
  */
 int main(int argc, char *argv[], char *envp[])
 {
@@ -22,6 +23,14 @@ int main(int argc, char *argv[], char *envp[])
 	_alias(NULL, 0);
 	return (State);
 }
+/**
+ * check_file_mode - check if file mode is active
+ * @filename: pointer to filename
+ * @fd: pointer to file descriptor
+ * @active_mode: pointer to active mode
+ * Return: void
+ * by asraf & ramzy
+ */
 void check_file_mode(char *filename, int *fd, int *active_mode)
 {
 	if (access(filename, R_OK) != -1)
@@ -34,10 +43,17 @@ void check_file_mode(char *filename, int *fd, int *active_mode)
 	}
 	else
 	{
-		print(STDERR_FILENO, "./hsh: 0: cannot open ", filename, ": No such file\n", NULL);
+		print(STDERR_FILENO, "./hsh: 0: cannot open ",
+			  filename, ": No such file\n", NULL);
 		exit(2);
 	}
 }
+/**
+ * Fsize - get the size of file
+ * @fname: pointer to filename
+ * Return: size of file
+ * by asraf & ramzy
+ */
 int Fsize(char *fname)
 {
 	struct stat st;
@@ -45,10 +61,18 @@ int Fsize(char *fname)
 	stat(fname, &st);
 	return (st.st_size);
 }
+/**
+ * shell_core - core of shell
+ * @symbol: pointer to symbol
+ * @fd: file descriptor
+ * @active_mode: active mode
+ * Return: void
+ * by asraf & ramzy
+ */
 void shell_core(char *symbol, int fd, int active_mode)
 {
-	do
-	{
+
+	do {
 		char *str = _malloc(BUFFER_SIZE);
 		char *c_command = _malloc(BUFFER_SIZE);
 		int read_size = 0;
