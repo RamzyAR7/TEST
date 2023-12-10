@@ -70,7 +70,7 @@ void edit_command(char **str_ptr, int *str_size)
 {
 	int i = 0;
 	int temp_size = *str_size;
-	char *temp = _malloc(temp_size);
+	char *temp = malloc(temp_size);
 	char *str = *str_ptr;
 
 	intail_NULL(temp, *str_size);
@@ -97,7 +97,7 @@ void edit_command(char **str_ptr, int *str_size)
 		else if (str[i] == '$' && str[i + 1] != '$' &&
 				 str[i + 1] != ' ' && str[i + 1])
 		{
-			edit_command_helper(str_ptr, str, temp, i);
+			edit_command_helper(str_ptr, &str, temp, &i);
 		}
 		else if (str[i] == '#')
 		{
@@ -109,24 +109,24 @@ void edit_command(char **str_ptr, int *str_size)
 	_Free(temp);
 }
 void edit_command_helper(char **str_ptr,
-						 char *str, char *temp, int i)
+						 char **str, char *temp, int *index)
 {
 	char *value;
-	int j = 0;
+	int j = 0, i = *index;
 
-	while (str[i + j] && str[i + j] != ' ')
+	while ((*str)[i + j] && (*str)[i + j] != ' ')
 		j++;
-	_memcopy(temp, str + i + 1, j - 1);
+	_memcopy(temp, (*str) + i + 1, j - 1);
 	temp[j - 1] = '\0';
 	value = get_env_value(temp);
 	if (value)
 	{
-		str = replaceTxtInd(str_ptr, value, i, i + j - 1);
-		i += _strlen(value) - 1;
+		*str = replaceTxtInd(str_ptr, value, i, i + j - 1);
+		*index += _strlen(value) - 1;
 		_Free(value);
 	}
 	else
 	{
-		str = replaceTxtInd(str_ptr, " ", i, i + j - 1);
+		*str = replaceTxtInd(str_ptr, " ", i, i + j - 1);
 	}
 }

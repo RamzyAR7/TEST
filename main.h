@@ -83,7 +83,8 @@ int _read(int fd, char *str, int str_size);
 void remove_read_spaces_helper(char *str, int strSize);
 void getc_command_helper(char *str, char **c_command,
 						 int *cmd_size, int *i, int *j);
-void edit_command_helper(char **str_ptr, char *str, char *temp, int i);
+void edit_command_helper(char **str_ptr,
+						 char **str, char *temp, int *index);
 int handle_command_helper(char *first_sigment, char **arguments, char c);
 void check_file_mode(char *filename, int *fd, int *active_mode);
 void shell_core(char *symbol, int fd, int active_mode);
