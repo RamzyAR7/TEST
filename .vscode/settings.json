@@ -64,7 +64,8 @@
     "stdarg.h": "c",
     "functional": "c",
     "wait.h": "c",
-    "type_traits": "c"
+    "type_traits": "c",
+    "main.h": "c"
   },
   "C_Cpp.errorSquiggles": "disabled"
 }
