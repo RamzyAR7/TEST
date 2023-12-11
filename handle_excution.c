@@ -60,6 +60,7 @@ int handle_error(char *first_sigment, char *path)
 	printf("env[0]:%s\n", Environment[0]);
 	printf("env[1]:%s\n", Environment[1]);
 	printf("env[2]:%s\n", Environment[2]);
+	printf("envlen:%d\n", _strlen((char *)Environment));
 	_strcpy(error, "./hsh: line 1: ");
 	if (!Environment[0] || !*Environment[0] ||
 		_strcmp(Environment[0], "_=") == 0 ||
