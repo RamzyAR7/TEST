@@ -57,6 +57,8 @@ int handle_error(char *first_sigment, char *path)
 {
 	char error[1024];
 
+	printf("env[0]:%s\n", Environment[0]);
+	printf("env[1]:%s\n", Environment[1]);
 	_strcpy(error, "./hsh: line 1: ");
 	if (!Environment[0] || !*Environment[0] ||
 		_strcmp(Environment[0], "_=") == 0 ||
